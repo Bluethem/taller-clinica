@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-fixed": "#001d33", "error": "#ba1a1a", "tertiary-fixed-dim": "#92d5a8", "surface-container-high": "#dce9ff", "on-secondary-container": "#004975", "inverse-on-surface": "#eaf1ff", "on-primary-fixed-variant": "#184974", "surface-bright": "#f8f9ff", "secondary": "#00639c", "on-primary-fixed": "#001d35", "on-primary": "#ffffff", "tertiary-fixed": "#adf2c3", "tertiary": "#003e22", "secondary-fixed": "#cee5ff", "inverse-surface": "#213145", "secondary-container": "#6cb9fe", "on-tertiary-fixed": "#002110", "surface-container-highest": "#d3e4fe", "on-surface": "#0b1c30", "secondary-fixed-dim": "#98cbff", "tertiary-container": "#0f5734", "on-error-container": "#93000a", "primary-container": "#1f4e79", "on-tertiary-fixed-variant": "#065230", "outline": "#72777f", "surface-variant": "#d3e4fe", "on-background": "#0b1c30", "surface-container-lowest": "#ffffff", "inverse-primary": "#a0cafc", "on-tertiary-container": "#88cb9f", "error-container": "#ffdad6", "on-surface-variant": "#42474f", "on-error": "#ffffff", "surface-dim": "#cbdbf5", "background": "#f8f9ff", "surface-container-low": "#eff4ff", "surface-tint": "#35618d", "on-primary-container": "#95bff1", "primary": "#00375e", "primary-fixed": "#d1e4ff", "outline-variant": "#c2c7d0", "on-secondary": "#ffffff", "primary-fixed-dim": "#a0cafc", "surface": "#f8f9ff", "surface-container": "#e5eeff", "on-secondary-fixed-variant": "#004a77", "on-tertiary": "#ffffff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin": "2rem", "gutter-mobile": "0.75rem", "gutter": "1.5rem", "margin-mobile": "1rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "margin-tablet": "1.5rem", "space-xl": "2rem", "gutter-tablet": "1rem", "space-md": "1rem", "margin-desktop": "2rem", "gutter-desktop": "1.5rem", "space-lg": "1.5rem" }, "fontFamily": { "headline-md": [ "Inter" ], "caption": [ "Inter" ], "body-md": [ "Inter" ], "label-md": [ "Inter" ], "headline-sm": [ "Inter" ], "label-lg": [ "Inter" ], "display-lg": [ "Inter" ], "body-sm": [ "Inter" ], "body-lg": [ "Inter" ], "headline-lg": [ "Inter" ], "label-sm": [ "Inter" ] }, "fontSize": { "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.005em", "fontWeight": "600" } ], "caption": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "body-md": [ "15px", { "lineHeight": "22px", "fontWeight": "400" } ], "label-md": [ "13px", { "lineHeight": "18px", "letterSpacing": "0.015em", "fontWeight": "600" } ], "headline-sm": [ "18px", { "lineHeight": "26px", "fontWeight": "600" } ], "label-lg": [ "14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" } ], "display-lg": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "body-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "body-lg": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-lg": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-sm": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" } ] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-[260px] bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-md border-b border-outline-variant flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm overflow-hidden"><img alt="Logo Clínica San Rafael" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XOALMkUStxm4JRLzUZwf_rkkbduLeGEYit-g15xi2xkGf_d-OTsP7-c45E70F2BUReuwhlyySGz6Ey4DnQR0EfgZbVwnbp8c_1-yL4_3QfPMDQe5WEGgb2iaNe4nbVCZ9OtkCbIMO_cNNVynNm4fl9Xzzek_iV5QRjsmhQLZtND3GPVsix_-zVoN8Kfh_iSf4yEliTlZ_FBe7juJWh42hN8rGwqeI1pp8RcysivjbUMJgUqNL6888R0Pk"/><div class="flex flex-col"><span class="font-label-md text-label-md text-primary leading-tight truncate">Clínica San Rafael</span><span class="font-caption text-caption text-on-surface-variant truncate">Sede San Borja</span></div></div></div><div class="px-space-md py-space-sm"><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Módulos Clínicos</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-bold rounded-lg"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-bold rounded-lg" data-path="agenda" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span class="font-label-lg text-label-lg">Agenda</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="pacientes" href="#"><span class="material-symbols-outlined text-[20px]">person_search</span><span class="font-label-lg text-label-lg">Pacientes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="historia-clinica" href="#"><span class="material-symbols-outlined text-[20px]">clinical_notes</span><span class="font-label-lg text-label-lg">Historia clínica</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="laboratorio" href="#"><span class="material-symbols-outlined text-[20px]">chips</span><span class="font-label-lg text-label-lg">Laboratorio</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="facturacion" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-label-lg text-label-lg">Facturación</span></a></nav></div><div class="p-space-md border-t border-outline-variant bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center gap-space-xs text-tertiary"><span class="material-symbols-outlined text-[16px]">check_circle</span><span class="font-caption text-caption font-semibold">Servidor Clínico: En línea</span></div><div class="font-caption text-caption text-on-surface-variant">SIGC v2.4 · Clínicas Peruanas</div></div></aside><div class="pl-[260px]"><header class="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-gutter-desktop shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-sm text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-primary">local_hospital</span><span class="font-label-md text-label-md text-on-surface font-semibold">SIGC</span><span class="font-caption text-caption text-outline">&gt;</span><span class="font-label-md text-label-md text-on-surface-variant">Módulo</span></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container border border-outline-variant rounded-full text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-secondary">schedule</span><span class="font-caption text-caption">La sesión se cierra tras 10 min de inactividad</span></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcQd5NfU0eD7LqiiQz8upCu_HRFKgbdVcj1jVfziNVQ1V2MVd4KxTPuntLzY42T87dtfaTI3FbDQ3-TYFcXB313aFF_KFL8WU0Fmg9E2azsAImYlloD3ja2uLD5EFet-6uagP5_G6KjpvbXFfE2e3hB8tHL-eAp5g1fpqcBSbovify-kykJwNWJBjGSRdvsjJUP6pezflMsHecKtS-9T20q01WKwv5egvy45MhXTWiDjNSIyv8q8Be"/><div class="flex flex-col text-right"><span class="font-label-md text-label-md text-on-surface leading-tight">Diego Ramos</span><span class="font-caption text-caption text-on-surface-variant">Admisión</span></div></div><div class="h-6 w-[1px] bg-outline-variant"></div><button class="min-h-[44px] px-space-md border border-primary text-primary hover:bg-surface-container-low hover:text-primary rounded-lg font-label-md text-label-md flex items-center gap-space-xs transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">logout</span><span>Cerrar sesión</span></button></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full max-w-[1600px] mx-auto px-gutter-desktop py-space-md flex flex-col gap-space-lg">
+<!-- STEPPER HEADER & WORKFLOW CONTROL -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<button class="min-h-[44px] px-space-md bg-surface-container-lowest text-primary rounded-lg font-label-lg text-label-lg flex items-center gap-space-xs hover:bg-surface-container-low transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>Atrás</span>
+</button>
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Admisión &amp; Consulta Externa</span>
+<h1 class="font-headline-md text-headline-md text-on-surface">Reservar Cita Médica</h1>
+</div>
+</div>
+<!-- Stepper Indicator -->
+<nav aria-label="Progreso de reserva" class="flex items-center gap-space-sm overflow-x-auto py-1">
+<!-- Paso 1: Completado -->
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md shrink-0">
+<span class="material-symbols-outlined text-[18px] text-tertiary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-semibold text-tertiary">1. Paciente</span>
+</div>
+<div class="w-6 h-[2px] bg-outline-variant shrink-0"></div>
+<!-- Paso 2: Completado -->
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md shrink-0">
+<span class="material-symbols-outlined text-[18px] text-tertiary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-semibold text-tertiary">2. Médico y horario</span>
+</div>
+<div class="w-6 h-[2px] bg-primary shrink-0"></div>
+<!-- Paso 3: Activo -->
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-primary-container text-on-primary font-label-md text-label-md shadow-sm shrink-0">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="font-bold">3. Confirmación</span>
+</div>
+</nav>
+</section>
+<!-- TOAST NOTIFICATION FLOTANTE INLINE -->
+<div class="bg-tertiary text-on-tertiary rounded-xl p-space-md shadow-md flex items-center justify-between gap-space-md transition-all duration-300" id="toastSuccess">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[24px] text-tertiary-fixed shrink-0" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-on-tertiary">✓ Cita registrada exitosamente en el sistema</span>
+<span class="font-caption text-caption text-tertiary-fixed-dim">Comprobante y orden médica remitidos a bandeja de Admisión y portal paciente.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<span class="font-label-sm text-label-sm px-space-sm py-0.5 rounded bg-tertiary-container text-on-tertiary-container">Sede San Borja</span>
+<button aria-label="Cerrar notificación" class="p-1 hover:bg-tertiary-container text-on-tertiary rounded transition-colors" onclick="document.getElementById('toastSuccess').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- MAIN 12-COLUMN WORKFLOW GRID -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT & CENTRAL COLUMN: PASO 1 + PASO 2 (8 Cols) -->
+<div class="xl:col-span-8 flex flex-col gap-space-lg">
+<!-- ==============================================
+             PASO 1: SELECCIÓN Y FICHA DEL PACIENTE
+             ============================================== -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">badge</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Paso 1: Paciente Identificado</h2>
+</div>
+<button class="min-h-[44px] px-space-md bg-surface-container-low text-primary hover:bg-surface-container rounded-lg font-label-md text-label-md flex items-center gap-space-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>+ Registrar paciente nuevo</span>
+</button>
+</div>
+<!-- Buscador y Tarjeta Resumen -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md items-center">
+<div class="md:col-span-5 relative">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1" for="search-patient">Buscar DNI o apellidos</label>
+<div class="relative">
+<input class="w-full h-11 pl-10 pr-4 bg-surface-container-low rounded-lg text-body-lg font-body-lg text-on-surface focus:outline-none focus:ring-2 focus:ring-primary shadow-inner" id="search-patient" placeholder="Ej. 70000001 o Torres" type="text" value="70000001"/>
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[20px]">search</span>
+</div>
+</div>
+<!-- Tarjeta Mariana Torres Quispe -->
+<div class="md:col-span-7 bg-surface-container-low rounded-xl p-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm shadow-sm">
+<div class="flex items-center gap-space-md">
+<img class="w-14 h-14 rounded-full object-cover shadow-sm shrink-0" data-alt="Fotografía clínica de perfil de paciente femenina peruana de 38 años, Mariana Torres, expresión tranquila, fondo blanco institucional de consultorio médico iluminado naturalmente" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPysonV4EMF1-HzGvtOvGlFgJhEEt1VyVfsqDYTPLNJI2_VDknRUq4WjZ8R2aP8AUhGbWSpjax70_J-brDmnBSxy8-z599orbKCyV6K5l5yoD1p10AIoEQ7j9AapDBSIfgroZXXZJNt69v7wcc5_gxC6blSgppYENAWJO7aWwx7-cLvfHhrLG0EBrot0Cc_ls8CJrrA2Mf9SrYYMRVrs8A1LXR2O9Jhot4B_QvWqWlrShmC1SxBkzT"/>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">Mariana Torres Quispe</span>
+<span class="font-caption text-caption px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-medium">38 años</span>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant font-caption text-caption mt-0.5">
+<span>DNI: <strong class="text-on-surface font-label-md">70000001</strong></span>
+<span>HC: <strong class="text-on-surface font-label-md">HC-082491</strong></span>
+</div>
+<div class="mt-1">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+                      EPS Andina Salud (Póliza AND-000101)
+                    </span>
+</div>
+</div>
+</div>
+<button class="text-primary hover:text-on-primary-fixed-variant font-label-sm text-label-sm flex items-center gap-space-xs shrink-0 self-end sm:self-center" type="button">
+<span>Cambiar</span>
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ==============================================
+             PASO 2: ESPECIALIDAD, MÉDICO Y CALENDARIO
+             ============================================== -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">stethoscope</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Paso 2: Médico y Horario de Consulta</h2>
+</div>
+<span class="font-caption text-caption text-tertiary flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">sync</span> Agenda sincronizada en tiempo real
+            </span>
+</div>
+<!-- Selector de Especialidades Horizontales -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Especialidad médica solicitada</label>
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1">
+<button class="px-space-md py-space-xs rounded-lg font-label-md text-label-md bg-surface-container-low text-on-surface-variant hover:bg-surface-container shrink-0" type="button">Medicina General</button>
+<button class="px-space-md py-space-xs rounded-lg font-label-md text-label-md bg-surface-container-low text-on-surface-variant hover:bg-surface-container shrink-0" type="button">Ginecología</button>
+<button class="px-space-md py-space-xs rounded-lg font-label-md text-label-md bg-surface-container-low text-on-surface-variant hover:bg-surface-container shrink-0" type="button">Pediatría</button>
+<button class="px-space-md py-space-xs rounded-lg font-label-md text-label-md bg-primary-container text-on-primary font-bold shadow-sm shrink-0 flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+                Cardiología
+              </button>
+<button class="px-space-md py-space-xs rounded-lg font-label-md text-label-md bg-surface-container-low text-on-surface-variant hover:bg-surface-container shrink-0" type="button">Traumatología</button>
+</div>
+</div>
+<!-- Tarjetas de Médicos Disponibles -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Médico 1: SELECCIONADO (Dr. Andrés Huamán) -->
+<div class="bg-primary-container/10 rounded-xl p-space-md shadow-sm relative flex items-start gap-space-md">
+<div class="absolute top-3 right-3 flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">check</span>
+                Seleccionado
+              </div>
+<img class="w-16 h-16 rounded-xl object-cover shadow-sm shrink-0" data-alt="Retrato fotográfico formal de cardiólogo peruano con guardapolvo blanco clínico y estetoscopio, el Dr. Andrés Huamán, iluminación suave en consultorio de hospital privado moderno" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9sHmOxrLsfAvyLb8Z5xju-80UH0pOHyUsB54rWdcTircUlveBH86a9XUl9bB6zxr0t9qJKQX8XyfuuLXYaBLM867tB9vyUU20MwU1L3B7Pm_bXtXPsGkS24fMVxDaviSubMkQTSIxYjL6OBrmizb8HYbQzGBUpoELD4Z3ZRAypAYU6IvdKFW-SdUD-QzMe3yRMMwwDPYi8aRO7pkeJ9OhRhlicluvPBrkzylVTwned8bYKzQGBqvX"/>
+<div class="flex flex-col min-w-0 pr-16">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">Dr. Andrés Huamán</h3>
+<span class="font-label-md text-label-md text-primary font-medium">Cardiología Clínica</span>
+<span class="font-caption text-caption text-on-surface-variant mt-0.5">CMP 45210 · RNE 23981</span>
+<div class="mt-2 flex items-center gap-space-xs text-on-surface font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">meeting_room</span>
+<span>Consultorio C-201 (Pabellón C, 2.° Piso)</span>
+</div>
+</div>
+</div>
+<!-- Médico 2: Dra. Beatriz Mendoza -->
+<div class="bg-surface-container-low rounded-xl p-space-md opacity-80 hover:opacity-100 transition-opacity flex items-start gap-space-md">
+<img class="w-16 h-16 rounded-xl object-cover shrink-0" data-alt="Fotografía médica profesional de especialista cardióloga mujer con bata blanca y cabello recogido en consultorio clínico de cardiología con monitores de electrocardiograma de fondo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW3McX_1FrH95XFOBKjnK3a2oAGO9dn3ju1aM4B4i72nAjn0RKiy1rOuvw2mq0oyVCowyOs1msWX8qNbURcPuv8SJZtVCcFR6NMzXOmFjdQWOlNu7rzaqsjhb-FbFNPaPst57pXw8lfnMzog4jpbXAmxg-AKgPwK4qw5xyCyPTPRZvHjS_VY16dIXYp3ZGPCAwDJPoliHNfn0AMGpKGJPPY7_6PsEaXqgRfgZFk8PF4Paq-r9pKI-_"/>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate">Dra. Beatriz Mendoza</h3>
+<button class="text-primary hover:underline font-label-sm text-label-sm" type="button">Elegir</button>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Cardiología No Invasiva</span>
+<span class="font-caption text-caption text-on-surface-variant mt-0.5">CMP 51042 · RNE 28114</span>
+<div class="mt-2 flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">meeting_room</span>
+<span>Consultorio C-204</span>
+</div>
+</div>
+</div>
+</div>
+<!-- BANNER ALERTA PREVENCIÓN DE ERRORES (Simulada según requerimiento) -->
+<div class="bg-error-container text-on-error-container rounded-xl p-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-error text-[24px] shrink-0" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-on-error-container">Conflicto de cupo: Horario tomado recientemente</span>
+<p class="font-body-sm text-body-sm text-on-error-container">Ese horario acaba de ser tomado por otra persona en ventanilla 3. Elija otro horario de las alternativas sugeridas:</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0 flex-wrap">
+<button class="px-space-md py-space-xs rounded-lg bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md font-bold hover:bg-tertiary-fixed-dim transition-colors flex items-center gap-1 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                Lunes 14:00 (Recomendado)
+              </button>
+<button class="px-space-md py-space-xs rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md hover:bg-surface-container transition-colors" type="button">
+                Lunes 14:30
+              </button>
+</div>
+</div>
+<!-- CALENDARIO SEMANAL INTERACTIVO & DISPONIBILIDAD -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Grilla Semanal (Lunes a Viernes) -->
+<div class="lg:col-span-8 bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-lg text-label-lg text-on-surface font-bold">Semana: 12 Oct - 16 Oct 2026</span>
+<span class="font-caption text-caption text-on-surface-variant">Franjas de 30 min (08:00 a 18:00)</span>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Semana anterior" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button aria-label="Semana siguiente" class="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Días de la semana -->
+<div class="grid grid-cols-5 gap-space-xs text-center">
+<div class="p-1.5 rounded-lg bg-surface-container font-label-md text-label-md text-primary font-bold">
+                  Lun 12
+                </div>
+<div class="p-1.5 rounded-lg bg-surface-container-lowest font-label-md text-label-md text-on-surface-variant">
+                  Mar 13
+                </div>
+<div class="p-1.5 rounded-lg bg-surface-container-lowest font-label-md text-label-md text-on-surface-variant">
+                  Mié 14
+                </div>
+<div class="p-1.5 rounded-lg bg-surface-container-lowest font-label-md text-label-md text-on-surface-variant">
+                  Jue 15
+                </div>
+<div class="p-1.5 rounded-lg bg-surface-container-lowest font-label-md text-label-md text-on-surface-variant">
+                  Vie 16
+                </div>
+</div>
+<!-- Franjas de selección en vivo -->
+<div class="grid grid-cols-5 gap-space-xs">
+<!-- COLUMNA LUNES 12 (DÍA ACTIVO) -->
+<div class="flex flex-col gap-space-xs">
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">08:00</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">08:30</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-primary-container hover:text-on-primary cursor-pointer transition-colors">
+                    09:00
+                  </div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">11:30</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<!-- FRANJA SELECCIONADA DESTACADA EN AZUL CLÍNICO -->
+<div class="p-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md font-bold text-center shadow-md flex flex-col items-center justify-center ring-2 ring-secondary-container">
+<span>14:00</span>
+<span class="text-[10px] uppercase font-semibold text-tertiary-fixed">Elegido</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest text-primary font-label-sm text-label-sm text-center shadow-sm hover:bg-primary hover:text-on-primary cursor-pointer font-semibold">
+                    14:30
+                  </div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">15:00</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest text-primary font-label-sm text-label-sm text-center shadow-sm hover:bg-primary hover:text-on-primary cursor-pointer font-semibold">
+                    15:30
+                  </div>
+</div>
+<!-- COLUMNA MARTES 13 -->
+<div class="flex flex-col gap-space-xs">
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">08:00</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">08:30</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">09:00</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">10:00</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">14:00</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">14:30</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">15:00</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">15:30</div>
+</div>
+<!-- COLUMNA MIÉRCOLES 14 -->
+<div class="flex flex-col gap-space-xs">
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">08:00</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">08:30</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">09:00</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">10:00</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">14:00</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">14:30</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">15:00</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">15:30</div>
+</div>
+<!-- COLUMNA JUEVES 15 -->
+<div class="flex flex-col gap-space-xs">
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">08:00</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">08:30</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">09:00</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">10:00</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">14:00</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">14:30</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">15:00</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">15:30</div>
+</div>
+<!-- COLUMNA VIERNES 16 -->
+<div class="flex flex-col gap-space-xs">
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">08:00</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">08:30</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">09:00</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">10:00</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">14:00</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">14:30</div>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm text-center shadow-sm hover:bg-surface-container cursor-pointer">15:00</div>
+<div class="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+<span class="line-through">15:30</span>
+<span class="font-label-sm text-[10px] text-outline">Ocupado</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel Lateral Disponibilidad del Médico -->
+<div class="lg:col-span-4 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[20px]">event_available</span>
+<h3 class="font-label-lg text-label-lg font-bold">Disponibilidad del médico</h3>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+                  Próximas franjas libres consecutivas para el <strong>Dr. Andrés Huamán</strong> en Sede San Borja:
+                </p>
+<!-- Lista de Franjas Libres -->
+<div class="flex flex-col gap-space-xs mt-2">
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between hover:bg-surface-container cursor-pointer transition-colors">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">14:30 hrs</span>
+<span class="font-caption text-caption text-on-surface-variant">Lunes 12</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Seleccionar</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between hover:bg-surface-container cursor-pointer transition-colors">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">15:30 hrs</span>
+<span class="font-caption text-caption text-on-surface-variant">Lunes 12</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Seleccionar</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between hover:bg-surface-container cursor-pointer transition-colors">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">16:30 hrs</span>
+<span class="font-caption text-caption text-on-surface-variant">Lunes 12</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Seleccionar</span>
+</div>
+</div>
+</div>
+<!-- Estado de Duración de Consulta -->
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">timer</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Duración por consulta</span>
+<span class="font-caption text-caption text-on-surface-variant">30 minutos reglamentarios</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- RIGHT COLUMN: PASO 3 & MODAL/BLOQUE DE CONFIRMACIÓN (4 Cols) -->
+<div class="xl:col-span-4 flex flex-col gap-space-lg">
+<!-- ==============================================
+             PASO 3: CONFIRMACIÓN Y EMISIÓN
+             ============================================== -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-md flex flex-col gap-space-md sticky top-20">
+<div class="flex items-center justify-between border-b border-surface-container-high pb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Paso 3: Confirmación</h2>
+</div>
+<span class="px-space-sm py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+              Final
+            </span>
+</div>
+<!-- RESUMEN DETALLADO DE LA CITA -->
+<div class="flex flex-col gap-space-xs bg-surface-container-low rounded-xl p-space-md">
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider font-semibold">Resumen de la cita médica</span>
+<div class="flex flex-col gap-space-sm mt-1">
+<div class="flex justify-between items-start text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Paciente:</span>
+<span class="text-on-surface font-semibold text-right">Mariana Torres Quispe</span>
+</div>
+<div class="flex justify-between items-start text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Especialidad:</span>
+<span class="text-on-surface font-semibold text-right">Cardiología</span>
+</div>
+<div class="flex justify-between items-start text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Médico Tratante:</span>
+<span class="text-on-surface font-semibold text-right">Dr. Andrés Huamán</span>
+</div>
+<div class="flex justify-between items-start text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Consultorio:</span>
+<span class="text-on-surface font-semibold text-right">C-201 (Pabellón C)</span>
+</div>
+<div class="flex justify-between items-start text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Fecha y Hora:</span>
+<span class="text-primary font-bold text-right">Lunes 12/10/2026, 14:00</span>
+</div>
+<div class="pt-space-xs mt-space-xs border-t border-surface-container-highest flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Copago estimado</span>
+<span class="font-caption text-caption text-tertiary font-semibold">EPS Cubierto al 85%</span>
+</div>
+<span class="font-headline-md text-headline-md text-tertiary font-bold">S/ 35.00</span>
+</div>
+</div>
+</div>
+<!-- CAMPO OBLIGATORIO: MOTIVO DE LA CONSULTA -->
+<div class="flex flex-col gap-space-xs">
+<label class="block font-label-md text-label-md text-on-surface font-semibold" for="consult-reason">
+              Motivo de la consulta <span class="text-error font-bold">*</span>
+</label>
+<textarea class="w-full p-3 bg-surface-container-low rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary shadow-inner resize-none" id="consult-reason" rows="3">Control post-operatorio de cateterismo y evaluación de presión arterial</textarea>
+<span class="font-caption text-caption text-on-surface-variant">Obligatorio según norma técnica de historia clínica MINSA.</span>
+</div>
+<!-- CHECKBOX RECORDATORIO -->
+<div class="flex items-start gap-space-sm bg-surface-container-low/60 p-space-sm rounded-lg">
+<input checked="" class="w-5 h-5 rounded mt-0.5 accent-primary cursor-pointer" id="send-reminder" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-on-surface cursor-pointer select-none" for="send-reminder">
+              Enviar recordatorio 24 horas antes por correo y SMS al <strong>+51 987 654 321</strong>
+</label>
+</div>
+<!-- BOTÓN PRINCIPAL DE CONFIRMACIÓN -->
+<button class="w-full min-h-[48px] px-space-lg bg-primary-container hover:bg-primary text-on-primary rounded-xl font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-xs shadow-md transition-all active:scale-[0.99]" type="button">
+<span class="material-symbols-outlined text-[22px]">calendar_add_on</span>
+<span>Confirmar cita (Paso 3 de 3)</span>
+</button>
+<!-- TARJETA DE ÉXITO DE RESERVA PREVIAMENTE REGISTRADA -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm shadow-sm mt-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-tertiary font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                Cita Registrada
+              </span>
+<span class="font-label-sm text-label-sm font-mono px-space-xs py-0.5 rounded bg-surface-container-lowest text-on-surface font-semibold">CIT-2026-8941</span>
+</div>
+<div class="flex flex-col text-body-sm font-body-sm text-on-surface">
+<p class="font-semibold text-primary">Lunes 12/10/2026, 14:00 hrs</p>
+<p class="text-on-surface-variant">Dr. Andrés Huamán (Cardiología)</p>
+<p class="text-on-surface-variant">Consultorio C-201 · Sede San Borja</p>
+</div>
+<!-- BOTONES DE ACCIÓN POST-RESERVA -->
+<div class="grid grid-cols-1 gap-space-xs pt-space-xs">
+<a class="w-full min-h-[44px] px-space-md bg-primary text-on-primary hover:bg-primary-container rounded-lg font-label-md text-label-md font-semibold flex items-center justify-center gap-space-xs transition-colors shadow-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">clinical_notes</span>
+<span>Ver historia clínica del paciente</span>
+</a>
+<button class="w-full min-h-[44px] px-space-md bg-surface-container-lowest text-primary hover:bg-surface-container-low rounded-lg font-label-md text-label-md font-medium flex items-center justify-center gap-space-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>Reservar otra cita</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

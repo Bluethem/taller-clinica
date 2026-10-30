@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-fixed": "#001d33", "error": "#ba1a1a", "tertiary-fixed-dim": "#92d5a8", "surface-container-high": "#dce9ff", "on-secondary-container": "#004975", "inverse-on-surface": "#eaf1ff", "on-primary-fixed-variant": "#184974", "surface-bright": "#f8f9ff", "secondary": "#00639c", "on-primary-fixed": "#001d35", "on-primary": "#ffffff", "tertiary-fixed": "#adf2c3", "tertiary": "#003e22", "secondary-fixed": "#cee5ff", "inverse-surface": "#213145", "secondary-container": "#6cb9fe", "on-tertiary-fixed": "#002110", "surface-container-highest": "#d3e4fe", "on-surface": "#0b1c30", "secondary-fixed-dim": "#98cbff", "tertiary-container": "#0f5734", "on-error-container": "#93000a", "primary-container": "#1f4e79", "on-tertiary-fixed-variant": "#065230", "outline": "#72777f", "surface-variant": "#d3e4fe", "on-background": "#0b1c30", "surface-container-lowest": "#ffffff", "inverse-primary": "#a0cafc", "on-tertiary-container": "#88cb9f", "error-container": "#ffdad6", "on-surface-variant": "#42474f", "on-error": "#ffffff", "surface-dim": "#cbdbf5", "background": "#f8f9ff", "surface-container-low": "#eff4ff", "surface-tint": "#35618d", "on-primary-container": "#95bff1", "primary": "#00375e", "primary-fixed": "#d1e4ff", "outline-variant": "#c2c7d0", "on-secondary": "#ffffff", "primary-fixed-dim": "#a0cafc", "surface": "#f8f9ff", "surface-container": "#e5eeff", "on-secondary-fixed-variant": "#004a77", "on-tertiary": "#ffffff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin": "2rem", "gutter-mobile": "0.75rem", "gutter": "1.5rem", "margin-mobile": "1rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "margin-tablet": "1.5rem", "space-xl": "2rem", "gutter-tablet": "1rem", "space-md": "1rem", "margin-desktop": "2rem", "gutter-desktop": "1.5rem", "space-lg": "1.5rem" }, "fontFamily": { "headline-md": [ "Inter" ], "caption": [ "Inter" ], "body-md": [ "Inter" ], "label-md": [ "Inter" ], "headline-sm": [ "Inter" ], "label-lg": [ "Inter" ], "display-lg": [ "Inter" ], "body-sm": [ "Inter" ], "body-lg": [ "Inter" ], "headline-lg": [ "Inter" ], "label-sm": [ "Inter" ] }, "fontSize": { "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.005em", "fontWeight": "600" } ], "caption": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ], "body-md": [ "15px", { "lineHeight": "22px", "fontWeight": "400" } ], "label-md": [ "13px", { "lineHeight": "18px", "letterSpacing": "0.015em", "fontWeight": "600" } ], "headline-sm": [ "18px", { "lineHeight": "26px", "fontWeight": "600" } ], "label-lg": [ "14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" } ], "display-lg": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "body-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "body-lg": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-lg": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-sm": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" } ] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-[260px] bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-md border-b border-outline-variant flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm overflow-hidden"><img alt="Logo Clínica San Rafael" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XOALMkUStxm4JRLzUZwf_rkkbduLeGEYit-g15xi2xkGf_d-OTsP7-c45E70F2BUReuwhlyySGz6Ey4DnQR0EfgZbVwnbp8c_1-yL4_3QfPMDQe5WEGgb2iaNe4nbVCZ9OtkCbIMO_cNNVynNm4fl9Xzzek_iV5QRjsmhQLZtND3GPVsix_-zVoN8Kfh_iSf4yEliTlZ_FBe7juJWh42hN8rGwqeI1pp8RcysivjbUMJgUqNL6888R0Pk"/><div class="flex flex-col"><span class="font-label-md text-label-md text-primary leading-tight truncate">Clínica San Rafael</span><span class="font-caption text-caption text-on-surface-variant truncate">Sede San Borja</span></div></div></div><div class="px-space-md py-space-sm"><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Módulos Clínicos</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-bold rounded-lg"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="agenda" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span class="font-label-lg text-label-lg">Agenda</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="pacientes" href="#"><span class="material-symbols-outlined text-[20px]">person_search</span><span class="font-label-lg text-label-lg">Pacientes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="historia-clinica" href="#"><span class="material-symbols-outlined text-[20px]">clinical_notes</span><span class="font-label-lg text-label-lg">Historia clínica</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="laboratorio" href="#"><span class="material-symbols-outlined text-[20px]">chips</span><span class="font-label-lg text-label-lg">Laboratorio</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="facturacion" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-label-lg text-label-lg">Facturación</span></a></nav></div><div class="p-space-md border-t border-outline-variant bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center gap-space-xs text-tertiary"><span class="material-symbols-outlined text-[16px]">check_circle</span><span class="font-caption text-caption font-semibold">Servidor Clínico: En línea</span></div><div class="font-caption text-caption text-on-surface-variant">SIGC v2.4 · Clínicas Peruanas</div></div></aside><div class="pl-[260px]"><header class="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-gutter-desktop shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-sm text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-primary">local_hospital</span><span class="font-label-md text-label-md text-on-surface font-semibold">SIGC</span><span class="font-caption text-caption text-outline">&gt;</span><span class="font-label-md text-label-md text-on-surface-variant">Módulo</span></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container border border-outline-variant rounded-full text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-secondary">schedule</span><span class="font-caption text-caption">La sesión se cierra tras 10 min de inactividad</span></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcQd5NfU0eD7LqiiQz8upCu_HRFKgbdVcj1jVfziNVQ1V2MVd4KxTPuntLzY42T87dtfaTI3FbDQ3-TYFcXB313aFF_KFL8WU0Fmg9E2azsAImYlloD3ja2uLD5EFet-6uagP5_G6KjpvbXFfE2e3hB8tHL-eAp5g1fpqcBSbovify-kykJwNWJBjGSRdvsjJUP6pezflMsHecKtS-9T20q01WKwv5egvy45MhXTWiDjNSIyv8q8Be"/><div class="flex flex-col text-right"><span class="font-label-md text-label-md text-on-surface leading-tight">Diego Ramos</span><span class="font-caption text-caption text-on-surface-variant">Admisión</span></div></div><div class="h-6 w-[1px] bg-outline-variant"></div><button class="min-h-[44px] px-space-md border border-primary text-primary hover:bg-surface-container-low hover:text-primary rounded-lg font-label-md text-label-md flex items-center gap-space-xs transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">logout</span><span>Cerrar sesión</span></button></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Sub-header / Clinical Breadcrumb Context Bar -->
+<div class="px-gutter-desktop py-space-sm bg-surface-container-low flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">folder_shared</span>
+<span>Módulo Asistencial</span>
+<span class="text-outline">/</span>
+<span class="text-primary font-bold">Historia Clínica Electrónica Unificada</span>
+<span class="text-outline">/</span>
+<span class="font-mono text-outline">HC-884920</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="flex items-center gap-1 text-tertiary font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-tertiary-fixed/30">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+        Sincronizado con RENIEC &amp; SIS/SUSALUD
+      </span>
+<span class="text-caption font-caption text-outline">Terminal: SEDE-SB-CONS-04</span>
+</div>
+</div>
+<!-- Patient Master Dossier Banner -->
+<div class="px-gutter-desktop pt-space-md pb-space-sm">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md">
+<!-- Top Layer: Identity & Quick Actions -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-md">
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="relative">
+<div class="w-14 h-14 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-display-lg text-headline-lg shadow-inner">
+              MT
+            </div>
+<span class="absolute -bottom-1 -right-1 bg-tertiary text-on-tertiary rounded-full p-0.5 material-symbols-outlined text-[14px]" title="Paciente Activo">check</span>
+</div>
+<div class="flex flex-col">
+<div class="flex flex-wrap items-center gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Mariana Torres Quispe</h1>
+<span class="px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm shadow-sm">
+                #HC-884920
+              </span>
+<span class="px-2 py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+                EPS Andina Salud (Copago 15%)
+              </span>
+</div>
+<!-- Demographic Meta Badges -->
+<div class="flex flex-wrap items-center gap-x-space-md gap-y-1 mt-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1 font-mono">
+<span class="material-symbols-outlined text-[16px] text-outline">badge</span>
+                DNI: <strong>70000001</strong>
+</span>
+<span>·</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-outline">calendar_today</span>
+                38 años (14/07/1988)
+              </span>
+<span>·</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-outline">female</span>
+                Femenino
+              </span>
+<span>·</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-outline">bloodtype</span>
+                O Rh (+)
+              </span>
+<span>·</span>
+<span class="text-tertiary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">verified_user</span>
+                Póliza EPS: #904-88219-01
+              </span>
+</div>
+</div>
+</div>
+<!-- Call to Action Cluster -->
+<div class="flex items-center gap-space-sm self-start lg:self-center">
+<button class="min-h-[44px] px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-lg text-label-lg flex items-center gap-space-xs transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]">print</span>
+<span>Imprimir Resumen</span>
+</button>
+<button class="min-h-[44px] px-space-lg rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg flex items-center gap-space-xs shadow-md transition-all active:scale-[0.99]" id="btn-nueva-consulta" type="button">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>+ Nueva consulta médica</span>
+</button>
+</div>
+</div>
+<!-- Critical Alert Strip (Allergies) -->
+<div class="bg-error-container text-on-error-container p-space-md rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-space-sm shadow-inner">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-error text-on-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</div>
+<div>
+<span class="font-label-lg text-label-lg font-bold uppercase tracking-wider text-error">Alertas Médicas Críticas:</span>
+<div class="flex flex-wrap items-center gap-space-xs mt-1">
+<span class="px-2.5 py-1 rounded bg-error text-on-error font-label-sm text-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">dangerous</span>
+                Alergia severa: Penicilina y derivados
+              </span>
+<span class="px-2.5 py-1 rounded bg-error text-on-error font-label-sm text-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">dangerous</span>
+                Alergia: AINEs (Ibuprofeno / Naproxeno)
+              </span>
+</div>
+</div>
+</div>
+<div class="text-caption font-caption text-error font-medium md:text-right">
+          Última validación por Triaje Médico: Hoy 08:15 hrs
+        </div>
+</div>
+<!-- Legal Audit Banner -->
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between gap-space-sm text-on-surface-variant font-caption text-caption">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">gavel</span>
+<span>
+<strong>Bitácora de auditoría activa:</strong> Su acceso a esta historia clínica queda registrado con ID:
+            <span class="font-mono font-semibold text-primary">Diego Ramos (Admisión / Consulta asistida)</span>
+            conforme a la Ley N.° 29733 de Protección de Datos Personales y NTS N° 139-MINSA.
+          </span>
+</div>
+<span class="font-mono text-outline shrink-0">IP: 192.168.10.82 · SHA256-OK</span>
+</div>
+</div>
+</div>
+<!-- Clinical Control Filters & Views Toolbar -->
+<div class="px-gutter-desktop py-space-sm flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-3 py-1.5 rounded-lg shadow-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1" for="filtro-especialidad">
+<span class="material-symbols-outlined text-[18px] text-outline">tune</span>
+          Especialidad:
+        </label>
+<select class="bg-transparent font-label-md text-label-md text-on-surface font-semibold focus:outline-none cursor-pointer pr-4" id="filtro-especialidad">
+<option value="todas">Todas las especialidades (3 entradas)</option>
+<option value="cardiologia">Cardiología (1)</option>
+<option value="medicina-general">Medicina General (2)</option>
+<option value="ginecologia">Ginecología (0)</option>
+<option value="laboratorio">Patología / Laboratorio (3)</option>
+</select>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-3 py-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-outline">calendar_month</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rango:</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Año 2026 (Completo)</span>
+</div>
+</div>
+<!-- Toggle for Voided / Anuladas entries -->
+<div class="flex items-center gap-space-sm bg-surface-container-lowest px-4 py-2 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-error">history_toggle_off</span>
+<span class="font-label-md text-label-md text-on-surface">Mostrar entradas anuladas</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="toggle-anuladas" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<span class="px-1.5 py-0.5 rounded text-[11px] font-bold bg-error-container text-on-error-container font-mono">1 AUDITADA</span>
+</div>
+</div>
+<!-- Master Split Layout (2 Columns) -->
+<div class="px-gutter-desktop py-space-sm pb-space-xl grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- LEFT COLUMN: Clinical Timeline (Cols: 8) -->
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[24px]">timeline</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Cronología Unificada de Consultas</h2>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">
+          Orden cronológico descendente (Más reciente a más antigua)
+        </span>
+</div>
+<!-- Timeline Stream Container -->
+<div class="relative flex flex-col gap-space-lg">
+<!-- Central Timeline Guide Line -->
+<div class="absolute left-6 top-8 bottom-8 w-0.5 bg-surface-variant hidden sm:block"></div>
+<!-- ========================================== -->
+<!-- TIMELINE ENTRY 1: Recent Cardiology Entry -->
+<!-- ========================================== -->
+<div class="relative flex flex-col sm:flex-row gap-space-md" id="entry-cardio-recent">
+<!-- Timeline Marker Circle -->
+<div class="sm:flex flex-col items-center shrink-0 hidden z-10">
+<div class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[24px]">cardiology</span>
+</div>
+<span class="text-[11px] font-bold uppercase text-primary mt-1">2026</span>
+</div>
+<!-- Card Content -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md hover:shadow-md transition-shadow">
+<!-- Card Header -->
+<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-space-sm pb-space-sm">
+<div class="flex flex-col">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+                    Cardiología Clínica
+                  </span>
+<span class="text-on-surface-variant font-caption text-caption">Consultorio C-201 · Piso 2</span>
+<span class="text-tertiary font-label-sm text-label-sm flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                    Cerrada &amp; Firmada
+                  </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mt-1">
+                  Dr. Andrés Huamán Vargas
+                </h3>
+<span class="font-caption text-caption text-outline">CMP: 48920 · RNE: 24190 (Cardiología)</span>
+</div>
+<div class="text-left sm:text-right flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-bold">12 de Octubre, 2026</span>
+<span class="font-caption text-caption text-on-surface-variant">14:30 hrs · Duración: 35 min</span>
+</div>
+</div>
+<!-- Motivo de Consulta -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Motivo de consulta y Anamnesis:</span>
+<p class="font-body-md text-body-md text-on-surface">
+                "Paciente refiere cefalea matutina de moderada intensidad, acúfenos ocasionales y palpitaciones esporádicas no asociadas a esfuerzo físico intenso en la última semana. Cumple parcialmente con esquema previo."
+              </p>
+</div>
+<!-- Vital Signs Summary -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm py-1">
+<div class="p-space-sm rounded-lg bg-surface-container flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant">P/A Arterial</span>
+<span class="font-label-lg text-label-lg text-error font-bold">145 / 92 mmHg</span>
+<span class="text-[11px] text-error">HTA Estadio 1</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant">Frec. Cardíaca</span>
+<span class="font-label-lg text-label-lg text-on-surface font-bold">84 lpm</span>
+<span class="text-[11px] text-tertiary">Normocardia</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant">Sat. O2</span>
+<span class="font-label-lg text-label-lg text-on-surface font-bold">98 %</span>
+<span class="text-[11px] text-tertiary">FiO2 Ambiental</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container flex flex-col">
+<span class="font-caption text-caption text-on-surface-variant">IMC</span>
+<span class="font-label-lg text-label-lg text-on-surface font-bold">24.2 kg/m²</span>
+<span class="text-[11px] text-on-surface-variant">Normopeso</span>
+</div>
+</div>
+<!-- Diagnóstico CIE-10 -->
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Diagnóstico Principal (CIE-10):</span>
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="px-3 py-1.5 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md flex items-center gap-1.5 shadow-sm font-semibold">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                  I10 · Hipertensión esencial (primaria) - Definitivo
+                </span>
+<span class="px-2 py-1 rounded-md bg-surface-container text-on-surface-variant font-caption text-caption">
+                  R00.2 · Palpitaciones - Presuntivo
+                </span>
+</div>
+</div>
+<!-- Receta Médica & Tratamiento Farmacológico -->
+<div class="rounded-lg bg-surface-container-low p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px]">prescriptions</span>
+<span>Plan Terapéutico y Receta Electrónica (#RX-2026-99318)</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">Vigencia: 30 días</span>
+</div>
+<div class="flex flex-col gap-space-xs text-body-sm text-body-sm text-on-surface">
+<div class="p-2.5 rounded bg-surface-container-lowest flex items-start justify-between gap-space-sm shadow-xs">
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">1. Losartán Potásico 50 mg (Tableta recubierta)</span>
+<span class="text-on-surface-variant">Dosis: 1 tableta cada 24 horas por vía oral, en ayunas por 30 días.</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed text-caption font-semibold">Despacho Farmacia Central</span>
+</div>
+<div class="p-2.5 rounded bg-surface-container-lowest flex items-start justify-between gap-space-sm shadow-xs">
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">2. Amlodipino Besilato 5 mg (Tableta)</span>
+<span class="text-on-surface-variant">Dosis: 1 tableta cada 24 horas por vía oral a las 20:00 hrs por 30 días.</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed text-caption font-semibold">Despacho Farmacia Central</span>
+</div>
+</div>
+<div class="text-caption font-caption text-on-surface-variant italic">
+                Indicaciones no farmacológicas: Reducción de consumo de sodio a &lt; 2g/día. Control diario de PA matutina por 7 días en libreta ambulatoria.
+              </div>
+</div>
+<!-- Action footer & Void trigger -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+<div class="flex items-center gap-2 text-caption font-caption text-outline">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span>Firma digitalizada con certificado RENIEC PKI</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<!-- Trigger Void Modal -->
+<button class="min-h-[44px] px-space-md rounded-lg text-error hover:bg-error-container hover:text-on-error-container font-label-md text-label-md flex items-center gap-1.5 transition-colors" onclick="abrirModalAnulacion('Cardiología (12/10/2026) - Dr. Andrés Huamán')" type="button">
+<span class="material-symbols-outlined text-[18px]">rule_folder</span>
+<span>Anular entrada clínica...</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================================== -->
+<!-- TIMELINE ENTRY 2: VOIDED (ANULADA) ENTRY - Prevention & Audit -->
+<!-- ============================================================== -->
+<div class="relative flex flex-col sm:flex-row gap-space-md" id="entry-anulada">
+<!-- Timeline Marker Circle (Red Warning / Cancelled) -->
+<div class="sm:flex flex-col items-center shrink-0 hidden z-10">
+<div class="w-12 h-12 rounded-full bg-error-container text-error flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[24px]">block</span>
+</div>
+<span class="text-[11px] font-bold uppercase text-error mt-1">ANULADA</span>
+</div>
+<!-- Card Content: Muted Grey Background with Dotted Red Accent Visuals -->
+<div class="flex-1 bg-surface-container rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md relative overflow-hidden">
+<!-- Red Top Indicator Strip -->
+<div class="h-1.5 bg-error -mt-space-lg -mx-space-lg mb-space-xs"></div>
+<!-- Prominent Void Badge & Audit Ledger Notice -->
+<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-space-sm">
+<div class="flex flex-col gap-1">
+<div class="flex flex-wrap items-center gap-space-sm">
+<span class="px-3 py-1 rounded bg-error text-on-error font-label-md text-label-md font-bold tracking-wider flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+                    ENTRADA ANULADA
+                  </span>
+<span class="font-mono text-caption text-error font-bold">REGISTRO INVALIDADO #ANUL-2026-0881</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface line-through opacity-60">
+                  Dr. Carlos Mendoza Arana (Medicina General)
+                </h3>
+</div>
+<div class="text-left sm:text-right flex flex-col opacity-75">
+<span class="font-label-sm text-label-sm text-on-surface">Fecha original: 15 de Agosto, 2026</span>
+<span class="font-caption text-caption text-on-surface-variant">Consultorio MG-104</span>
+</div>
+</div>
+<!-- Audit Trail Detail Box -->
+<div class="bg-error-container text-on-error-container p-space-md rounded-lg flex flex-col gap-1.5 shadow-sm">
+<div class="flex items-center gap-space-xs font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[18px] text-error">assignment_late</span>
+<span>Trazabilidad de la Auditoría Médica:</span>
+</div>
+<div class="font-body-sm text-body-sm">
+<strong>Anulado formalmente por:</strong> Dr. Carlos Mendoza el <span class="font-mono">15/08/2026 a las 11:45 hrs</span> (30 minutos tras registro original).
+              </div>
+<div class="font-body-sm text-body-sm bg-surface-container-lowest/80 p-space-sm rounded mt-1 text-on-surface">
+<strong>Motivo de anulación registrado:</strong>
+<span class="text-error font-medium">"Registro ingresado en historia de homónima por error de tipeo en admisión. Reasignado a HC correcta (#HC-884918 Mariana Torres Quintanilla). No hubo prescripción dispensada."</span>
+</div>
+</div>
+<!-- Strikethrough / Muted Original Content Preview (Legible for Transparency) -->
+<div class="bg-surface-container-low p-space-md rounded-lg opacity-60 select-none">
+<div class="font-label-sm text-label-sm text-outline uppercase tracking-wider mb-1 line-through">
+                Contenido Original Invalidado (Solo lectura legal):
+              </div>
+<div class="flex flex-col gap-1 line-through text-on-surface-variant font-body-sm text-body-sm">
+<p><strong>Diagnóstico Erróneo:</strong> J02.9 · Faringitis aguda, no especificada.</p>
+<p><strong>Prescripción Errónea Inicial:</strong> Amoxicilina 500mg cápsulas VO c/8h por 7 días. (CANCELADA - PACIENTE ES ALÉRGICA A PENICILINA).</p>
+</div>
+</div>
+<!-- Footer confirmation -->
+<div class="flex items-center justify-between text-caption font-caption text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-error">policy</span>
+                Firma de auditoría archivada ante Comité de Ética Clínica San Borja.
+              </span>
+<span class="font-mono text-outline">HASH: 8F2A90...E41</span>
+</div>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- TIMELINE ENTRY 3: Past General Medicine   -->
+<!-- ========================================== -->
+<div class="relative flex flex-col sm:flex-row gap-space-md" id="entry-mg-past">
+<!-- Timeline Marker Circle -->
+<div class="sm:flex flex-col items-center shrink-0 hidden z-10">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest text-primary flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[24px]">medical_services</span>
+</div>
+<span class="text-[11px] font-bold uppercase text-outline mt-1">2026</span>
+</div>
+<!-- Card Content -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md hover:shadow-md transition-shadow">
+<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-space-sm pb-space-sm">
+<div class="flex flex-col">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-secondary-container font-label-sm text-label-sm">
+                    Medicina General
+                  </span>
+<span class="text-on-surface-variant font-caption text-caption">Consultorio MG-102</span>
+<span class="text-tertiary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check</span>
+                    Atención Concluida
+                  </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mt-1">
+                  Dr. Juan Carlos Vega Rivas
+                </h3>
+<span class="font-caption text-caption text-outline">CMP: 39102 · Médico Cirujano General</span>
+</div>
+<div class="text-left sm:text-right flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-bold">10 de Mayo, 2026</span>
+<span class="font-caption text-caption text-on-surface-variant">09:15 hrs · Duración: 20 min</span>
+</div>
+</div>
+<!-- Motivo de Consulta -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Motivo de consulta:</span>
+<p class="font-body-md text-body-md text-on-surface">
+                "Paciente refiere epigastralgia urente de 2 semanas de evolución tras ingesta de alimentos condimentados, acompañada de pirosis nocturna. Niega náuseas o vómitos."
+              </p>
+</div>
+<!-- Diagnóstico CIE-10 -->
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Diagnóstico Principal (CIE-10):</span>
+<div>
+<span class="px-3 py-1.5 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md inline-flex items-center gap-1.5 font-semibold">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                  K29.7 · Gastritis, no especificada - Confirmado Clínico
+                </span>
+</div>
+</div>
+<!-- Receta Médica -->
+<div class="rounded-lg bg-surface-container-low p-space-md flex flex-col gap-space-sm">
+<span class="text-primary font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">medication</span>
+                Esquema Farmacológico (#RX-2026-44120):
+              </span>
+<div class="p-2.5 rounded bg-surface-container-lowest text-body-sm text-body-sm text-on-surface shadow-xs">
+<strong>Omeprazol 20 mg (Cápsula con microgránulos gastrorresistentes)</strong>
+<p class="text-on-surface-variant">Tomar 1 cápsula 30 minutos antes del desayuno por 28 días. Dieta blanda fraccionada.</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs text-caption font-caption text-outline">
+<span>Evolución: Favorable al alta ambulatoria.</span>
+<button class="min-h-[44px] px-space-sm rounded-lg text-outline hover:text-error hover:bg-error-container transition-colors flex items-center gap-1" onclick="abrirModalAnulacion('Medicina General (10/05/2026) - Dr. Juan Carlos Vega')" type="button">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span>Anular entrada...</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Laboratory & Diagnostics Widget Panel (Cols: 4) -->
+<div class="lg:col-span-4 flex flex-col gap-space-md">
+<!-- Studies Card Container -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md sticky top-20">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[24px]">chips</span>
+<h2 class="font-headline-sm text-headline-sm">Estudios y Laboratorio</h2>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">
+            3 Activos
+          </span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+          Pruebas vinculadas directamente al historial clínico de la sede San Borja.
+        </p>
+<!-- List of Lab Results -->
+<div class="flex flex-col gap-space-sm">
+<!-- Lab Item 1: Perfil Lipídico Completo -->
+<div class="bg-surface-container-low hover:bg-surface-container p-space-md rounded-lg flex flex-col gap-space-xs transition-colors shadow-xs">
+<div class="flex items-start justify-between gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface font-bold">
+                Perfil Lipídico Completo
+              </span>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[14px]">check</span>
+                Listo / Validado
+              </span>
+</div>
+<div class="flex items-center justify-between text-caption font-caption text-on-surface-variant">
+<span>Fecha toma: 10/10/2026</span>
+<span class="font-mono">ORD-2026-90412</span>
+</div>
+<!-- Micro summary values -->
+<div class="mt-1 pt-2 bg-surface-container-lowest p-2 rounded text-caption font-caption flex justify-between text-on-surface">
+<span>Colesterol Total: <strong>215 mg/dL</strong> (H)</span>
+<span>Triglicéridos: <strong>148 mg/dL</strong></span>
+</div>
+<div class="mt-2 flex items-center justify-end">
+<button class="min-h-[36px] px-3 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-sm text-label-sm flex items-center gap-1 shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Ver informe</span>
+</button>
+</div>
+</div>
+<!-- Lab Item 2: Hemograma Automatizado -->
+<div class="bg-surface-container-low hover:bg-surface-container p-space-md rounded-lg flex flex-col gap-space-xs transition-colors shadow-xs">
+<div class="flex items-start justify-between gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface font-bold">
+                Hemograma Automatizado
+              </span>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[14px]">check</span>
+                Listo / Validado
+              </span>
+</div>
+<div class="flex items-center justify-between text-caption font-caption text-on-surface-variant">
+<span>Fecha toma: 10/10/2026</span>
+<span class="font-mono">ORD-2026-90413</span>
+</div>
+<div class="mt-1 pt-2 bg-surface-container-lowest p-2 rounded text-caption font-caption flex justify-between text-on-surface">
+<span>Hemoglobina: <strong>13.8 g/dL</strong></span>
+<span>Leucocitos: <strong>7,200 /uL</strong></span>
+</div>
+<div class="mt-2 flex items-center justify-end">
+<button class="min-h-[36px] px-3 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-label-sm flex items-center gap-1 shadow-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">description</span>
+<span>Ver informe</span>
+</button>
+</div>
+</div>
+<!-- Lab Item 3: Papanicolaou (Pending) -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-xs shadow-xs">
+<div class="flex items-start justify-between gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface font-bold">
+                Papanicolaou (PAP Base Líquida)
+              </span>
+<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-label-sm text-label-sm font-semibold flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[14px] animate-spin">sync</span>
+                Pendiente en Lab Central
+              </span>
+</div>
+<div class="flex items-center justify-between text-caption font-caption text-on-surface-variant">
+<span>Fecha muestra: 08/10/2026</span>
+<span class="font-mono">ORD-2026-88190</span>
+</div>
+<p class="text-caption font-caption text-outline italic mt-1">
+              En procesamiento histológico. Tiempo estimado de entrega: 48 horas hábiles.
+            </p>
+</div>
+</div>
+<!-- Cross-Module Direct Link Navigation -->
+<div class="pt-space-sm">
+<a class="min-h-[44px] w-full py-2.5 px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-lg text-label-lg flex items-center justify-center gap-space-xs transition-colors shadow-xs" data-path="laboratorio" href="#">
+<span>Ir a Módulo de Laboratorio</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Vital Sign Sparkline / Visual Widget -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-space-xs mt-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary font-bold">Tendencia PA Sistólica (Últimos 6m)</span>
+<span class="text-caption font-caption text-outline">Meta &lt; 130</span>
+</div>
+<!-- Clean Inline SVG Chart -->
+<svg class="w-full h-14 text-primary" viewbox="0 0 280 60">
+<line opacity="0.3" stroke="currentColor" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="280" y1="40" y2="40"></line>
+<!-- Data points: 155 -> 148 -> 152 -> 140 -> 145 -->
+<polyline fill="none" points="10,15 75,25 140,20 205,42 270,30" stroke="currentColor" stroke-width="2.5"></polyline>
+<circle cx="10" cy="15" fill="currentColor" r="3.5"></circle>
+<circle cx="75" cy="25" fill="currentColor" r="3.5"></circle>
+<circle cx="140" cy="20" fill="currentColor" r="3.5"></circle>
+<circle cx="205" cy="42" fill="currentColor" r="3.5"></circle>
+<circle cx="270" cy="30" fill="#ba1a1a" r="4"></circle>
+</svg>
+<div class="flex justify-between text-[11px] text-outline font-mono">
+<span>Mayo</span>
+<span>Jun</span>
+<span>Ago</span>
+<span>Set</span>
+<span class="text-error font-bold">Oct (145)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- MODAL INTERACTIVO DE SIMULACIÓN: "¿Anular esta entrada clínica?"           -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 flex items-center justify-center p-space-md hidden opacity-0 transition-opacity duration-200" id="modal-anular-backdrop">
+<div class="bg-surface-container-lowest w-full max-w-xl rounded-xl shadow-2xl p-space-xl flex flex-col gap-space-md transform scale-95 transition-transform duration-200" id="modal-anular-box">
+<!-- Modal Header -->
+<div class="flex items-start justify-between gap-space-sm pb-space-xs">
+<div class="flex items-center gap-space-sm text-error">
+<div class="w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">gavel</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">¿Anular esta entrada clínica?</h3>
+<span class="font-caption text-caption text-outline font-mono" id="modal-subtitulo-entrada">Entrada Seleccionada</span>
+</div>
+</div>
+<button class="w-9 h-9 rounded-full hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors" onclick="cerrarModalAnulacion()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Legal Warning Box -->
+<div class="bg-error-container text-on-error-container p-space-md rounded-lg flex flex-col gap-1">
+<div class="flex items-center gap-space-xs font-label-md text-label-md font-bold text-error">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+<span>Advertencia de Inmutabilidad Legal (NTS N° 139-MINSA):</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-error-container">
+          La entrada <strong>no se elimina</strong> del historial médico del paciente: quedará registrada permanentemente como <strong>ANULADA</strong> con su identidad, estampa de tiempo y este motivo en la bitácora legal auditable.
+        </p>
+</div>
+<!-- Audit Reason Input Form Field -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface flex justify-between items-center" for="motivo-anulacion-input">
+<span>Motivo de la anulación (Obligatorio)*</span>
+<span class="font-caption text-caption text-outline font-mono" id="char-counter">0 / 10 caracteres</span>
+</label>
+<textarea class="w-full p-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-error shadow-inner placeholder:text-outline resize-none" id="motivo-anulacion-input" placeholder="Especifique detalladamente la causal clínica o administrativa de anulación (ej. Registro en paciente incorrecto, error en dosificación no dispensada)..." rows="4"></textarea>
+<span class="text-[12px] text-outline italic" id="hint-validity">
+          Debe ingresar al menos 10 caracteres descriptivos para habilitar la acción.
+        </span>
+</div>
+<!-- User Identification Lock Badge -->
+<div class="p-space-sm rounded bg-surface-container flex items-center justify-between text-caption font-caption text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">person</span>
+          Operador firmante: <strong>Diego Ramos (Admisión / Asistencia)</strong>
+</span>
+<span class="font-mono text-outline">Token #USR-9921</span>
+</div>
+<!-- Modal Action Buttons -->
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="min-h-[44px] px-space-lg rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" onclick="cerrarModalAnulacion()" type="button">
+          Cancelar
+        </button>
+<button class="min-h-[44px] px-space-lg rounded-lg bg-error text-on-error font-label-lg text-label-lg opacity-40 cursor-not-allowed flex items-center gap-space-xs shadow-md transition-all" disabled="" id="btn-confirmar-anulacion" onclick="ejecutarAnulacion()" type="button">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+<span>Anular entrada definitivamente</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Notification Toast Container -->
+<div class="fixed bottom-6 right-6 bg-inverse-surface text-inverse-on-surface px-space-md py-space-sm rounded-xl shadow-xl flex items-center gap-space-sm z-50 transform translate-y-20 opacity-0 transition-all duration-300" id="toast-notificacion">
+<span class="material-symbols-outlined text-tertiary-fixed text-[24px]">verified</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold" id="toast-titulo">Acción completada</span>
+<span class="font-caption text-caption text-outline-variant" id="toast-cuerpo">Registro actualizado en la bitácora central.</span>
+</div>
+</div>
+<!-- Interactive Logic for Modal & UI Behaviors -->
+<script>
+    (function initHistoriaClinica() {
+      const modalBackdrop = document.getElementById('modal-anular-backdrop');
+      const modalBox = document.getElementById('modal-anular-box');
+      const subtituloEntrada = document.getElementById('modal-subtitulo-entrada');
+      const motivoInput = document.getElementById('motivo-anulacion-input');
+      const charCounter = document.getElementById('char-counter');
+      const btnConfirmar = document.getElementById('btn-confirmar-anulacion');
+      const hintValidity = document.getElementById('hint-validity');
+      const toggleAnuladas = document.getElementById('toggle-anuladas');
+      const entryAnuladaCard = document.getElementById('entry-anulada');
+      const toast = document.getElementById('toast-notificacion');
+      const toastTitulo = document.getElementById('toast-titulo');
+      const toastCuerpo = document.getElementById('toast-cuerpo');
+
+      // Toggle display of voided records
+      if (toggleAnuladas && entryAnuladaCard) {
+        toggleAnuladas.addEventListener('change', (e) => {
+          if (e.target.checked) {
+            entryAnuladaCard.classList.remove('hidden');
+          } else {
+            entryAnuladaCard.classList.add('hidden');
+          }
+        });
+      }
+
+      // Open Modal
+      window.abrirModalAnulacion = function(nombreEntrada) {
+        if (subtituloEntrada) subtituloEntrada.textContent = nombreEntrada;
+        if (motivoInput) motivoInput.value = '';
+        actualizarEstadoBoton('');
+
+        modalBackdrop.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          modalBackdrop.classList.remove('opacity-0');
+          modalBox.classList.remove('scale-95');
+          modalBox.classList.add('scale-100');
+          if (motivoInput) motivoInput.focus();
+        });
+      };
+
+      // Close Modal
+      window.cerrarModalAnulacion = function() {
+        modalBackdrop.classList.add('opacity-0');
+        modalBox.classList.remove('scale-100');
+        modalBox.classList.add('scale-95');
+        setTimeout(() => {
+          modalBackdrop.classList.add('hidden');
+        }, 200);
+      };
+
+      // Input listener for character count & validation (minimum 10 chars)
+      if (motivoInput) {
+        motivoInput.addEventListener('input', (e) => {
+          actualizarEstadoBoton(e.target.value);
+        });
+      }
+
+      function actualizarEstadoBoton(valor) {
+        const trimmed = valor.trim();
+        const count = trimmed.length;
+        if (charCounter) charCounter.textContent = count + ' / 10 caracteres';
+
+        if (count >= 10) {
+          btnConfirmar.disabled = false;
+          btnConfirmar.classList.remove('opacity-40', 'cursor-not-allowed');
+          btnConfirmar.classList.add('hover:bg-on-error-container', 'active:scale-95');
+          hintValidity.textContent = 'Cumple con el requerimiento de auditoría mínima.';
+          hintValidity.classList.remove('text-outline');
+          hintValidity.classList.add('text-tertiary', 'font-semibold');
+        } else {
+          btnConfirmar.disabled = true;
+          btnConfirmar.classList.add('opacity-40', 'cursor-not-allowed');
+          btnConfirmar.classList.remove('hover:bg-on-error-container', 'active:scale-95');
+          hintValidity.textContent = 'Debe ingresar al menos 10 caracteres descriptivos para habilitar la acción.';
+          hintValidity.classList.remove('text-tertiary', 'font-semibold');
+          hintValidity.classList.add('text-outline');
+        }
+      }
+
+      // Execute voiding action simulation
+      window.ejecutarAnulacion = function() {
+        const motivo = motivoInput.value.trim();
+        if (motivo.length < 10) return;
+
+        cerrarModalAnulacion();
+
+        // Trigger Toast Notification
+        mostrarToast('Entrada Anulada con Éxito', 'Se registró la invalidación en la bitácora legal (#AUD-' + Math.floor(1000 + Math.random() * 9000) + ').');
+      };
+
+      function mostrarToast(titulo, cuerpo) {
+        if (!toast) return;
+        if (toastTitulo) toastTitulo.textContent = titulo;
+        if (toastCuerpo) toastCuerpo.textContent = cuerpo;
+
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        setTimeout(() => {
+          toast.classList.add('translate-y-20', 'opacity-0');
+        }, 4000);
+      }
+
+      // Hook Nueva consulta trigger
+      const btnNuevaConsulta = document.getElementById('btn-nueva-consulta');
+      if (btnNuevaConsulta) {
+        btnNuevaConsulta.addEventListener('click', () => {
+          mostrarToast('Módulo de Nueva Consulta', 'Iniciando formulario de atención para Mariana Torres Quispe.');
+        });
+      }
+
+      // Close modal on escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modalBackdrop.classList.contains('hidden')) {
+          cerrarModalAnulacion();
+        }
+      });
+    })();
+  </script>
+</div></main></div></body></html>

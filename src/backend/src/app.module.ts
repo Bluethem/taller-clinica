@@ -6,12 +6,21 @@ import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { HealthController } from './health/health.controller.js';
+import { SeguridadModule } from './seguridad/seguridad.module.js';
+import { AgendaModule } from './agenda/agenda.module.js';
+import { LaboratorioModule } from './laboratorio/laboratorio.module.js';
+import { FacturacionModule } from './facturacion/facturacion.module.js';
+import { HistoriaModule } from './historia/historia.module.js';
+import { PacientesModule } from './pacientes/pacientes.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env', 'src/backend/.env'],
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -23,6 +32,12 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       }),
     }),
     TerminusModule,
+    SeguridadModule,
+    AgendaModule,
+    LaboratorioModule,
+    FacturacionModule,
+    HistoriaModule,
+    PacientesModule,
     ObserveModule.forRoot({
       appKey: process.env.OBSERVE_APP_KEY ?? 'YOUR_APP_KEY',
       appSecret: process.env.OBSERVE_APP_SECRET ?? 'YOUR_APP_SECRET',

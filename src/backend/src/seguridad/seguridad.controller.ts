@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { AuthenticatedGuard } from './guards/authenticated.guard.js';
 import { LocalAuthGuard } from './guards/local-auth.guard.js';
@@ -10,6 +19,7 @@ import {
 @Controller(['seguridad', 'auth'])
 export class SeguridadController {
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   login(@Req() request: Request) {
     return { success: true, user: request.user };

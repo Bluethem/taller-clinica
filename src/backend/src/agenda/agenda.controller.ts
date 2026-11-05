@@ -29,6 +29,8 @@ export class AgendaController {
   }
 
   @Get('pacientes/buscar')
+  @UseGuards(AuthenticatedGuard, RolesGuard)
+  @Roles('admision', 'administrador')
   buscarPaciente(@Query('q') q: string) {
     if (!q || q.length < 2) return [];
     return this.agendaService.buscarPaciente(q);

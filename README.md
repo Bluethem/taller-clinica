@@ -73,25 +73,36 @@ git clone <url-del-repositorio>
 cd <carpeta-del-repositorio>
 
 # 2. Variables de entorno
+cp .env.example .env
 cp src/backend/.env.example src/backend/.env
 cp src/frontend/.env.example src/frontend/.env
 
-# 3. Levantar base de datos y servicios
-docker compose up -d
+# 3. Base de datos, seed (schema + datos ficticios) y API
+docker compose up --build
 
-# 4. Instalar dependencias
-pnpm --dir src/backend install
+# 4. Frontend (fuera de Docker)
 pnpm --dir src/frontend install
-
-# 5. Migraciones y datos de prueba (ficticios)
-pnpm --dir src/backend migration:run
-
-# 6. Ejecutar
-pnpm --dir src/backend start:dev
 pnpm --dir src/frontend dev
 ```
 
-> Ajusta los nombres de scripts y archivos `.env` a los que existan en tu `package.json`.
+- API: `http://localhost:3001`
+- Frontend: `http://localhost:3000` (puerto del app Next.js)
+- Si un PostgreSQL local ya ocupa el puerto 5432, define `POSTGRES_PORT` en `.env` (por defecto `5432`) para el puerto publicado en el host.
+
+**Seed:** corre al levantar Compose. Si el schema `seguridad` ya existe, no reaplica datos (idempotente).
+
+**Reset de BD de desarrollo:**
+
+```bash
+docker compose down -v
+docker compose up --build
+```
+
+**Re-ejecutar el job de seed a mano** (no-op si ya migrado):
+
+```bash
+docker compose run --rm seed
+```
 
 ## Reglas del proyecto
 

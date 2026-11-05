@@ -1,4 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import * as argon2 from 'argon2';
 import { DataSource } from 'typeorm';
 
 export interface UserSession {
@@ -15,11 +16,11 @@ export interface UserSession {
 export class SeguridadService {
   constructor(private readonly dataSource: DataSource) {}
 
-  async login(
+  async validateUser(
     usernameOrEmail: string,
     passwordPlain: string,
     clientIp = '127.0.0.1',
-  ): Promise<{ success: boolean; user: UserSession }> {
+  ): Promise<UserSession> {
     if (!usernameOrEmail || !passwordPlain) {
       throw new UnauthorizedException({
         success: false,
@@ -45,10 +46,17 @@ export class SeguridadService {
 
     const user = users[0];
 
-    // Contraseña estándar de prueba/desarrollo definida en el proyecto
-    const isValid = user && (passwordPlain === 'password1234' || passwordPlain === 'admin1234');
+    let isValid = false;
+    if (user?.password_hash) {
+      try {
+        isValid = await argon2.verify(user.password_hash, passwordPlain);
+      } catch {
+        isValid = false;
+      }
+    }
 
-    const cleanIp = clientIp === '::1' || !clientIp.includes('.') ? '127.0.0.1' : clientIp;
+    const cleanIp =
+      clientIp === '::1' || !clientIp.includes('.') ? '127.0.0.1' : clientIp;
 
     if (!user || !isValid) {
       // Registrar intento fallido en auditoria.bitacora (HU11)
@@ -56,7 +64,11 @@ export class SeguridadService {
         await this.dataSource.query(
           `INSERT INTO auditoria.bitacora (usuario_id, accion, recurso, ip, detalle)
            VALUES ($1, 'LOGIN_FALLIDO', 'seguridad.sesion', $2::inet, $3::jsonb)`,
-          [user ? user.id : null, cleanIp, JSON.stringify({ intento_usuario: trimmed })],
+          [
+            user ? user.id : null,
+            cleanIp,
+            JSON.stringify({ intento_usuario: trimmed }),
+          ],
         );
       } catch (err) {
         console.error('Error registrando auditoría:', err);
@@ -74,24 +86,24 @@ export class SeguridadService {
       await this.dataSource.query(
         `INSERT INTO auditoria.bitacora (usuario_id, accion, recurso, ip, detalle)
          VALUES ($1, 'LOGIN', 'seguridad.sesion', $2::inet, $3::jsonb)`,
-        [user.id, cleanIp, JSON.stringify({ rol: user.rol, username: user.username })],
+        [
+          user.id,
+          cleanIp,
+          JSON.stringify({ rol: user.rol, username: user.username }),
+        ],
       );
     } catch (err) {
       console.error('Error registrando auditoría:', err);
     }
 
     return {
-      success: true,
-      user: {
-        id: user.id,
-        username: user.username,
-        nombres: user.nombres,
-        apellidos: user.apellidos,
-        email: user.email,
-        rol: user.rol,
-        rolDescripcion: user.rol_descripcion,
-      },
+      id: user.id,
+      username: user.username,
+      nombres: user.nombres,
+      apellidos: user.apellidos,
+      email: user.email,
+      rol: user.rol,
+      rolDescripcion: user.rol_descripcion,
     };
   }
 }
-

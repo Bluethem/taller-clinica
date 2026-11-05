@@ -26,10 +26,11 @@ interface CitaRegistrada { id: string; folio: string; }
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 async function apiFetch(path: string, opts?: RequestInit) {
+  const requestOptions = { credentials: "include" as const, ...opts };
   try {
-    return await fetch(`${API}${path}`, opts);
+    return await fetch(`${API}${path}`, requestOptions);
   } catch {
-    return fetch(path, opts); // vía rewrite Next.js
+    return fetch(path, requestOptions); // vía rewrite Next.js
   }
 }
 
@@ -43,19 +44,12 @@ function formatearFecha(d: Date): string {
 const DIAS = ["Lun", "Mar", "Mié", "Jue", "Vie"];
 
 function AgendaPageContent() {
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const router = useRouter();
 
-  // Redireccionar si no hay sesión
   useEffect(() => {
-    if (user === null) {
-      const t = setTimeout(() => {
-        const stored = sessionStorage.getItem("sigc_user");
-        if (!stored) router.replace("/");
-      }, 200);
-      return () => clearTimeout(t);
-    }
-  }, [user, router]);
+    if (!loading && !user) router.replace("/");
+  }, [loading, user, router]);
 
   // ── Estado del stepper ────────────────────────────────────────────────────
   const [paso, setPaso] = useState<1 | 2 | 3>(1);
@@ -195,7 +189,7 @@ function AgendaPageContent() {
   const handleLogout = () => { logout(); router.replace("/"); };
 
   // ── Render ─────────────────────────────────────────────────────────────────
-  if (!user) return null; // el effect redirige
+  if (loading || !user) return null;
 
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen">

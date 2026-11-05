@@ -217,15 +217,16 @@ const HISTORIA_DEMO: HistoriaData = {
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 async function apiFetch(path: string, opts?: RequestInit) {
+  const requestOptions = { credentials: "include" as const, ...opts };
   try {
-    return await fetch(`${API}${path}`, opts);
+    return await fetch(`${API}${path}`, requestOptions);
   } catch {
-    return fetch(path, opts);
+    return fetch(path, requestOptions);
   }
 }
 
 function HistoriaContent() {
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const router = useRouter();
 
   const [historia, setHistoria] = useState<HistoriaData>(HISTORIA_DEMO);
@@ -265,16 +266,9 @@ function HistoriaContent() {
     setTimeout(() => setToast(null), 5000);
   };
 
-  // Redirigir a login si no hay sesión
   useEffect(() => {
-    if (user === null) {
-      const t = setTimeout(() => {
-        const stored = sessionStorage.getItem("sigc_user");
-        if (!stored) router.replace("/");
-      }, 200);
-      return () => clearTimeout(t);
-    }
-  }, [user, router]);
+    if (!loading && !user) router.replace("/");
+  }, [loading, user, router]);
 
   // Cargar historia clínica del backend
   const cargarHistoria = useCallback(async () => {
@@ -451,8 +445,9 @@ function HistoriaContent() {
 
   const handleLogout = () => {
     logout();
-    router.push("/");
   };
+
+  if (loading || !user) return null;
 
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen">

@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "./context/auth-context";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("dramos@sanrafael.pe");
-  const [password, setPassword] = useState("password1234");
+  const [username, setUsername] = useState("dramos");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,14 +27,16 @@ export default function LoginPage() {
       let response: Response;
 
       try {
-        response = await fetch(`${apiUrl}/seguridad/login`, {
+        response = await fetch(`${apiUrl}/auth/login`, {
           method: "POST",
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password }),
         });
       } catch {
-        response = await fetch("/seguridad/login", {
+        response = await fetch("/auth/login", {
           method: "POST",
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password }),
         });

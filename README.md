@@ -89,6 +89,15 @@ pnpm --dir src/frontend dev
 - Frontend: `http://localhost:3000` (puerto del app Next.js)
 - Si un PostgreSQL local ya ocupa el puerto 5432, define `POSTGRES_PORT` en `.env` (por defecto `5432`) para el puerto publicado en el host.
 
+**Credenciales de demo:** usuario `dramos` / contraseña `password1234`. Todos los
+usuarios creados por el seed comparten esta contraseña, exclusivamente para el
+entorno de desarrollo.
+
+Para que el frontend envíe la sesión correctamente, configura
+`NEXT_PUBLIC_API_URL=http://localhost:3001` en el frontend y
+`CORS_ORIGIN=http://localhost:3000` en la API. La sesión se transporta en la
+cookie HTTP-only `sigc.sid` y expira tras 10 minutos de inactividad.
+
 **Seed:** corre al levantar Compose. Si el schema `seguridad` ya existe, no reaplica datos (idempotente).
 
 **Reset de BD de desarrollo:**

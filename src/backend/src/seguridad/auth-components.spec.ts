@@ -30,11 +30,16 @@ describe('componentes de autenticación', () => {
   it('LocalStrategy delega la validación de credenciales al servicio', async () => {
     const validateUser = vi.fn().mockResolvedValue(user);
     const strategy = new LocalStrategy({ validateUser } as never);
+    const request = { ip: '203.0.113.42' };
 
-    await expect(strategy.validate('dramos', 'password1234')).resolves.toEqual(
-      user,
+    await expect(
+      strategy.validate(request as never, 'dramos', 'password1234'),
+    ).resolves.toEqual(user);
+    expect(validateUser).toHaveBeenCalledWith(
+      'dramos',
+      'password1234',
+      '203.0.113.42',
     );
-    expect(validateUser).toHaveBeenCalledWith('dramos', 'password1234');
   });
 
   it('SessionSerializer conserva el usuario de sesión', () => {

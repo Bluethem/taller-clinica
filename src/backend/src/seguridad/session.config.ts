@@ -2,8 +2,18 @@ import connectPgSimple from 'connect-pg-simple';
 import session, { type SessionOptions } from 'express-session';
 
 const PgSessionStore = connectPgSimple(session);
+export const SESSION_COOKIE_NAME = 'sigc.sid';
 
 type Environment = Record<string, string | undefined>;
+
+export function createSessionCookieOptions(env: Environment = process.env) {
+  return {
+    httpOnly: true,
+    path: '/',
+    sameSite: 'lax' as const,
+    secure: env.NODE_ENV === 'production',
+  };
+}
 
 function databaseUrl(env: Environment): string {
   if (env.DATABASE_URL) {
@@ -27,7 +37,7 @@ export function createSessionOptions(
   }
 
   return {
-    name: 'sigc.sid',
+    name: SESSION_COOKIE_NAME,
     secret,
     resave: false,
     saveUninitialized: false,
@@ -39,10 +49,8 @@ export function createSessionOptions(
       createTableIfMissing: false,
     }),
     cookie: {
+      ...createSessionCookieOptions(env),
       maxAge: 10 * 60 * 1000,
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: env.NODE_ENV === 'production',
     },
   };
 }

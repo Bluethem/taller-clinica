@@ -2,6 +2,10 @@ import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { AuthenticatedGuard } from './guards/authenticated.guard.js';
 import { LocalAuthGuard } from './guards/local-auth.guard.js';
+import {
+  createSessionCookieOptions,
+  SESSION_COOKIE_NAME,
+} from './session.config.js';
 
 @Controller(['seguridad', 'auth'])
 export class SeguridadController {
@@ -27,7 +31,10 @@ export class SeguridadController {
             reject(destroyError);
             return;
           }
-          response.clearCookie('sigc.sid');
+          response.clearCookie(
+            SESSION_COOKIE_NAME,
+            createSessionCookieOptions(),
+          );
           resolve({ success: true });
         });
       });

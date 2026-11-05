@@ -30,6 +30,11 @@ describe('SeguridadController', () => {
       success: true,
     });
     expect(destroy).toHaveBeenCalledOnce();
-    expect(response.clearCookie).toHaveBeenCalledWith('sigc.sid');
+    expect(response.clearCookie).toHaveBeenCalledWith('sigc.sid', {
+      httpOnly: true,
+      path: '/',
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    });
   });
 });

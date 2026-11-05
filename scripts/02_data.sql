@@ -16,7 +16,7 @@ INSERT INTO seguridad.rol (nombre, descripcion) VALUES
  ('cajero','Emite comprobantes y gestiona glosas'),
  ('gerencia','Consulta reportes gerenciales');
 
--- Hashes de ejemplo (NO son contraseñas reales)
+-- Hashes Argon2id de la contraseña demo compartida: password1234 (solo desarrollo)
 INSERT INTO seguridad.usuario (id, username, nombres, apellidos, email, password_hash, rol_id) VALUES
  ('10000000-0000-7000-8000-000000000001','lparedes','Lucía','Paredes Vega','lparedes@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
  ('10000000-0000-7000-8000-000000000002','msalazar','Marco','Salazar Rojas','msalazar@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),

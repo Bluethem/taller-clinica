@@ -90,10 +90,11 @@ const DEMO_LIQUIDACION: LiquidacionData = {
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 async function apiFetch(path: string, opts?: RequestInit) {
+  const requestOptions = { credentials: "include" as const, ...opts };
   try {
-    return await fetch(`${API}${path}`, opts);
+    return await fetch(`${API}${path}`, requestOptions);
   } catch {
-    return fetch(path, opts);
+    return fetch(path, requestOptions);
   }
 }
 
@@ -106,7 +107,7 @@ type TipoComprobante = "boleta" | "factura";
 type ConvenioTab = "eps" | "particular" | "soat";
 
 function FacturacionContent() {
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const router = useRouter();
 
   // ── Estado principal ───────────────────────────────────────────────────────
@@ -132,16 +133,9 @@ function FacturacionContent() {
   const [glosaOpen, setGlosaOpen] = useState(false);
   const [glosaTexto, setGlosaTexto] = useState("");
 
-  // Redirección sin sesión
   useEffect(() => {
-    if (user === null) {
-      const t = setTimeout(() => {
-        const stored = sessionStorage.getItem("sigc_user");
-        if (!stored) router.replace("/");
-      }, 200);
-      return () => clearTimeout(t);
-    }
-  }, [user, router]);
+    if (!loading && !user) router.replace("/");
+  }, [loading, user, router]);
 
   // Cargar liquidación del backend
   const cargarLiquidacion = useCallback(async (pacienteId: string) => {
@@ -255,7 +249,6 @@ function FacturacionContent() {
 
   const handleLogout = () => {
     logout();
-    router.push("/");
   };
 
   // ── Ícono de convenio ──────────────────────────────────────────────────────
@@ -295,6 +288,8 @@ function FacturacionContent() {
       ))}
     </div>
   );
+
+  if (loading || !user) return null;
 
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen">

@@ -1,8 +1,20 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { Roles } from '../seguridad/decorators/roles.decorator.js';
+import { AuthenticatedGuard } from '../seguridad/guards/authenticated.guard.js';
+import { RolesGuard } from '../seguridad/guards/roles.guard.js';
 import { AgendaService } from './agenda.service.js';
 import { CrearCitaDto } from './dto/crear-cita.dto.js';
 
 @Controller('agenda')
+@UseGuards(AuthenticatedGuard)
 export class AgendaController {
   constructor(private readonly agendaService: AgendaService) {}
 
@@ -17,6 +29,8 @@ export class AgendaController {
   }
 
   @Get('pacientes/buscar')
+  @UseGuards(AuthenticatedGuard, RolesGuard)
+  @Roles('admision', 'administrador')
   buscarPaciente(@Query('q') q: string) {
     if (!q || q.length < 2) return [];
     return this.agendaService.buscarPaciente(q);
@@ -32,6 +46,8 @@ export class AgendaController {
   }
 
   @Post('citas')
+  @UseGuards(AuthenticatedGuard, RolesGuard)
+  @Roles('admision', 'administrador')
   crearCita(@Body() dto: CrearCitaDto) {
     return this.agendaService.crearCita(dto);
   }

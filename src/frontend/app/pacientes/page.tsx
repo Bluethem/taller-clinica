@@ -168,15 +168,16 @@ const PACIENTES_BASE: PacienteDirectorio[] = [
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 async function apiFetch(path: string, opts?: RequestInit) {
+  const requestOptions = { credentials: "include" as const, ...opts };
   try {
-    return await fetch(`${API}${path}`, opts);
+    return await fetch(`${API}${path}`, requestOptions);
   } catch {
-    return fetch(path, opts);
+    return fetch(path, requestOptions);
   }
 }
 
 function PacientesContent() {
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const router = useRouter();
 
   const [pacientes, setPacientes] = useState<PacienteDirectorio[]>(PACIENTES_BASE);
@@ -208,16 +209,9 @@ function PacientesContent() {
     setTimeout(() => setToast(null), 4500);
   };
 
-  // Redirigir si no hay sesión
   useEffect(() => {
-    if (user === null) {
-      const t = setTimeout(() => {
-        const stored = sessionStorage.getItem("sigc_user");
-        if (!stored) router.replace("/");
-      }, 200);
-      return () => clearTimeout(t);
-    }
-  }, [user, router]);
+    if (!loading && !user) router.replace("/");
+  }, [loading, user, router]);
 
   // Cargar lista desde backend
   const cargarPacientes = useCallback(async () => {
@@ -357,8 +351,9 @@ function PacientesContent() {
 
   const handleLogout = () => {
     logout();
-    router.push("/");
   };
+
+  if (loading || !user) return null;
 
   return (
     <div className="min-h-screen flex flex-col antialiased bg-[#f8fafc] text-[#334155] font-sans">

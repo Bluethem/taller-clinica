@@ -1,6 +1,9 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export interface UserSession {
   id: string;
@@ -14,37 +17,67 @@ export interface UserSession {
 
 interface AuthContextType {
   user: UserSession | null;
+  loading: boolean;
   setUser: (u: UserSession | null) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  loading: true,
   setUser: () => {},
-  logout: () => {},
+  logout: async () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUserState] = useState<UserSession | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  // Persiste en sessionStorage para sobrevivir navegación cliente
   useEffect(() => {
-    const stored = sessionStorage.getItem("sigc_user");
-    if (stored) {
-      try { setUserState(JSON.parse(stored)); } catch { /* ignore */ }
-    }
+    let active = true;
+
+    const hydrate = async () => {
+      try {
+        window.sessionStorage.removeItem("sigc_user");
+        const response = await fetch(`${API}/auth/me`, {
+          credentials: "include",
+        });
+        const data = response.ok ? await response.json() : null;
+        if (active) setUserState(data?.user ?? null);
+      } catch {
+        if (active) setUserState(null);
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+
+    hydrate();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const setUser = (u: UserSession | null) => {
     setUserState(u);
-    if (u) sessionStorage.setItem("sigc_user", JSON.stringify(u));
-    else sessionStorage.removeItem("sigc_user");
   };
 
-  const logout = () => setUser(null);
+  const logout = async () => {
+    try {
+      await fetch(`${API}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch {
+      // La sesión local se limpia incluso si el backend no está disponible.
+    } finally {
+      setUserState(null);
+      router.replace("/");
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, logout }}>
+    <AuthContext.Provider value={{ user, loading, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

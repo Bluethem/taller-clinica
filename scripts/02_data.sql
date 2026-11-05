@@ -16,19 +16,19 @@ INSERT INTO seguridad.rol (nombre, descripcion) VALUES
  ('cajero','Emite comprobantes y gestiona glosas'),
  ('gerencia','Consulta reportes gerenciales');
 
--- Hashes de ejemplo (NO son contraseñas reales)
+-- Hashes Argon2id de la contraseña demo compartida: password1234 (solo desarrollo)
 INSERT INTO seguridad.usuario (id, username, nombres, apellidos, email, password_hash, rol_id) VALUES
- ('10000000-0000-7000-8000-000000000001','lparedes','Lucía','Paredes Vega','lparedes@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwMQ$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDE',1),
- ('10000000-0000-7000-8000-000000000002','msalazar','Marco','Salazar Rojas','msalazar@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwMg$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDI',1),
- ('10000000-0000-7000-8000-000000000003','cquispe','Carla','Quispe Mendoza','cquispe@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwMw$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDM',1),
- ('10000000-0000-7000-8000-000000000004','ahuaman','Andrés','Huamán Torres','ahuaman@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwNA$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDQ',1),
- ('10000000-0000-7000-8000-000000000005','vcardenas','Valeria','Cárdenas Ríos','vcardenas@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwNQ$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDU',1),
- ('10000000-0000-7000-8000-000000000006','rmedina','Rosa','Medina Flores','rmedina@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwNg$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDY',2),
- ('10000000-0000-7000-8000-000000000007','dramos','Diego','Ramos León','dramos@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwNw$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDc',3),
- ('10000000-0000-7000-8000-000000000008','scampos','Sofía','Campos Aguirre','scampos@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwOA$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDg',4),
- ('10000000-0000-7000-8000-000000000009','jnavarro','Julio','Navarro Peña','jnavarro@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwOQ$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDk',5),
- ('10000000-0000-7000-8000-000000000010','evargas','Elena','Vargas Soto','evargas@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQxMA$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMTA',6),
- ('10000000-0000-7000-8000-000000000011','rluna','Ricardo','Luna Herrera','rluna@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQxMQ$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMTE',7);
+ ('10000000-0000-7000-8000-000000000001','lparedes','Lucía','Paredes Vega','lparedes@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
+ ('10000000-0000-7000-8000-000000000002','msalazar','Marco','Salazar Rojas','msalazar@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
+ ('10000000-0000-7000-8000-000000000003','cquispe','Carla','Quispe Mendoza','cquispe@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
+ ('10000000-0000-7000-8000-000000000004','ahuaman','Andrés','Huamán Torres','ahuaman@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
+ ('10000000-0000-7000-8000-000000000005','vcardenas','Valeria','Cárdenas Ríos','vcardenas@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
+ ('10000000-0000-7000-8000-000000000006','rmedina','Rosa','Medina Flores','rmedina@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',2),
+ ('10000000-0000-7000-8000-000000000007','dramos','Diego','Ramos León','dramos@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',3),
+ ('10000000-0000-7000-8000-000000000008','scampos','Sofía','Campos Aguirre','scampos@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',4),
+ ('10000000-0000-7000-8000-000000000009','jnavarro','Julio','Navarro Peña','jnavarro@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',5),
+ ('10000000-0000-7000-8000-000000000010','evargas','Elena','Vargas Soto','evargas@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',6),
+ ('10000000-0000-7000-8000-000000000011','rluna','Ricardo','Luna Herrera','rluna@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',7);
 
 -- ---------- Pacientes (registrados por admisión: Diego Ramos) ----------
 INSERT INTO pacientes.paciente (id, tipo_documento, numero_documento, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, sexo, telefono, email, direccion, canal_recordatorio, creado_por) VALUES
@@ -269,46 +269,3 @@ INSERT INTO auditoria.bitacora (ocurrio_en, usuario_id, accion, recurso, recurso
  ('2026-10-05 14:09-05','10000000-0000-7000-8000-000000000005','LECTURA','hce.historia',NULL,'20000000-0000-7000-8000-000000000004','10.0.0.30','{"origen":"HU03"}');
 
 COMMIT;
-```
-
-### 3.3 Consultas de verificación (opcionales)
-
-```sql
--- HU01 / ADR-03: intentar reservar un horario ocupado -> la BD lo rechaza
-INSERT INTO agenda.cita (paciente_id, medico_id, consultorio_id, inicio, fin, motivo, creado_por)
-VALUES ('20000000-0000-7000-8000-000000000006','30000000-0000-7000-8000-000000000001',2,
-        '2026-10-13 09:15-05','2026-10-13 09:45-05','Prueba','10000000-0000-7000-8000-000000000007');
--- ERROR: conflicting key value violates exclusion constraint "cita_sin_solape_medico"
-
--- HU03: historia unificada de un paciente (solo para QA: cruza esquemas; la API usa las APIs públicas)
-SELECT e.fecha, esp.nombre AS especialidad, u.apellidos AS medico, e.motivo_consulta,
-       string_agg(d.cie10_codigo, ', ') AS cie10,
-       CASE WHEN a.id IS NULL THEN 'vigente' ELSE 'anulada' END AS estado, a.motivo AS motivo_anulacion
-FROM hce.entrada e
-JOIN agenda.medico m ON m.id = e.medico_id
-JOIN agenda.especialidad esp ON esp.id = m.especialidad_id
-JOIN seguridad.usuario u ON u.id = m.usuario_id
-LEFT JOIN hce.diagnostico d ON d.entrada_id = e.id
-LEFT JOIN hce.anulacion a ON a.entrada_id = e.id
-WHERE e.paciente_id = '20000000-0000-7000-8000-000000000002'
-GROUP BY e.id, e.fecha, esp.nombre, u.apellidos, e.motivo_consulta, a.id, a.motivo
-ORDER BY e.fecha DESC;
-
--- HU04: ítems de laboratorio pendientes (sin resultado)
-SELECT o.id AS orden, ex.nombre AS examen
-FROM laboratorio.orden_item i
-JOIN laboratorio.orden o ON o.id = i.orden_id
-JOIN laboratorio.examen ex ON ex.id = i.examen_id
-LEFT JOIN laboratorio.resultado r ON r.orden_item_id = i.id
-WHERE r.id IS NULL;
-
--- HU02: recordatorios pendientes de enviar
-SELECT * FROM notificaciones.recordatorio WHERE estado = 'pendiente' ORDER BY programado_para;
-
--- RNF04: historial de cambios de la cita reprogramada
-SELECT accion, ocurrio_en, valor_anterior->>'inicio' AS inicio_anterior
-FROM agenda.cita_historial WHERE cita_id = '40000000-0000-7000-8000-000000000009' ORDER BY id;
-
--- RF10: reportes
-SELECT * FROM reportes.v_inasistencia_mensual;
-SELECT * FROM reportes.v_tiempo_espera;

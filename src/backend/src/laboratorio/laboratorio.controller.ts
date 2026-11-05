@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { AuthenticatedGuard } from '../seguridad/guards/authenticated.guard.js';
 import { LaboratorioService } from './laboratorio.service.js';
 import { PublicarResultadoDto } from './dto/publicar-resultado.dto.js';
 
 @Controller('laboratorio')
+@UseGuards(AuthenticatedGuard)
 export class LaboratorioController {
   constructor(private readonly laboratorioService: LaboratorioService) {}
 

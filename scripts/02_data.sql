@@ -18,17 +18,17 @@ INSERT INTO seguridad.rol (nombre, descripcion) VALUES
 
 -- Hashes de ejemplo (NO son contraseñas reales)
 INSERT INTO seguridad.usuario (id, username, nombres, apellidos, email, password_hash, rol_id) VALUES
- ('10000000-0000-7000-8000-000000000001','lparedes','Lucía','Paredes Vega','lparedes@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwMQ$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDE',1),
- ('10000000-0000-7000-8000-000000000002','msalazar','Marco','Salazar Rojas','msalazar@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwMg$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDI',1),
- ('10000000-0000-7000-8000-000000000003','cquispe','Carla','Quispe Mendoza','cquispe@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwMw$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDM',1),
- ('10000000-0000-7000-8000-000000000004','ahuaman','Andrés','Huamán Torres','ahuaman@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwNA$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDQ',1),
- ('10000000-0000-7000-8000-000000000005','vcardenas','Valeria','Cárdenas Ríos','vcardenas@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwNQ$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDU',1),
- ('10000000-0000-7000-8000-000000000006','rmedina','Rosa','Medina Flores','rmedina@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwNg$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDY',2),
- ('10000000-0000-7000-8000-000000000007','dramos','Diego','Ramos León','dramos@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwNw$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDc',3),
- ('10000000-0000-7000-8000-000000000008','scampos','Sofía','Campos Aguirre','scampos@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwOA$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDg',4),
- ('10000000-0000-7000-8000-000000000009','jnavarro','Julio','Navarro Peña','jnavarro@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQwOQ$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDk',5),
- ('10000000-0000-7000-8000-000000000010','evargas','Elena','Vargas Soto','evargas@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQxMA$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMTA',6),
- ('10000000-0000-7000-8000-000000000011','rluna','Ricardo','Luna Herrera','rluna@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$ZmFrZXNhbHQxMQ$ZmFrZWhhc2gwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMTE',7);
+ ('10000000-0000-7000-8000-000000000001','lparedes','Lucía','Paredes Vega','lparedes@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
+ ('10000000-0000-7000-8000-000000000002','msalazar','Marco','Salazar Rojas','msalazar@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
+ ('10000000-0000-7000-8000-000000000003','cquispe','Carla','Quispe Mendoza','cquispe@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
+ ('10000000-0000-7000-8000-000000000004','ahuaman','Andrés','Huamán Torres','ahuaman@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
+ ('10000000-0000-7000-8000-000000000005','vcardenas','Valeria','Cárdenas Ríos','vcardenas@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',1),
+ ('10000000-0000-7000-8000-000000000006','rmedina','Rosa','Medina Flores','rmedina@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',2),
+ ('10000000-0000-7000-8000-000000000007','dramos','Diego','Ramos León','dramos@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',3),
+ ('10000000-0000-7000-8000-000000000008','scampos','Sofía','Campos Aguirre','scampos@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',4),
+ ('10000000-0000-7000-8000-000000000009','jnavarro','Julio','Navarro Peña','jnavarro@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',5),
+ ('10000000-0000-7000-8000-000000000010','evargas','Elena','Vargas Soto','evargas@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',6),
+ ('10000000-0000-7000-8000-000000000011','rluna','Ricardo','Luna Herrera','rluna@sanrafael.example.pe','$argon2id$v=19$m=65536,t=3,p=4$NNi7foQqsrlconfaIfsSGA$yl0x3phkoOYlBRXc5X5paCDPhc/jkWakBt9g70OFVs4',7);
 
 -- ---------- Pacientes (registrados por admisión: Diego Ramos) ----------
 INSERT INTO pacientes.paciente (id, tipo_documento, numero_documento, nombres, apellido_paterno, apellido_materno, fecha_nacimiento, sexo, telefono, email, direccion, canal_recordatorio, creado_por) VALUES

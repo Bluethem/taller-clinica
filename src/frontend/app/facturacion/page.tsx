@@ -251,43 +251,15 @@ function FacturacionContent() {
     logout();
   };
 
-  // ── Ícono de convenio ──────────────────────────────────────────────────────
-  const ConvenioSelector = () => (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
-      {(
-        [
-          {
-            id: "eps" as ConvenioTab,
-            label: liquidacion.convenio.nombre,
-            sub: `Copago Ambulatorio ${liquidacion.convenio.copagoPct}%`,
-          },
-          { id: "particular" as ConvenioTab, label: "Particular Institucional", sub: "Copago 100% sin deducible" },
-          { id: "soat" as ConvenioTab, label: "SOAT La Positiva", sub: "Cobertura 100% (Copago S/ 0.00)" },
-        ] as { id: ConvenioTab; label: string; sub: string }[]
-      ).map((c) => (
-        <button
-          key={c.id}
-          type="button"
-          onClick={() => setConvenioTab(c.id)}
-          className={`min-h-[44px] px-space-md py-2 rounded-xl font-label-md text-label-md flex items-center justify-between shadow-sm transition-all text-left ${
-            convenioTab === c.id
-              ? "bg-primary text-on-primary"
-              : "bg-surface-container-low text-on-surface hover:bg-surface-container"
-          }`}
-        >
-          <span className="flex flex-col">
-            <span className="font-bold">{c.label}</span>
-            <span className={`font-caption text-caption ${convenioTab === c.id ? "text-surface-variant" : "text-on-surface-variant"}`}>
-              {c.sub}
-            </span>
-          </span>
-          <span className="material-symbols-outlined text-[18px]">
-            {convenioTab === c.id ? "check_circle" : "radio_button_unchecked"}
-          </span>
-        </button>
-      ))}
-    </div>
-  );
+  const conveniosTab: { id: ConvenioTab; label: string; sub: string }[] = [
+    {
+      id: "eps",
+      label: liquidacion.convenio.nombre,
+      sub: `Copago Ambulatorio ${liquidacion.convenio.copagoPct}%`,
+    },
+    { id: "particular", label: "Particular Institucional", sub: "Copago 100% sin deducible" },
+    { id: "soat", label: "SOAT La Positiva", sub: "Cobertura 100% (Copago S/ 0.00)" },
+  ];
 
   if (loading || !user) return null;
 
@@ -564,7 +536,30 @@ function FacturacionContent() {
                     <label className="font-label-sm text-label-sm text-outline uppercase tracking-wider">
                       Alternar convenio de cobro
                     </label>
-                    <ConvenioSelector />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+                      {conveniosTab.map((c) => (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => setConvenioTab(c.id)}
+                          className={`min-h-[44px] px-space-md py-2 rounded-xl font-label-md text-label-md flex items-center justify-between shadow-sm transition-all text-left ${
+                            convenioTab === c.id
+                              ? "bg-primary text-on-primary"
+                              : "bg-surface-container-low text-on-surface hover:bg-surface-container"
+                          }`}
+                        >
+                          <span className="flex flex-col">
+                            <span className="font-bold">{c.label}</span>
+                            <span className={`font-caption text-caption ${convenioTab === c.id ? "text-surface-variant" : "text-on-surface-variant"}`}>
+                              {c.sub}
+                            </span>
+                          </span>
+                          <span className="material-symbols-outlined text-[18px]">
+                            {convenioTab === c.id ? "check_circle" : "radio_button_unchecked"}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 

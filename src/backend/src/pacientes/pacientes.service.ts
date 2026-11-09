@@ -33,7 +33,7 @@ export interface PacienteDirectorio {
 export class PacientesService {
   constructor(private readonly dataSource: DataSource) {}
 
-  async getDirectorio(q?: string, filtro?: string): Promise<PacienteDirectorio[]> {
+  async getDirectorio(q?: string, _filtro?: string): Promise<PacienteDirectorio[]> {
     const pacientesBase: PacienteDirectorio[] = [
       {
         id: '20000000-0000-7000-8000-000000000001',

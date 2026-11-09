@@ -22,6 +22,18 @@ describe('SeguridadService.validateUser', () => {
     ).rejects.toBeInstanceOf(UnauthorizedException);
   });
 
+  it('rechaza contraseñas con menos de 8 caracteres (HU10)', async () => {
+    const err = await service
+      .validateUser('dramos', 'corta')
+      .catch((e: unknown) => e);
+
+    expect(err).toBeInstanceOf(UnauthorizedException);
+    expect((err as UnauthorizedException).getResponse()).toMatchObject({
+      message: expect.stringMatching(/8 caracteres/i),
+    });
+    expect(query).not.toHaveBeenCalled();
+  });
+
   it('acepta al usuario cuando argon2.verify valida el hash', async () => {
     query.mockResolvedValueOnce([
       {

@@ -325,16 +325,20 @@ Un build verde solo es tan confiable como las pruebas que lo respaldan. El flujo
 
 | Módulo | Cobertura | Líneas sin cubrir | Prueba propuesta |
 | :---- | :---- | :---- | :---- |
-| historia (HCE y bitácora de lectura) | 7,31 % líneas | historia.controller.ts L9–23; historia.service.ts L72–347 | Una lectura de la HCE genera un registro LECTURA con usuario y paciente, y un acceso de rol no permitido genera ACCESO\_DENEGADO. |
-| facturacion (cálculo de copago) | 9,30 % líneas | facturacion.controller.ts L9–22; facturacion.service.ts L55–249 | Con convenio SOAT el copago del paciente es S/ 0.00 y con atención particular paga el 100 %; el comprobante guarda el monto calculado. |
-| pacientes (registro) | 12,82 % líneas | pacientes.controller.ts L21; pacientes.service.ts L34–301 | Un DNI de 7 dígitos responde 400 y no inserta nada en pacientes.paciente. |
+| historia (HCE y bitácora de lectura) | 7,14 % líneas | historia.controller.ts L9–23; historia.service.ts L72–346 | Una lectura de la HCE genera un registro LECTURA con usuario y paciente, y un acceso de rol no permitido genera ACCESO\_DENEGADO. |
+| facturacion (cálculo de copago) | 8,88 % líneas | facturacion.controller.ts L9–22; facturacion.service.ts L55–249 | Con convenio SOAT el copago del paciente es S/ 0.00 y con atención particular paga el 100 %; el comprobante guarda el monto calculado. |
+| laboratorio (órdenes y resultados) | 9,37 % líneas | laboratorio.controller.ts L9–18; laboratorio.service.ts L35–210 | Al publicar un resultado, la orden pasa a estado «publicado» y queda visible en la HCE del paciente. |
 
-*Cifras medidas con pnpm \--dir src/backend test:cov (Vitest 4 \+ V8, 24 pruebas unitarias aprobadas). Cobertura global: 36,66 % de líneas; seguridad/ llega a 84,84 %; laboratorio 10,00 % y agenda 14,28 %. Los módulos de negocio muestran 0 % de funciones en unitarias porque se prueban por E2E en app.e2e-spec.ts, que no entra en el informe de cobertura. Las pruebas propuestas apuntan a los módulos con menor cobertura.*
+*Cifras medidas con `pnpm --dir src/backend test:cov` ampliando el informe a `src/**/*.ts` (Vitest 4 + V8, 28 pruebas unitarias aprobadas). Cobertura global en ese informe: 41,74 % de líneas; seguridad/ llega a 85,29 %; agenda 29,62 % y pacientes 30,23 %. El umbral del CI (70 %) se aplica a app + health + seguridad (módulos con unitarias). Los módulos de negocio se apoyan también en E2E (`test:e2e`), que no entra en el informe de cobertura unitaria. Las pruebas propuestas apuntan a los módulos con menor cobertura.*
 
 | 🧭 Buenas prácticas del flujo Los secretos (claves de API, contraseñas de base de datos) se guardan en Settings → Secrets del repositorio y nunca en el código ni en el archivo del flujo. Fije las versiones de las dependencias (package.json y pnpm-lock.yaml de src/backend y src/frontend, instalando siempre con \--frozen-lockfile) para que el build de hoy sea igual al de mañana. Para dar solo los permisos necesarios al flujo, puede agregar al archivo, antes de jobs:, el bloque permissions: con contents: read. |
 | :---- |
 
-*Evidencia: captura del informe de cobertura y de la insignia visible en el README. ▶ Pegar aquí la evidencia (captura o enlace).*
+*Evidencia: captura del informe de cobertura y de la insignia visible en el README.*
+
+![Informe de cobertura](./evidencias/07-cobertura.png)
+
+![Insignia CI en el README](./evidencias/07-insignia-readme.png)
 
  
 

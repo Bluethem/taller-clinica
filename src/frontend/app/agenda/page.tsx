@@ -162,7 +162,18 @@ function AgendaPageContent() {
       const data: CitaRegistrada = await r.json();
       setCitaRegistrada(data);
       setToastVisible(true);
-      setTimeout(() => setToastVisible(false), 5000);
+
+      // Limpiar y regresar al Paso 1 después de la confirmación satisfactoria
+      setTimeout(() => {
+        setPaso(1);
+        setPacienteSeleccionado(null);
+        setBusqueda("");
+        setPacientes([]);
+        setSlotSeleccionado(null);
+        setCitaRegistrada(null);
+      }, 3500);
+
+      setTimeout(() => setToastVisible(false), 5500);
     } catch {
       setErrorConfirm("No se pudo conectar con el servidor. Intenta nuevamente.");
     } finally {
@@ -343,111 +354,172 @@ function AgendaPageContent() {
               </div>
             )}
 
-            {/* ── Grid principal ─────────────────────────────────────────────── */}
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
-
-              {/* ── Columnas izquierda y central (8 col) ── */}
-              <div className="xl:col-span-8 flex flex-col gap-space-lg">
-
-                {/* ═══ PASO 1: Paciente ════════════════════════════════════════ */}
-                <section className="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-space-xs">
-                      <span className="material-symbols-outlined text-primary text-[22px]">badge</span>
-                      <h2 className="font-headline-sm text-headline-sm text-on-surface">Paso 1: Identificar Paciente</h2>
+            {/* ── Vista por Pasos (Wizard) ──────────────────────────────────────── */}
+            <div className="w-full">
+              {/* ══════════════════════════════════════════════════════════════════
+                  PASO 1: Identificar Paciente
+              ══════════════════════════════════════════════════════════════════ */}
+              {paso === 1 && (
+                <section className="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm border border-outline-variant/30 flex flex-col gap-space-lg max-w-4xl mx-auto">
+                  <div className="flex items-center justify-between border-b border-outline-variant/30 pb-space-md">
+                    <div className="flex items-center gap-space-sm">
+                      <div className="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center">
+                        <span className="material-symbols-outlined text-[24px]">badge</span>
+                      </div>
+                      <div>
+                        <h2 className="font-headline-sm text-headline-sm text-on-surface font-bold">Paso 1: Identificar Paciente</h2>
+                        <p className="text-caption text-on-surface-variant">Ingrese el número de documento o apellidos del paciente para validar sus datos</p>
+                      </div>
                     </div>
-                    {paso === 1 && pacienteSeleccionado && (
-                      <button type="button" onClick={() => setPaso(2)}
-                        className="min-h-[40px] px-space-md bg-primary text-on-primary hover:bg-primary-container rounded-lg font-label-md text-label-md flex items-center gap-space-xs transition-colors">
-                        <span>Continuar</span>
-                        <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-                      </button>
-                    )}
                   </div>
 
-                  {/* Buscador */}
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-space-md items-start">
-                    <div className="md:col-span-5">
-                      <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1" htmlFor="search-patient">Buscar DNI o apellidos</label>
-                      <div className="relative">
-                        <input
-                          className="w-full h-11 pl-10 pr-4 bg-surface-container-low rounded-lg text-body-lg font-body-lg text-on-surface focus:outline-none focus:ring-2 focus:ring-primary shadow-inner"
-                          id="search-patient" placeholder="Ej. 70000001 o Torres" type="text"
-                          value={busqueda}
-                          onChange={e => { setBusqueda(e.target.value); buscarPaciente(e.target.value); }}
-                        />
-                        <span className="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[20px]">search</span>
-                      </div>
-                      {/* Lista de resultados */}
-                      {pacientes.length > 1 && (
-                        <ul className="mt-1 bg-surface-container-lowest rounded-lg border border-outline-variant shadow-md max-h-40 overflow-y-auto">
-                          {pacientes.map(p => (
-                            <li key={p.id}>
-                              <button type="button"
-                                className="w-full text-left px-space-md py-space-sm text-body-sm hover:bg-surface-container-low transition-colors"
-                                onClick={() => { setPacienteSeleccionado(p); setPacientes([]); setBusqueda(p.numero_documento); }}>
-                                <span className="font-semibold">{p.apellido_paterno} {p.apellido_materno}, {p.nombres}</span>
-                                <span className="ml-2 text-on-surface-variant">DNI {p.numero_documento}</span>
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                      {buscando && <p className="text-caption text-on-surface-variant mt-1">Buscando…</p>}
+                  {/* Campo de búsqueda */}
+                  <div className="flex flex-col gap-space-sm">
+                    <label className="block font-label-md text-label-md text-on-surface font-semibold" htmlFor="search-patient">
+                      Buscar DNI o apellidos del paciente
+                    </label>
+                    <div className="relative max-w-lg">
+                      <input
+                        className="w-full h-12 pl-11 pr-4 bg-surface-container-low rounded-xl text-body-lg font-body-lg text-on-surface focus:outline-none focus:ring-2 focus:ring-primary shadow-inner border border-outline-variant/40"
+                        id="search-patient"
+                        placeholder="Ej. 70000001 o Torres"
+                        type="text"
+                        value={busqueda}
+                        onChange={e => {
+                          setBusqueda(e.target.value);
+                          buscarPaciente(e.target.value);
+                        }}
+                      />
+                      <span className="material-symbols-outlined absolute left-3.5 top-3 text-on-surface-variant text-[22px]">search</span>
                     </div>
 
-                    {/* Tarjeta del paciente seleccionado */}
-                    {pacienteSeleccionado ? (
-                      <div className="md:col-span-7 bg-surface-container-low rounded-xl p-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm shadow-sm">
-                        <div className="flex items-center gap-space-md">
-                          <div className="w-14 h-14 rounded-full bg-primary-container flex items-center justify-center shrink-0">
-                            <span className="material-symbols-outlined text-[28px] text-on-primary">person</span>
-                          </div>
-                          <div className="flex flex-col min-w-0">
-                            <div className="flex items-center gap-space-xs flex-wrap">
-                              <span className="font-headline-sm text-headline-sm text-on-surface font-semibold">
-                                {pacienteSeleccionado.nombres} {pacienteSeleccionado.apellido_paterno} {pacienteSeleccionado.apellido_materno}
+                    {/* Lista desplegable si hay varias coincidencias */}
+                    {pacientes.length > 1 && (
+                      <ul className="max-w-lg bg-surface-container-lowest rounded-xl border border-outline-variant shadow-lg max-h-48 overflow-y-auto divide-y divide-outline-variant/20 z-10">
+                        {pacientes.map(p => (
+                          <li key={p.id}>
+                            <button
+                              type="button"
+                              className="w-full text-left px-space-md py-space-sm text-body-md hover:bg-surface-container-low transition-colors flex items-center justify-between"
+                              onClick={() => {
+                                setPacienteSeleccionado(p);
+                                setPacientes([]);
+                                setBusqueda(p.numero_documento);
+                              }}
+                            >
+                              <span className="font-semibold text-on-surface">{p.apellido_paterno} {p.apellido_materno}, {p.nombres}</span>
+                              <span className="text-caption text-on-surface-variant font-mono bg-surface-container px-2 py-0.5 rounded">DNI {p.numero_documento}</span>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {buscando && <p className="text-caption text-secondary font-medium">Buscando paciente en el padrón…</p>}
+                  </div>
+
+                  {/* Ficha / Tarjeta de datos del paciente */}
+                  {pacienteSeleccionado ? (
+                    <div className="bg-primary/5 border border-primary/20 rounded-2xl p-space-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md shadow-xs animate-in fade-in duration-200">
+                      <div className="flex items-center gap-space-md">
+                        <div className="w-16 h-16 rounded-2xl bg-primary-container text-on-primary flex items-center justify-center shrink-0 shadow-sm">
+                          <span className="material-symbols-outlined text-[32px]">person</span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="font-headline-sm text-headline-sm text-on-surface font-bold">
+                            {pacienteSeleccionado.nombres} {pacienteSeleccionado.apellido_paterno} {pacienteSeleccionado.apellido_materno}
+                          </span>
+                          <div className="flex items-center gap-space-sm flex-wrap text-caption text-on-surface-variant mt-1">
+                            <span className="bg-surface-container-lowest px-2.5 py-1 rounded-md border border-outline-variant/40 font-mono text-on-surface font-semibold">
+                              {pacienteSeleccionado.tipo_documento || "DNI"}: {pacienteSeleccionado.numero_documento}
+                            </span>
+                            {pacienteSeleccionado.fecha_nacimiento && (
+                              <span className="bg-surface-container-lowest px-2.5 py-1 rounded-md border border-outline-variant/40">
+                                F. Nac: {pacienteSeleccionado.fecha_nacimiento}
                               </span>
-                            </div>
-                            <div className="flex items-center gap-space-md text-on-surface-variant font-caption text-caption mt-0.5">
-                              <span>DNI: <strong className="text-on-surface font-label-md">{pacienteSeleccionado.numero_documento}</strong></span>
-                            </div>
+                            )}
+                            <span className="inline-flex items-center gap-1 text-tertiary font-semibold text-caption">
+                              <span className="material-symbols-outlined text-[16px]">verified</span>
+                              Historia Clínica Habilitada
+                            </span>
                           </div>
                         </div>
-                        <button type="button" onClick={() => setPacienteSeleccionado(null)}
-                          className="text-primary hover:text-on-primary-fixed-variant font-label-sm text-label-sm flex items-center gap-space-xs shrink-0">
-                          <span>Cambiar</span>
-                          <span className="material-symbols-outlined text-[16px]">swap_horiz</span>
+                      </div>
+
+                      <div className="flex items-center gap-space-sm self-end md:self-center">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setPacienteSeleccionado(null);
+                            setBusqueda("");
+                          }}
+                          className="px-space-md py-2 text-on-surface-variant hover:text-error hover:bg-surface-container rounded-xl font-label-md text-label-md transition-colors"
+                        >
+                          Cambiar
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPaso(2)}
+                          className="min-h-[46px] px-space-lg bg-primary hover:bg-primary-container text-on-primary rounded-xl font-label-lg text-label-lg font-bold flex items-center gap-space-xs shadow-md transition-all active:scale-[0.99]"
+                        >
+                          <span>Continuar al Paso 2</span>
+                          <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
                         </button>
                       </div>
-                    ) : (
-                      <div className="md:col-span-7 bg-surface-container-low rounded-xl p-space-md text-caption text-on-surface-variant flex items-center justify-center min-h-[80px]">
-                        Busca el paciente por DNI o apellidos
-                      </div>
-                    )}
-                  </div>
-                </section>
-
-                {/* ═══ PASO 2: Médico y Horario ════════════════════════════════ */}
-                <section className={`bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md transition-opacity ${paso < 2 ? "opacity-50 pointer-events-none" : ""}`}>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-space-xs">
-                      <span className="material-symbols-outlined text-primary text-[22px]">stethoscope</span>
-                      <h2 className="font-headline-sm text-headline-sm text-on-surface">Paso 2: Médico y Horario de Consulta</h2>
                     </div>
-                    {paso === 2 && slotSeleccionado && (
-                      <button type="button" onClick={() => setPaso(3)}
-                        className="min-h-[40px] px-space-md bg-primary text-on-primary hover:bg-primary-container rounded-lg font-label-md text-label-md flex items-center gap-space-xs transition-colors">
-                        <span>Continuar</span>
-                        <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                  ) : (
+                    <div className="bg-surface-container-low rounded-2xl p-space-xl text-center flex flex-col items-center justify-center border border-dashed border-outline-variant">
+                      <span className="material-symbols-outlined text-outline text-[40px] mb-2">person_search</span>
+                      <p className="font-label-lg text-label-lg text-on-surface font-semibold">Ingrese un DNI para seleccionar al paciente</p>
+                      <p className="font-caption text-caption text-on-surface-variant mt-1">
+                        Ejemplo de prueba: DNI <button type="button" onClick={() => { setBusqueda("70000001"); buscarPaciente("70000001"); }} className="underline font-bold text-primary">70000001</button> (Mariana Torres Quispe)
+                      </p>
+                    </div>
+                  )}
+                </section>
+              )}
+
+              {/* ══════════════════════════════════════════════════════════════════
+                  PASO 2: Médico y Horario de Consulta
+              ══════════════════════════════════════════════════════════════════ */}
+              {paso === 2 && (
+                <section className="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm border border-outline-variant/30 flex flex-col gap-space-lg max-w-6xl mx-auto animate-in fade-in duration-200">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md border-b border-outline-variant/30 pb-space-md">
+                    <div className="flex items-center gap-space-sm">
+                      <div className="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center">
+                        <span className="material-symbols-outlined text-[24px]">stethoscope</span>
+                      </div>
+                      <div>
+                        <h2 className="font-headline-sm text-headline-sm text-on-surface font-bold">Paso 2: Elegir Médico y Horario</h2>
+                        <p className="text-caption text-on-surface-variant">
+                          Paciente seleccionado: <strong className="text-on-surface font-semibold">{pacienteSeleccionado?.nombres} {pacienteSeleccionado?.apellido_paterno}</strong> (DNI: {pacienteSeleccionado?.numero_documento})
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-space-sm">
+                      <button
+                        type="button"
+                        onClick={() => setPaso(1)}
+                        className="px-space-md py-2 border border-outline-variant rounded-xl font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors"
+                      >
+                        Cambiar paciente
                       </button>
-                    )}
+                      <button
+                        type="button"
+                        disabled={!slotSeleccionado}
+                        onClick={() => setPaso(3)}
+                        className="min-h-[44px] px-space-lg bg-primary hover:bg-primary-container text-on-primary rounded-xl font-label-lg text-label-lg font-bold flex items-center gap-space-xs shadow-md transition-all active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        <span>Ir a Confirmación</span>
+                        <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Chips de especialidades */}
+                  {/* Selector de Especialidades */}
                   <div className="flex flex-col gap-space-xs">
                     <div className="flex items-center justify-between">
-                      <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
+                      <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
                         Especialidad médica solicitada
                       </label>
                       <span className="font-caption text-caption text-secondary font-semibold">
@@ -456,73 +528,72 @@ function AgendaPageContent() {
                     </div>
                     <div className="flex items-center gap-space-xs overflow-x-auto pb-1">
                       {especialidades.map(e => (
-                        <button key={e.id} type="button"
-                          onClick={() => { setEspecialidadId(e.id); setMedicoId(null); setSlotSeleccionado(null); }}
-                          className={`px-space-md py-space-xs rounded-lg font-label-md text-label-md shrink-0 transition-colors ${
+                        <button
+                          key={e.id}
+                          type="button"
+                          onClick={() => {
+                            setEspecialidadId(e.id);
+                            setMedicoId(null);
+                            setSlotSeleccionado(null);
+                          }}
+                          className={`px-space-md py-space-xs rounded-xl font-label-md text-label-md shrink-0 transition-colors ${
                             especialidadId === e.id
                               ? "bg-primary-container text-on-primary font-bold shadow-sm"
                               : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"
-                          }`}>
+                          }`}
+                        >
                           {e.nombre}
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  {/* Tarjetas desplegadas de médicos disponibles */}
+                  {/* Listado de Médicos disponibles */}
                   <div className="flex flex-col gap-space-xs">
-                    <div className="flex items-center justify-between">
-                      <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
-                        Médicos disponibles en {especialidades.find(e => e.id === especialidadId)?.nombre || "el área"} (Haz clic en un médico para ver su agenda)
-                      </label>
-                    </div>
+                    <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
+                      Médicos disponibles en {especialidades.find(e => e.id === especialidadId)?.nombre || "el área"}
+                    </label>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-space-md">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-space-md">
                       {medicos.map(m => {
                         const isSelected = medicoId === m.id;
                         return (
                           <div
                             key={m.id}
-                            onClick={() => { setMedicoId(m.id); setSlotSeleccionado(null); }}
-                            className={`rounded-xl p-space-md shadow-sm relative flex flex-col justify-between cursor-pointer transition-all border ${
+                            onClick={() => {
+                              setMedicoId(m.id);
+                              setSlotSeleccionado(null);
+                            }}
+                            className={`rounded-2xl p-space-md shadow-sm flex flex-col justify-between cursor-pointer transition-all border ${
                               isSelected
                                 ? "bg-primary-container/10 ring-2 ring-primary border-primary shadow-md"
                                 : "bg-surface-container-low hover:bg-surface-container border-outline-variant/30 hover:border-outline-variant"
                             }`}
                           >
-                            <div className="flex items-start justify-between gap-2 mb-2">
-                              <div className="flex items-start gap-space-sm min-w-0">
-                                {m.avatarUrl ? (
-                                  // eslint-disable-next-line @next/next/no-img-element
-                                  <img
-                                    src={m.avatarUrl}
-                                    alt={`Dr. ${m.nombres} ${m.apellidos}`}
-                                    className="w-14 h-14 rounded-xl object-cover shadow-sm shrink-0 border border-outline-variant/40"
-                                  />
-                                ) : (
-                                  <div className="w-14 h-14 rounded-xl bg-secondary-fixed flex items-center justify-center shrink-0">
-                                    <span className="material-symbols-outlined text-[28px] text-on-secondary-fixed">stethoscope</span>
-                                  </div>
-                                )}
-                                <div className="flex flex-col min-w-0 pr-2">
-                                  <h3 className="font-headline-sm text-headline-sm text-on-surface font-semibold truncate leading-tight">
-                                    Dr(a). {m.nombres} {m.apellidos}
-                                  </h3>
-                                  <span className="font-label-md text-label-md text-primary font-medium truncate mt-0.5">
-                                    {m.subespecialidad || m.especialidad}
-                                  </span>
-                                  <span className="font-caption text-caption text-on-surface-variant mt-0.5">
-                                    {m.cmp} {m.rne ? `· ${m.rne}` : ""}
-                                  </span>
+                            <div className="flex items-start gap-space-sm mb-3">
+                              {m.avatarUrl ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={m.avatarUrl}
+                                  alt={`Dr. ${m.nombres} ${m.apellidos}`}
+                                  className="w-14 h-14 rounded-xl object-cover shadow-sm shrink-0 border border-outline-variant/40"
+                                />
+                              ) : (
+                                <div className="w-14 h-14 rounded-xl bg-secondary-fixed flex items-center justify-center shrink-0">
+                                  <span className="material-symbols-outlined text-[28px] text-on-secondary-fixed">stethoscope</span>
                                 </div>
-                              </div>
-
-                              {isSelected && (
-                                <span className="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold shrink-0 shadow-sm">
-                                  <span className="material-symbols-outlined text-[14px]">check</span>
-                                  Seleccionado
-                                </span>
                               )}
+                              <div className="flex flex-col min-w-0 pr-1">
+                                <h3 className="font-headline-sm text-headline-sm text-on-surface font-semibold truncate leading-tight">
+                                  Dr(a). {m.nombres} {m.apellidos}
+                                </h3>
+                                <span className="font-label-md text-label-md text-primary font-medium truncate mt-0.5">
+                                  {m.subespecialidad || m.especialidad}
+                                </span>
+                                <span className="font-caption text-caption text-on-surface-variant mt-0.5">
+                                  {m.cmp} {m.rne ? `· ${m.rne}` : ""}
+                                </span>
+                              </div>
                             </div>
 
                             <div className="pt-2 border-t border-outline-variant/20 flex items-center justify-between gap-2 mt-auto">
@@ -531,14 +602,16 @@ function AgendaPageContent() {
                                 <span className="truncate text-caption font-medium">{m.consultorio || "Consultorio C-201"}</span>
                               </div>
 
-                              {!isSelected && (
-                                <button
-                                  type="button"
-                                  className="text-primary hover:text-primary-container font-label-sm text-label-sm font-semibold flex items-center gap-0.5 shrink-0"
-                                >
+                              {isSelected ? (
+                                <span className="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold shrink-0 shadow-sm">
+                                  <span className="material-symbols-outlined text-[14px]">check</span>
+                                  Seleccionado
+                                </span>
+                              ) : (
+                                <span className="text-primary font-label-sm text-label-sm font-semibold flex items-center gap-0.5 shrink-0">
                                   <span>Elegir</span>
                                   <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-                                </button>
+                                </span>
                               )}
                             </div>
                           </div>
@@ -547,24 +620,38 @@ function AgendaPageContent() {
                     </div>
                   </div>
 
-                  {/* Calendario semanal */}
+                  {/* Calendario de Horarios Disponibles */}
                   {medicoId && (
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
-                      <div className="lg:col-span-8 bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-md">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-md pt-space-xs">
+                      <div className="lg:col-span-8 bg-surface-container-low rounded-2xl p-space-md flex flex-col gap-space-md border border-outline-variant/20">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-space-sm">
                             <span className="font-label-lg text-label-lg text-on-surface font-bold">Semana: {semanaLabel()}</span>
                             <span className="font-caption text-caption text-on-surface-variant">Franjas de 30 min</span>
                           </div>
                           <div className="flex items-center gap-1">
-                            <button type="button" aria-label="Semana anterior"
+                            <button
+                              type="button"
+                              aria-label="Semana anterior"
                               className="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container shadow-sm"
-                              onClick={() => { const p = new Date(semanaInicio); p.setDate(p.getDate() - 7); setSemanaInicio(p); }}>
+                              onClick={() => {
+                                const p = new Date(semanaInicio);
+                                p.setDate(p.getDate() - 7);
+                                setSemanaInicio(p);
+                              }}
+                            >
                               <span className="material-symbols-outlined text-[18px]">chevron_left</span>
                             </button>
-                            <button type="button" aria-label="Semana siguiente"
+                            <button
+                              type="button"
+                              aria-label="Semana siguiente"
                               className="w-8 h-8 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center hover:bg-surface-container shadow-sm"
-                              onClick={() => { const p = new Date(semanaInicio); p.setDate(p.getDate() + 7); setSemanaInicio(p); }}>
+                              onClick={() => {
+                                const p = new Date(semanaInicio);
+                                p.setDate(p.getDate() + 7);
+                                setSemanaInicio(p);
+                              }}
+                            >
                               <span className="material-symbols-outlined text-[18px]">chevron_right</span>
                             </button>
                           </div>
@@ -583,33 +670,49 @@ function AgendaPageContent() {
                                   ? slotSeleccionado.fecha === formatearFecha(fecha)
                                   : i === 0;
                                 return (
-                                  <div key={d} className={`p-1.5 rounded-lg font-label-md text-label-md ${esDiaSeleccionado ? "bg-surface-container text-primary font-bold" : "bg-surface-container-lowest text-on-surface-variant"}`}>
+                                  <div
+                                    key={d}
+                                    className={`p-1.5 rounded-lg font-label-md text-label-md ${
+                                      esDiaSeleccionado ? "bg-surface-container text-primary font-bold" : "bg-surface-container-lowest text-on-surface-variant"
+                                    }`}
+                                  >
                                     {d} {fecha.getDate()}
                                   </div>
                                 );
                               })}
                             </div>
-                            {/* Slots */}
+
+                            {/* Grilla de Slots */}
                             <div className="grid grid-cols-5 gap-space-xs">
                               {DIAS.map((_, i) => (
                                 <div key={i} className="flex flex-col gap-space-xs">
                                   {slotsPorDia(i).map(slot => {
                                     const seleccionado = slotSeleccionado?.inicio === slot.inicio;
                                     return slot.disponible ? (
-                                      <button key={slot.inicio} type="button"
+                                      <button
+                                        key={slot.inicio}
+                                        type="button"
                                         onClick={() => setSlotSeleccionado(slot)}
-                                        className={`p-2 rounded font-label-sm text-label-sm text-center transition-colors ${
+                                        className={`p-2 rounded-xl font-label-sm text-label-sm text-center transition-all ${
                                           seleccionado
-                                            ? "bg-primary-container text-on-primary font-bold shadow-md ring-2 ring-secondary-container"
-                                            : "bg-surface-container-lowest text-primary hover:bg-primary hover:text-on-primary cursor-pointer shadow-sm font-semibold"
-                                        }`}>
+                                            ? "bg-primary-container text-on-primary font-bold shadow-md ring-2 ring-primary"
+                                            : "bg-surface-container-lowest text-primary hover:bg-primary hover:text-on-primary cursor-pointer shadow-xs font-semibold"
+                                        }`}
+                                      >
                                         {seleccionado ? (
-                                          <><span className="block">{slot.hora}</span><span className="text-[10px] uppercase font-semibold text-tertiary-fixed">Elegido</span></>
-                                        ) : slot.hora}
+                                          <>
+                                            <span className="block">{slot.hora}</span>
+                                            <span className="text-[10px] uppercase font-semibold text-tertiary-fixed">Elegido</span>
+                                          </>
+                                        ) : (
+                                          slot.hora
+                                        )}
                                       </button>
                                     ) : (
-                                      <div key={slot.inicio}
-                                        className="p-2 rounded bg-surface-container-highest text-on-surface-variant/60 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed">
+                                      <div
+                                        key={slot.inicio}
+                                        className="p-2 rounded-xl bg-surface-container-highest text-on-surface-variant/50 font-caption text-caption flex flex-col items-center justify-center cursor-not-allowed"
+                                      >
                                         <span className="line-through">{slot.hora}</span>
                                         <span className="font-label-sm text-[10px] text-outline">Ocupado</span>
                                       </div>
@@ -625,8 +728,8 @@ function AgendaPageContent() {
                         )}
                       </div>
 
-                      {/* Panel lateral disponibilidad */}
-                      <div className="lg:col-span-4 bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+                      {/* Horarios libres y duración */}
+                      <div className="lg:col-span-4 bg-surface-container-lowest rounded-2xl p-space-md shadow-sm border border-outline-variant/30 flex flex-col gap-space-md">
                         <div className="flex items-center gap-space-xs text-on-surface">
                           <span className="material-symbols-outlined text-secondary text-[20px]">event_available</span>
                           <h3 className="font-label-lg text-label-lg font-bold">Próximos horarios libres</h3>
@@ -636,9 +739,12 @@ function AgendaPageContent() {
                         </p>
                         <div className="flex flex-col gap-space-xs">
                           {slots.filter(s => s.disponible).slice(0, 5).map(s => (
-                            <button key={s.inicio} type="button"
+                            <button
+                              key={s.inicio}
+                              type="button"
                               onClick={() => setSlotSeleccionado(s)}
-                              className="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between hover:bg-surface-container cursor-pointer transition-colors">
+                              className="p-space-sm rounded-xl bg-surface-container-low flex items-center justify-between hover:bg-surface-container cursor-pointer transition-colors"
+                            >
                               <div className="flex items-center gap-2">
                                 <span className="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
                                 <span className="font-label-md text-label-md font-semibold text-on-surface">{s.hora} hrs</span>
@@ -653,7 +759,7 @@ function AgendaPageContent() {
                             <p className="text-caption text-on-surface-variant">Sin disponibilidad para esta semana.</p>
                           )}
                         </div>
-                        <div className="bg-surface-container p-space-sm rounded-lg flex items-center gap-space-sm">
+                        <div className="bg-surface-container p-space-sm rounded-xl flex items-center gap-space-sm mt-auto">
                           <span className="material-symbols-outlined text-primary text-[20px]">timer</span>
                           <div className="flex flex-col">
                             <span className="font-label-sm text-label-sm font-semibold text-on-surface">Duración por consulta</span>
@@ -664,106 +770,106 @@ function AgendaPageContent() {
                     </div>
                   )}
                 </section>
-              </div>
+              )}
 
-              {/* ── Columna derecha: PASO 3 (4 col) ─────────────────────────── */}
-              <div className="xl:col-span-4 flex flex-col gap-space-lg">
-                <section className={`bg-surface-container-lowest rounded-xl p-space-lg shadow-md flex flex-col gap-space-md sticky top-20 transition-opacity ${paso < 3 ? "opacity-60 pointer-events-none" : ""}`}>
-                  <div className="flex items-center justify-between border-b border-surface-container-high pb-space-sm">
-                    <div className="flex items-center gap-space-xs">
-                      <span className="material-symbols-outlined text-primary text-[22px]" style={{ fontVariationSettings: "'FILL' 1" }}>task_alt</span>
-                      <h2 className="font-headline-sm text-headline-sm text-on-surface">Paso 3: Confirmación</h2>
+              {/* ══════════════════════════════════════════════════════════════════
+                  PASO 3: Confirmación de Cita
+              ══════════════════════════════════════════════════════════════════ */}
+              {paso === 3 && (
+                <section className="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm border border-outline-variant/30 flex flex-col gap-space-lg max-w-3xl mx-auto animate-in fade-in duration-200">
+                  <div className="flex items-center justify-between border-b border-outline-variant/30 pb-space-md">
+                    <div className="flex items-center gap-space-sm">
+                      <div className="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center">
+                        <span className="material-symbols-outlined text-[24px]">task_alt</span>
+                      </div>
+                      <div>
+                        <h2 className="font-headline-sm text-headline-sm text-on-surface font-bold">Paso 3: Confirmar Cita Médica</h2>
+                        <p className="text-caption text-on-surface-variant">Verifique los detalles finales de la atención antes de emitir la reserva</p>
+                      </div>
                     </div>
-                    <span className="px-space-sm py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">Final</span>
+                    <span className="px-space-sm py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">Paso Final</span>
                   </div>
 
-                  {/* Resumen */}
-                  <div className="flex flex-col gap-space-xs bg-surface-container-low rounded-xl p-space-md">
-                    <span className="font-caption text-caption text-on-surface-variant uppercase tracking-wider font-semibold">Resumen de la cita médica</span>
-                    <div className="flex flex-col gap-space-sm mt-1">
+                  {/* Resumen Detallado */}
+                  <div className="bg-surface-container-low rounded-2xl p-space-lg flex flex-col gap-space-sm border border-outline-variant/20">
+                    <span className="font-caption text-caption text-on-surface-variant uppercase tracking-wider font-bold">Resumen de la cita médica</span>
+                    <div className="flex flex-col gap-space-sm mt-1 divide-y divide-outline-variant/20">
                       {[
                         { label: "Paciente:", value: pacienteSeleccionado ? `${pacienteSeleccionado.nombres} ${pacienteSeleccionado.apellido_paterno} ${pacienteSeleccionado.apellido_materno}` : "—" },
+                        { label: "Documento:", value: pacienteSeleccionado ? `DNI ${pacienteSeleccionado.numero_documento}` : "—" },
                         { label: "Especialidad:", value: especialidades.find(e => e.id === especialidadId)?.nombre ?? "—" },
                         { label: "Médico Tratante:", value: medicoActual ? `Dr(a). ${medicoActual.nombres} ${medicoActual.apellidos} (${medicoActual.subespecialidad || medicoActual.especialidad})` : "—" },
                         { label: "Consultorio:", value: medicoActual?.consultorio || "Consultorio C-201 (Pabellón C)" },
-                        { label: "Fecha y Hora:", value: slotSeleccionado ? new Date(slotSeleccionado.inicio).toLocaleString("es-PE", { weekday: "short", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—", primary: true },
+                        { label: "Fecha y Hora:", value: slotSeleccionado ? new Date(slotSeleccionado.inicio).toLocaleString("es-PE", { weekday: "long", day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—", primary: true },
                       ].map(row => (
-                        <div key={row.label} className="flex justify-between items-start text-body-sm font-body-sm">
-                          <span className="text-on-surface-variant">{row.label}</span>
-                          <span className={`font-semibold text-right ${row.primary ? "text-primary font-bold" : "text-on-surface"}`}>{row.value}</span>
+                        <div key={row.label} className="flex justify-between items-start pt-2 text-body-md font-body-md">
+                          <span className="text-on-surface-variant font-medium">{row.label}</span>
+                          <span className={`font-semibold text-right ${row.primary ? "text-primary font-bold text-headline-xs" : "text-on-surface"}`}>{row.value}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Motivo */}
+                  {/* Motivo de Consulta */}
                   <div className="flex flex-col gap-space-xs">
                     <label className="block font-label-md text-label-md text-on-surface font-semibold" htmlFor="consult-reason">
                       Motivo de la consulta <span className="text-error font-bold">*</span>
                     </label>
                     <textarea
-                      className="w-full p-3 bg-surface-container-low rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary shadow-inner resize-none"
-                      id="consult-reason" rows={3} value={motivo}
+                      className="w-full p-3.5 bg-surface-container-low rounded-xl text-body-md font-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary shadow-inner resize-none border border-outline-variant/30"
+                      id="consult-reason"
+                      rows={3}
+                      value={motivo}
                       onChange={e => setMotivo(e.target.value)}
                     />
                     <span className="font-caption text-caption text-on-surface-variant">Obligatorio según norma técnica de historia clínica MINSA.</span>
                   </div>
 
                   {/* Recordatorio */}
-                  <div className="flex items-start gap-space-sm bg-surface-container-low/60 p-space-sm rounded-lg">
-                    <input checked={recordatorio} onChange={e => setRecordatorio(e.target.checked)}
-                      className="w-5 h-5 rounded mt-0.5 accent-primary cursor-pointer" id="send-reminder" type="checkbox" />
-                    <label className="font-body-sm text-body-sm text-on-surface cursor-pointer select-none" htmlFor="send-reminder">
-                      Enviar recordatorio 24 horas antes por correo y SMS
+                  <div className="flex items-start gap-space-sm bg-surface-container-low/60 p-space-md rounded-xl border border-outline-variant/20">
+                    <input
+                      checked={recordatorio}
+                      onChange={e => setRecordatorio(e.target.checked)}
+                      className="w-5 h-5 rounded mt-0.5 accent-primary cursor-pointer"
+                      id="send-reminder"
+                      type="checkbox"
+                    />
+                    <label className="font-body-md text-body-md text-on-surface cursor-pointer select-none" htmlFor="send-reminder">
+                      Enviar recordatorio automático 24 horas antes por correo electrónico y SMS
                     </label>
                   </div>
 
-                  {/* Error confirmación */}
+                  {/* Error si falla */}
                   {errorConfirm && (
-                    <div className="p-3 bg-error-container rounded-lg flex items-start gap-2">
-                      <span className="material-symbols-outlined text-error text-[18px] shrink-0 mt-0.5">error</span>
-                      <p className="text-caption text-on-error-container">{errorConfirm}</p>
+                    <div className="p-3.5 bg-error-container text-on-error-container rounded-xl flex items-start gap-2">
+                      <span className="material-symbols-outlined text-error text-[20px] shrink-0 mt-0.5">error</span>
+                      <p className="text-caption font-medium">{errorConfirm}</p>
                     </div>
                   )}
 
-                  {/* Botón confirmar */}
-                  {!citaRegistrada ? (
-                    <button type="button" onClick={confirmarCita}
-                      disabled={guardando || !pacienteSeleccionado || !medicoId || !slotSeleccionado || !motivo.trim()}
-                      className="w-full min-h-[48px] px-space-lg bg-primary-container hover:bg-primary text-on-primary rounded-xl font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-xs shadow-md transition-all active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed">
-                      <span className="material-symbols-outlined text-[22px]">calendar_add_on</span>
-                      <span>{guardando ? "Registrando…" : "Confirmar cita (Paso 3 de 3)"}</span>
+                  {/* Botones de acción */}
+                  <div className="flex items-center justify-between gap-space-md pt-space-xs">
+                    <button
+                      type="button"
+                      onClick={() => setPaso(2)}
+                      className="px-space-lg py-3 border border-outline-variant text-on-surface hover:bg-surface-container rounded-xl font-label-md text-label-md transition-colors flex items-center gap-1.5"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                      <span>Modificar médico / horario</span>
                     </button>
-                  ) : (
-                    /* Tarjeta de éxito */
-                    <div className="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm shadow-sm">
-                      <div className="flex items-center justify-between">
-                        <span className="font-label-sm text-label-sm text-tertiary font-bold uppercase tracking-wider flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                          Cita Registrada
-                        </span>
-                        <span className="font-label-sm text-label-sm font-mono px-space-xs py-0.5 rounded bg-surface-container-lowest text-on-surface font-semibold">
-                          {citaRegistrada.folio}
-                        </span>
-                      </div>
-                      <div className="flex flex-col text-body-sm font-body-sm text-on-surface">
-                        <p className="font-semibold text-primary">
-                          {slotSeleccionado ? new Date(slotSeleccionado.inicio).toLocaleString("es-PE", { weekday: "long", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }) : ""}
-                        </p>
-                        <p className="text-on-surface-variant">{medicoActual ? `Dr(a). ${medicoActual.nombres} ${medicoActual.apellidos} (${medicoActual.especialidad})` : ""}</p>
-                        <p className="text-on-surface-variant">Sede San Borja</p>
-                      </div>
-                      <div className="grid grid-cols-1 gap-space-xs pt-space-xs">
-                        <button type="button" onClick={() => { setCitaRegistrada(null); setPaso(1); setSlotSeleccionado(null); setMotivo(""); }}
-                          className="w-full min-h-[44px] px-space-md bg-surface-container-lowest text-primary hover:bg-surface-container-low rounded-lg font-label-md text-label-md font-medium flex items-center justify-center gap-space-xs transition-colors">
-                          <span className="material-symbols-outlined text-[18px]">add_circle</span>
-                          <span>Reservar otra cita</span>
-                        </button>
-                      </div>
-                    </div>
-                  )}
+
+                    <button
+                      type="button"
+                      onClick={confirmarCita}
+                      disabled={guardando || !pacienteSeleccionado || !medicoId || !slotSeleccionado || !motivo.trim()}
+                      className="min-h-[48px] px-space-xl bg-primary hover:bg-primary-container text-on-primary rounded-xl font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-xs shadow-md transition-all active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <span className="material-symbols-outlined text-[22px]">calendar_add_on</span>
+                      <span>{guardando ? "Registrando cita…" : "Confirmar Cita Médica"}</span>
+                    </button>
+                  </div>
                 </section>
-              </div>
+              )}
             </div>
           </div>
         </main>

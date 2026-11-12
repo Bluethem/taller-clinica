@@ -124,7 +124,10 @@ INSERT INTO hce.cie10 (codigo, descripcion) VALUES
  ('Z00.1','Control de salud de rutina del niño'),
  ('E11.9','Diabetes mellitus tipo 2 sin mención de complicación'),
  ('K29.7','Gastritis, no especificada'),
- ('R51','Cefalea');
+ ('R51','Cefalea'),
+ ('E78.5','Dislipidemia, no especificada'),
+ ('K21.9','Enfermedad por reflujo gastroesofágico sin esofagitis'),
+ ('D50.9','Anemia por deficiencia de hierro sin especificación');
 
 INSERT INTO hce.entrada (id, paciente_id, cita_id, medico_id, fecha, motivo_consulta, enfermedad_actual, examen_fisico, corrige_a_id) VALUES
  ('50000000-0000-7000-8000-000000000001','20000000-0000-7000-8000-000000000001','40000000-0000-7000-8000-000000000001','30000000-0000-7000-8000-000000000001','2026-09-14 08:12-05','Tos persistente y fiebre leve','Cuadro de 3 días con tos seca, malestar y fiebre de 37.8 °C.','Faringe congestiva; murmullo vesicular normal.',NULL),
@@ -133,7 +136,12 @@ INSERT INTO hce.entrada (id, paciente_id, cita_id, medico_id, fecha, motivo_cons
  ('50000000-0000-7000-8000-000000000004','20000000-0000-7000-8000-000000000002','40000000-0000-7000-8000-000000000003','30000000-0000-7000-8000-000000000001','2026-09-14 08:50-05','Dolor lumbar','Dolor lumbar de 1 semana tras esfuerzo (entrada corregida: el diagnóstico estaba mal codificado).','Contractura paravertebral; sin déficit neurológico.','50000000-0000-7000-8000-000000000003'),
  ('50000000-0000-7000-8000-000000000005','20000000-0000-7000-8000-000000000003','40000000-0000-7000-8000-000000000004','30000000-0000-7000-8000-000000000002','2026-09-28 09:10-05','Control ginecológico anual','Sin molestias; control de rutina.','Examen sin hallazgos.',NULL),
  ('50000000-0000-7000-8000-000000000006','20000000-0000-7000-8000-000000000004','40000000-0000-7000-8000-000000000005','30000000-0000-7000-8000-000000000005','2026-10-05 14:08-05','Dolor de rodilla derecha','Dolor y edema tras accidente de tránsito hace 2 días.','Edema leve; flexión limitada por dolor.',NULL),
- ('50000000-0000-7000-8000-000000000007','20000000-0000-7000-8000-000000000007','40000000-0000-7000-8000-000000000006','30000000-0000-7000-8000-000000000003','2026-10-05 08:10-05','Control de niño sano','Desarrollo acorde a la edad; completa esquema de vacunación.','Peso y talla en percentiles normales.',NULL);
+ ('50000000-0000-7000-8000-000000000007','20000000-0000-7000-8000-000000000007','40000000-0000-7000-8000-000000000006','30000000-0000-7000-8000-000000000003','2026-10-05 08:10-05','Control de niño sano','Desarrollo acorde a la edad; completa esquema de vacunación.','Peso y talla en percentiles normales.',NULL),
+ ('50000000-0000-7000-8000-000000000008','20000000-0000-7000-8000-000000000002','40000000-0000-7000-8000-000000000008','30000000-0000-7000-8000-000000000004','2026-10-12 14:15-05','Evaluación cardiológica preventiva y control de lípidos','Paciente asintomático acude a chequeo preventivo. Refiere disnea ocasional con esfuerzos mayores. Antecedente familiar de dislipidemia.','PA 130/85 mmHg; FC 74 lpm; IMC 26.2 (Sobrepeso leve). Ruidos cardíacos rítmicos.',NULL),
+ ('50000000-0000-7000-8000-000000000009','20000000-0000-7000-8000-000000000003',NULL,'30000000-0000-7000-8000-000000000001','2026-10-10 10:15-05','Epigastralgia y pirosis nocturna','Cuadro de 2 semanas de ardor retroesternal y pirosis recurrente tras ingesta de café o comidas condimentadas. Niega melena.','Abdomen blando, depresible, leve dolor a la palpación profunda en epigastrio.',NULL),
+ ('50000000-0000-7000-8000-000000000010','20000000-0000-7000-8000-000000000005',NULL,'30000000-0000-7000-8000-000000000001','2026-10-13 09:15-05','Cefalea tensional recurrente y fatiga','Cefalea bilateral opresiva de intensidad moderada asociada a estrés laboral. Refiere astenia vespertina.','PA 118/75 mmHg; FC 70 lpm; contractura muscular en región cervical y trapecios.',NULL),
+ ('50000000-0000-7000-8000-000000000011','20000000-0000-7000-8000-000000000004',NULL,'30000000-0000-7000-8000-000000000001','2026-10-08 11:30-05','Control de diabetes mellitus tipo 2','Paciente diabético tipo 2 en seguimiento ambulatorio. Cumplimiento dietético parcial. Refiere polidipsia esporádica.','PA 132/84 mmHg; FC 76 lpm; examen de pies sin lesiones tróficas; sensibilidad conservada.',NULL),
+ ('50000000-0000-7000-8000-000000000012','20000000-0000-7000-8000-000000000006',NULL,'30000000-0000-7000-8000-000000000001','2026-10-14 08:45-05','Chequeo médico preventivo anual','Paciente asintomático solicita evaluación clínica anual general. Sin quejas específicas.','PA 120/78 mmHg; FC 68 lpm; SatO2 99%; examen cardiopulmonar y abdominal normal.',NULL);
 
 INSERT INTO hce.diagnostico (entrada_id, cie10_codigo, tipo) VALUES
  ('50000000-0000-7000-8000-000000000001','J06.9','principal'),
@@ -143,7 +151,12 @@ INSERT INTO hce.diagnostico (entrada_id, cie10_codigo, tipo) VALUES
  ('50000000-0000-7000-8000-000000000005','Z01.4','principal'),
  ('50000000-0000-7000-8000-000000000006','M25.5','principal'),
  ('50000000-0000-7000-8000-000000000007','Z00.1','principal'),
- ('50000000-0000-7000-8000-000000000002','R51','secundario');
+ ('50000000-0000-7000-8000-000000000002','R51','secundario'),
+ ('50000000-0000-7000-8000-000000000008','E78.5','principal'),
+ ('50000000-0000-7000-8000-000000000009','K21.9','principal'),
+ ('50000000-0000-7000-8000-000000000010','R51','principal'),
+ ('50000000-0000-7000-8000-000000000011','E11.9','principal'),
+ ('50000000-0000-7000-8000-000000000012','Z00.1','principal');
 
 INSERT INTO hce.indicacion (entrada_id, descripcion) VALUES
  ('50000000-0000-7000-8000-000000000001','Reposo relativo por 3 días e hidratación abundante.'),
@@ -151,14 +164,23 @@ INSERT INTO hce.indicacion (entrada_id, descripcion) VALUES
  ('50000000-0000-7000-8000-000000000004','Calor local y evitar cargar peso por 2 semanas.'),
  ('50000000-0000-7000-8000-000000000005','Control anual; consultar antes si hay molestias.'),
  ('50000000-0000-7000-8000-000000000006','Reposo de la articulación y hielo local 15 min cada 6 horas.'),
- ('50000000-0000-7000-8000-000000000007','Próximo control de crecimiento en 6 meses.');
+ ('50000000-0000-7000-8000-000000000007','Próximo control de crecimiento en 6 meses.'),
+ ('50000000-0000-7000-8000-000000000008','Dieta baja en grasas saturadas; ejercicio aeróbico 30 min/día; control lipídico.'),
+ ('50000000-0000-7000-8000-000000000009','Evitar irritantes gástricos y comidas abundantes nocturnas. Fraccionar ingesta.'),
+ ('50000000-0000-7000-8000-000000000010','Higiene del sueño, pausas activas laborales y manejo de estrés.'),
+ ('50000000-0000-7000-8000-000000000011','Monitoreo de glucemia en ayunas 2 veces por semana; restricción de carbohidratos refinados.'),
+ ('50000000-0000-7000-8000-000000000012','Mantener actividad física regular y chequeo anual programado.');
 
 INSERT INTO hce.receta_item (entrada_id, medicamento, dosis, frecuencia, duracion_dias) VALUES
  ('50000000-0000-7000-8000-000000000001','Paracetamol 500 mg','1 tableta','cada 8 horas si hay fiebre',3),
  ('50000000-0000-7000-8000-000000000002','Losartán 50 mg','1 tableta','cada 24 horas',30),
  ('50000000-0000-7000-8000-000000000004','Naproxeno 550 mg','1 tableta','cada 12 horas con alimentos',5),
  ('50000000-0000-7000-8000-000000000006','Ibuprofeno 400 mg','1 tableta','cada 8 horas con alimentos',5),
- ('50000000-0000-7000-8000-000000000001','Suero oral','1 sobre en 1 litro de agua','a sorbos durante el día',3);
+ ('50000000-0000-7000-8000-000000000001','Suero oral','1 sobre en 1 litro de agua','a sorbos durante el día',3),
+ ('50000000-0000-7000-8000-000000000008','Atorvastatina 20 mg','1 tableta','cada 24 horas por la noche',30),
+ ('50000000-0000-7000-8000-000000000009','Esomeprazol 40 mg','1 cápsula','cada 24 horas antes del desayuno',28),
+ ('50000000-0000-7000-8000-000000000010','Paracetamol 500 mg','1 tableta','cada 8 horas condicional al dolor',3),
+ ('50000000-0000-7000-8000-000000000011','Metformina 850 mg','1 tableta','cada 12 horas con almuerzo y cena',60);
 
 INSERT INTO hce.anulacion (entrada_id, anulado_por, anulado_en, motivo) VALUES
  ('50000000-0000-7000-8000-000000000003','10000000-0000-7000-8000-000000000001','2026-09-14 08:48-05','Diagnóstico mal codificado (J02.9); se registra una entrada corregida.');
@@ -177,22 +199,41 @@ INSERT INTO laboratorio.orden (id, paciente_id, entrada_id, medico_id, creada_en
  ('60000000-0000-7000-8000-000000000002','20000000-0000-7000-8000-000000000001','50000000-0000-7000-8000-000000000001','30000000-0000-7000-8000-000000000001','2026-09-14 08:25-05','Descartar proceso infeccioso'),
  ('60000000-0000-7000-8000-000000000003','20000000-0000-7000-8000-000000000004','50000000-0000-7000-8000-000000000006','30000000-0000-7000-8000-000000000005','2026-10-05 14:20-05','Descartar lesión ósea tras trauma'),
  ('60000000-0000-7000-8000-000000000004','20000000-0000-7000-8000-000000000003','50000000-0000-7000-8000-000000000005','30000000-0000-7000-8000-000000000002','2026-09-28 09:25-05','Tamizaje anual'),
- ('60000000-0000-7000-8000-000000000005','20000000-0000-7000-8000-000000000007','50000000-0000-7000-8000-000000000007','30000000-0000-7000-8000-000000000003','2026-10-05 08:25-05','Tamizaje de anemia');
+ ('60000000-0000-7000-8000-000000000005','20000000-0000-7000-8000-000000000007','50000000-0000-7000-8000-000000000007','30000000-0000-7000-8000-000000000003','2026-10-05 08:25-05','Tamizaje de anemia'),
+ ('60000000-0000-7000-8000-000000000006','20000000-0000-7000-8000-000000000002','50000000-0000-7000-8000-000000000008','30000000-0000-7000-8000-000000000004','2026-10-12 14:35-05','Control lipídico y glucémico post-consulta cardiológica'),
+ ('60000000-0000-7000-8000-000000000007','20000000-0000-7000-8000-000000000005','50000000-0000-7000-8000-000000000010','30000000-0000-7000-8000-000000000001','2026-10-13 09:30-05','Descarte de anemia y fórmula leucocitaria por astenia crónica'),
+ ('60000000-0000-7000-8000-000000000008','20000000-0000-7000-8000-000000000004','50000000-0000-7000-8000-000000000011','30000000-0000-7000-8000-000000000001','2026-10-08 11:45-05','Evaluación de perfil lipídico y glicemia en diabético tipo 2'),
+ ('60000000-0000-7000-8000-000000000009','20000000-0000-7000-8000-000000000006','50000000-0000-7000-8000-000000000012','30000000-0000-7000-8000-000000000001','2026-10-14 09:00-05','Perfil analítico ocupacional preventivo');
 
 INSERT INTO laboratorio.orden_item (id, orden_id, examen_id) VALUES
  ('61000000-0000-7000-8000-000000000001','60000000-0000-7000-8000-000000000001',3),
  ('61000000-0000-7000-8000-000000000002','60000000-0000-7000-8000-000000000001',2),
  ('61000000-0000-7000-8000-000000000003','60000000-0000-7000-8000-000000000002',1),
  ('61000000-0000-7000-8000-000000000004','60000000-0000-7000-8000-000000000003',5),
- ('61000000-0000-7000-8000-000000000005','60000000-0000-7000-8000-000000000004',4),   -- PENDIENTE
- ('61000000-0000-7000-8000-000000000006','60000000-0000-7000-8000-000000000005',1);   -- PENDIENTE
+ ('61000000-0000-7000-8000-000000000005','60000000-0000-7000-8000-000000000004',4),
+ ('61000000-0000-7000-8000-000000000006','60000000-0000-7000-8000-000000000005',1),
+ ('61000000-0000-7000-8000-000000000007','60000000-0000-7000-8000-000000000006',3),
+ ('61000000-0000-7000-8000-000000000008','60000000-0000-7000-8000-000000000006',2),
+ ('61000000-0000-7000-8000-000000000009','60000000-0000-7000-8000-000000000007',1),
+ ('61000000-0000-7000-8000-000000000010','60000000-0000-7000-8000-000000000008',2),
+ ('61000000-0000-7000-8000-000000000011','60000000-0000-7000-8000-000000000008',3),
+ ('61000000-0000-7000-8000-000000000012','60000000-0000-7000-8000-000000000009',1),
+ ('61000000-0000-7000-8000-000000000013','60000000-0000-7000-8000-000000000009',2);
 
--- Técnico de laboratorio: Julio Navarro. Los ítems 05 y 06 quedan pendientes (sin resultado).
+-- Técnico de laboratorio: Julio Navarro.
 INSERT INTO laboratorio.resultado (orden_item_id, valor, unidad, rango_referencia, archivo_url, observaciones, registrado_por, registrado_en) VALUES
  ('61000000-0000-7000-8000-000000000001','Colesterol total 212; LDL 138; HDL 46','mg/dL','CT < 200; LDL < 130',NULL,'Ligera elevación','10000000-0000-7000-8000-000000000009','2026-09-22 10:00-05'),
  ('61000000-0000-7000-8000-000000000002','92','mg/dL','70 - 100',NULL,NULL,'10000000-0000-7000-8000-000000000009','2026-09-22 10:05-05'),
  ('61000000-0000-7000-8000-000000000003','Leucocitos 11.2; Hb 13.5','miles/µL; g/dL','Leu 4.5-11; Hb 12-16',NULL,'Leucocitosis leve','10000000-0000-7000-8000-000000000009','2026-09-14 16:00-05'),
- ('61000000-0000-7000-8000-000000000004',NULL,NULL,NULL,'https://archivos.sanrafael.example.pe/imagenes/rx-rodilla-0001.pdf','Sin fractura evidente','10000000-0000-7000-8000-000000000009','2026-10-05 15:10-05');
+ ('61000000-0000-7000-8000-000000000004',NULL,NULL,NULL,'https://archivos.sanrafael.example.pe/imagenes/rx-rodilla-0001.pdf','Sin fractura evidente','10000000-0000-7000-8000-000000000009','2026-10-05 15:10-05'),
+ ('61000000-0000-7000-8000-000000000005','Negativo para lesión intraepitelial o malignidad (NILM)','-','NILM',NULL,'Frotis celular satisfactorio; bacilos de Döderlein abundantes.','10000000-0000-7000-8000-000000000009','2026-10-01 11:00-05'),
+ ('61000000-0000-7000-8000-000000000007','Colesterol total 238; LDL 152; HDL 44; Triglicéridos 190','mg/dL','CT < 200; LDL < 130; TG < 150',NULL,'Dislipidemia moderada a predominio de LDL.','10000000-0000-7000-8000-000000000009','2026-10-13 09:15-05'),
+ ('61000000-0000-7000-8000-000000000008','95','mg/dL','70 - 100',NULL,'Normoglicemia en ayunas.','10000000-0000-7000-8000-000000000009','2026-10-13 09:20-05'),
+ ('61000000-0000-7000-8000-000000000009','Hemoglobina 13.2; Leucocitos 6,400; Plaquetas 240,000','g/dL; /uL','Hb 12-16; Leu 4,500-11,000',NULL,'Hemograma sin alteraciones patológicas.','10000000-0000-7000-8000-000000000009','2026-10-13 14:00-05'),
+ ('61000000-0000-7000-8000-000000000010','142','mg/dL','70 - 100',NULL,'Glicemia elevada en paciente con DM2.','10000000-0000-7000-8000-000000000009','2026-10-09 08:30-05'),
+ ('61000000-0000-7000-8000-000000000011','Colesterol total 205; LDL 128; HDL 41; Triglicéridos 178','mg/dL','CT < 200; LDL < 130; TG < 150',NULL,'Hipertrigliceridemia leve.','10000000-0000-7000-8000-000000000009','2026-10-09 08:35-05'),
+ ('61000000-0000-7000-8000-000000000012','Hemoglobina 15.4; Leucocitos 7,100; Plaquetas 255,000','g/dL; /uL','Hb 13-17.5; Leu 4,500-11,000',NULL,'Parámetros hematológicos normales.','10000000-0000-7000-8000-000000000009','2026-10-14 12:00-05'),
+ ('61000000-0000-7000-8000-000000000013','86','mg/dL','70 - 100',NULL,'Glucosa en rango óptimo.','10000000-0000-7000-8000-000000000009','2026-10-14 12:05-05');
 
 -- ---------- Facturación ----------
 INSERT INTO facturacion.convenio (nombre, tipo) VALUES

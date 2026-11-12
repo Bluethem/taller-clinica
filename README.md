@@ -1,5 +1,8 @@
 # SIGC – Clínica San Rafael S.A.C.
 
+![CI](https://github.com/Bluethem/taller-clinica/actions/workflows/ci.yml/badge.svg)
+
+
 Sistema de Información Clínico-Administrativo para la Clínica San Rafael (San Borja, Lima). Centraliza historias clínicas, agenda y citas, laboratorio, facturación por convenio y reportes gerenciales, reemplazando el manejo actual en papel/Excel y la agenda telefónica.
 
 > **Curso:** SW705 · Taller de Ingeniería de Software I · Universidad Nacional de Ingeniería (FIIS-UNI)

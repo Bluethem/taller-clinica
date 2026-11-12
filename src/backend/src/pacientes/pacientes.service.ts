@@ -200,6 +200,13 @@ export class PacientesService {
       throw new BadRequestException('Documento, nombres y apellido paterno son requeridos');
     }
 
+    if (
+      (dto.tipoDocumento || 'DNI') === 'DNI' &&
+      !/^\d{8}$/.test(dto.numeroDocumento)
+    ) {
+      throw new BadRequestException('El DNI debe tener exactamente 8 dígitos');
+    }
+
     const creadorId = dto.creadoPor || '10000000-0000-7000-8000-000000000001';
     const emailDefault = dto.email || `${dto.nombres.toLowerCase().replace(/\s+/g, '')}@ejemplo.pe`;
     const canal = dto.canalRecordatorio || 'email';

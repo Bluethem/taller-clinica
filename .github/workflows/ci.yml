@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: sigc
+          POSTGRES_PASSWORD: sigc_ci
+          POSTGRES_DB: sigc_test
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd "pg_isready -U sigc -d sigc_test"
+          --health-interval 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://sigc:sigc_ci@localhost:5432/sigc_test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: pnpm
+          cache-dependency-path: |
+            src/backend/pnpm-lock.yaml
+            src/frontend/pnpm-lock.yaml
+
+      - name: Instalar dependencias
+        run: |
+          pnpm --dir src/backend install --frozen-lockfile
+          pnpm --dir src/frontend install --frozen-lockfile
+
+      - name: Cargar esquema y datos ficticios
+        run: |
+          psql "$DATABASE_URL" -f scripts/01_schema.sql
+          psql "$DATABASE_URL" -f scripts/02_data.sql
+
+      - name: Revisar estilo — backend (oxlint)
+        run: pnpm --dir src/backend lint
+
+      - name: Revisar estilo — frontend (ESLint)
+        run: pnpm --dir src/frontend lint
+
+      - name: Compilar el frontend
+        run: pnpm --dir src/frontend build
+
+      - name: Ejecutar pruebas con cobertura
+        run: pnpm --dir src/backend test:cov

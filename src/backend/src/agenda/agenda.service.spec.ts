@@ -32,4 +32,50 @@ describe('AgendaService.crearCita (HU01)', () => {
     expect(err).toBeInstanceOf(ConflictException);
     expect((err as ConflictException).message).toMatch(/horario no disponible/i);
   });
+
+  it('lista mis citas del día para el médico de la sesión', async () => {
+    query.mockResolvedValueOnce([
+      {
+        id: 'c1',
+        inicio: '2026-11-12T15:00:00.000Z',
+        fin: '2026-11-12T15:30:00.000Z',
+        estado: 'programada',
+        motivo: 'Control',
+        pacienteId: '20000000-0000-7000-8000-000000000001',
+        pacienteNombres: 'Mariana',
+        pacienteApellidos: 'Torres Quispe',
+        numeroDocumento: '70000001',
+      },
+    ]);
+
+    const citas = await service.getMisCitas(
+      '10000000-0000-7000-8000-000000000004',
+      '2026-11-12',
+    );
+
+    expect(query).toHaveBeenCalledOnce();
+    expect(citas).toHaveLength(1);
+    expect(citas[0]?.pacienteId).toBe('20000000-0000-7000-8000-000000000001');
+    expect(citas[0]?.inicio).toBe('2026-11-12T15:00:00.000Z');
+  });
+
+  it('sin día lista las citas del médico (incluye semana demo)', async () => {
+    query.mockResolvedValueOnce([
+      {
+        id: 'c2',
+        inicio: '2026-10-14T19:00:00.000Z',
+        fin: '2026-10-14T19:30:00.000Z',
+        estado: 'programada',
+        motivo: 'Control demo',
+        pacienteId: '20000000-0000-7000-8000-000000000001',
+        pacienteNombres: 'Mariana',
+        pacienteApellidos: 'Torres Quispe',
+        numeroDocumento: '70000001',
+      },
+    ]);
+
+    const citas = await service.getMisCitas('10000000-0000-7000-8000-000000000004');
+    expect(query.mock.calls[0]?.[1]).toEqual(['10000000-0000-7000-8000-000000000004']);
+    expect(citas[0]?.motivo).toBe('Control demo');
+  });
 });

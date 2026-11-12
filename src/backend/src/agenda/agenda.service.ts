@@ -204,6 +204,73 @@ export class AgendaService {
     return slots;
   }
 
+  async getMisCitas(usuarioId: string, diaIso?: string): Promise<
+    Array<{
+      id: string;
+      inicio: string;
+      fin: string;
+      estado: string;
+      motivo: string | null;
+      pacienteId: string;
+      pacienteNombres: string;
+      pacienteApellidos: string;
+      numeroDocumento: string;
+    }>
+  > {
+    // Si piden un día concreto, filtra ese día (Lima). Si no, próximas programadas
+    // del médico (incluye la semana demo de admisión, no solo "hoy" del servidor).
+    const rows = diaIso
+      ? await this.dataSource.query(
+          `SELECT c.id,
+                  c.inicio,
+                  c.fin,
+                  c.estado,
+                  c.motivo,
+                  p.id AS "pacienteId",
+                  p.nombres AS "pacienteNombres",
+                  trim(concat(p.apellido_paterno, ' ', coalesce(p.apellido_materno, ''))) AS "pacienteApellidos",
+                  p.numero_documento AS "numeroDocumento"
+           FROM agenda.cita c
+           JOIN agenda.medico m ON m.id = c.medico_id
+           JOIN pacientes.paciente p ON p.id = c.paciente_id
+           WHERE m.usuario_id = $1
+             AND c.estado <> 'cancelada'
+             AND (c.inicio AT TIME ZONE 'America/Lima')::date = $2::date
+           ORDER BY c.inicio ASC`,
+          [usuarioId, diaIso],
+        )
+      : await this.dataSource.query(
+          `SELECT c.id,
+                  c.inicio,
+                  c.fin,
+                  c.estado,
+                  c.motivo,
+                  p.id AS "pacienteId",
+                  p.nombres AS "pacienteNombres",
+                  trim(concat(p.apellido_paterno, ' ', coalesce(p.apellido_materno, ''))) AS "pacienteApellidos",
+                  p.numero_documento AS "numeroDocumento"
+           FROM agenda.cita c
+           JOIN agenda.medico m ON m.id = c.medico_id
+           JOIN pacientes.paciente p ON p.id = c.paciente_id
+           WHERE m.usuario_id = $1
+             AND c.estado <> 'cancelada'
+           ORDER BY c.inicio ASC
+           LIMIT 40`,
+          [usuarioId],
+        );
+    return rows.map((r: Record<string, unknown>) => ({
+      id: String(r.id),
+      inicio: new Date(r.inicio as string).toISOString(),
+      fin: new Date(r.fin as string).toISOString(),
+      estado: String(r.estado),
+      motivo: (r.motivo as string | null) ?? null,
+      pacienteId: String(r.pacienteId),
+      pacienteNombres: String(r.pacienteNombres),
+      pacienteApellidos: String(r.pacienteApellidos),
+      numeroDocumento: String(r.numeroDocumento),
+    }));
+  }
+
   async crearCita(dto: CrearCitaDto): Promise<{ id: string; folio: string }> {
     const inicio = new Date(dto.inicio);
     const fin = new Date(inicio.getTime() + 30 * 60 * 1000);

@@ -5,8 +5,10 @@ import {
   Param,
   Post,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
+import type { Request } from 'express';
 import { Roles } from '../seguridad/decorators/roles.decorator.js';
 import { AuthenticatedGuard } from '../seguridad/guards/authenticated.guard.js';
 import { RolesGuard } from '../seguridad/guards/roles.guard.js';
@@ -45,6 +47,14 @@ export class AgendaController {
     return this.agendaService.getSlotsDisponibles(medicoId, desde, hasta);
   }
 
+  @Get('mis-citas')
+  @UseGuards(AuthenticatedGuard, RolesGuard)
+  @Roles('medico', 'administrador')
+  getMisCitas(@Req() req: Request, @Query('dia') dia?: string) {
+    const usuario = req.user as { id: string };
+    return this.agendaService.getMisCitas(usuario.id, dia);
+  }
+
   @Post('citas')
   @UseGuards(AuthenticatedGuard, RolesGuard)
   @Roles('admision', 'administrador')
@@ -52,4 +62,3 @@ export class AgendaController {
     return this.agendaService.crearCita(dto);
   }
 }
-

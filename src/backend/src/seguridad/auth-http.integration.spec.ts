@@ -118,12 +118,12 @@ describe('autenticación HTTP', () => {
     await agent.get('/auth/me').expect(401);
   });
 
-  it('protege pacientes por autenticación y rol', async () => {
+  it('protege pacientes por autenticación; médico puede leer directorio', async () => {
     await request(app.getHttpServer()).get('/pacientes').expect(401);
 
     const medicoAgent = request.agent(app.getHttpServer());
     await login(medicoAgent, 'medico');
-    await medicoAgent.get('/pacientes').expect(403);
+    await medicoAgent.get('/pacientes').expect(200);
 
     await admisionAgent.get('/pacientes').expect(200);
   });

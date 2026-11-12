@@ -187,6 +187,7 @@ export class AgendaService {
       const fechaStr = d.toISOString().split('T')[0];
 
       for (const hora of horas) {
+        const [_h, _m] = hora.split(':').map(Number);
         const slotInicio = new Date(`${fechaStr}T${hora}:00-05:00`); // Lima UTC-5
         const slotFin = new Date(slotInicio.getTime() + 30 * 60 * 1000);
 

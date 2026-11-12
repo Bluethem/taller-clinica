@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/auth-context";
 
@@ -12,6 +12,8 @@ interface OrdenLaboratorio {
   pacienteNombre: string;
   pacienteDni: string;
   pacienteEdad: number;
+  examenId?: number;
+  examenCodigo?: string;
   examenNombre: string;
   examenDetalle: string;
   medicoNombre: string;
@@ -29,6 +31,9 @@ interface OrdenLaboratorio {
     colHdl: number;
     colLdl: number;
   };
+  resultadoValor?: string;
+  resultadoUnidad?: string;
+  resultadoRango?: string;
   observaciones: string;
 }
 
@@ -141,6 +146,14 @@ function LaboratorioContent() {
   const [trigliceridos, setTrigliceridos] = useState<number>(160);
   const [colHdl, setColHdl] = useState<number>(48);
   const [colLdl, setColLdl] = useState<number>(135);
+
+  // Estados para otros exámenes (Glucosa, Hemograma, etc.)
+  const [glucosaValor, setGlucosaValor] = useState<number>(92);
+  const [hbValor, setHbValor] = useState<number>(13.5);
+  const [leuValor, setLeuValor] = useState<number>(7200);
+  const [plaqValor, setPlaqValor] = useState<number>(240000);
+  const [resultadoTexto, setResultadoTexto] = useState<string>("");
+
   const [observaciones, setObservaciones] = useState<string>(
     "Muestra sin hemólisis ni lipemia visible. Valores concordantes con historial previo."
   );
@@ -149,6 +162,47 @@ function LaboratorioContent() {
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [draftToast, setDraftToast] = useState<boolean>(false);
   const [previewPdf, setPreviewPdf] = useState<boolean>(false);
+
+  // Dropzone de archivos complementarios (por orden, keyed por ordenItemId)
+  const [archivosAdjuntos, setArchivosAdjuntos] = useState<Record<string, File[]>>({});
+  const [dragActivo, setDragActivo] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Paginación de la cola de muestras
+  const [paginaCola, setPaginaCola] = useState<number>(1);
+  const FILAS_POR_PAGINA_COLA = 10;
+
+  const TIPOS_PERMITIDOS = useMemo(
+    () => ["application/pdf", "image/jpeg", "image/png"],
+    []
+  );
+  const MAX_SIZE_MB = 15;
+
+  const procesarArchivos = useCallback((files: FileList | File[], itemId: string) => {
+    const lista = Array.from(files);
+    const validos: File[] = [];
+    const errores: string[] = [];
+    lista.forEach((f) => {
+      if (!TIPOS_PERMITIDOS.includes(f.type)) {
+        errores.push(`"${f.name}": tipo no permitido (solo PDF, JPG, PNG)`);
+      } else if (f.size > MAX_SIZE_MB * 1024 * 1024) {
+        errores.push(`"${f.name}": supera ${MAX_SIZE_MB} MB`);
+      } else {
+        validos.push(f);
+      }
+    });
+    if (errores.length) alert("Archivos rechazados:\n" + errores.join("\n"));
+    setArchivosAdjuntos((prev) => ({
+      ...prev,
+      [itemId]: [...(prev[itemId] ?? []), ...validos],
+    }));
+  }, [TIPOS_PERMITIDOS]);
+
+  const eliminarAdjunto = (idx: number, itemId: string) =>
+    setArchivosAdjuntos((prev) => ({
+      ...prev,
+      [itemId]: (prev[itemId] ?? []).filter((_, i) => i !== idx),
+    }));
 
   useEffect(() => {
     if (!loading && !user) router.replace("/");
@@ -162,12 +216,16 @@ function LaboratorioContent() {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           setOrdenes(data);
+          // Si no hay seleccionado o el seleccionado no existe en data, tomar el primero
+          if (!selectedId || !data.some((d: OrdenLaboratorio) => d.ordenItemId === selectedId)) {
+            setSelectedId(data[0].ordenItemId);
+          }
         }
       }
     } catch {
       // Si falla la red, usar ORDENES_DEMO
     }
-  }, []);
+  }, [selectedId]);
 
   useEffect(() => {
     cargarOrdenes();
@@ -175,17 +233,36 @@ function LaboratorioContent() {
 
   // Orden activa
   const ordenActiva = useMemo(() => {
-    return ordenes.find((o) => o.ordenId === selectedId) || ordenes[0] || ORDENES_DEMO[0];
+    return ordenes.find((o) => o.ordenItemId === selectedId) || ordenes[0] || ORDENES_DEMO[0];
   }, [ordenes, selectedId]);
 
   // Al cambiar de orden activa, refrescar campos
   const seleccionarOrden = (orden: OrdenLaboratorio) => {
-    setSelectedId(orden.ordenId);
+    setSelectedId(orden.ordenItemId);
     setColTotal(orden.valores?.colTotal ?? 200);
     setTrigliceridos(orden.valores?.trigliceridos ?? 150);
     setColHdl(orden.valores?.colHdl ?? 50);
     setColLdl(orden.valores?.colLdl ?? 100);
     setObservaciones(orden.observaciones ?? "");
+
+    if (orden.resultadoValor) {
+      setResultadoTexto(orden.resultadoValor);
+      const gluMatch = orden.resultadoValor.match(/(\d+)/);
+      if (gluMatch) setGlucosaValor(Number(gluMatch[1]));
+
+      const hbMatch = orden.resultadoValor.match(/Hb\s*([\d.]+)|Hemoglobina\s*([\d.]+)/i);
+      const leuMatch = orden.resultadoValor.match(/Leu(?:cocitos)?\s*([\d.,]+)/i);
+      const plaqMatch = orden.resultadoValor.match(/Plaq(?:uetas)?\s*([\d.,]+)/i);
+      if (hbMatch) setHbValor(Number(hbMatch[1] || hbMatch[2]));
+      if (leuMatch) setLeuValor(Number((leuMatch[1] || '').replace(/,/g, '')));
+      if (plaqMatch) setPlaqValor(Number((plaqMatch[1] || '').replace(/,/g, '')));
+    } else {
+      setGlucosaValor(92);
+      setHbValor(13.5);
+      setLeuValor(7200);
+      setPlaqValor(240000);
+      setResultadoTexto("");
+    }
   };
 
   // Filtrado de la lista
@@ -194,7 +271,8 @@ function LaboratorioContent() {
       const matchTexto =
         o.pacienteNombre.toLowerCase().includes(busqueda.toLowerCase()) ||
         o.pacienteDni.includes(busqueda) ||
-        o.codigoOrden.toLowerCase().includes(busqueda.toLowerCase());
+        o.codigoOrden.toLowerCase().includes(busqueda.toLowerCase()) ||
+        o.examenNombre.toLowerCase().includes(busqueda.toLowerCase());
 
       if (!matchTexto) return false;
       if (filtro === "urgente") return o.prioridad === "urgente";
@@ -202,6 +280,16 @@ function LaboratorioContent() {
       return true;
     });
   }, [ordenes, busqueda, filtro]);
+
+  // Reset de página al cambiar filtro o búsqueda
+  useEffect(() => { setPaginaCola(1); }, [busqueda, filtro]);
+
+  // Paginación de la cola
+  const totalPaginasCola = Math.max(1, Math.ceil(ordenesFiltradas.length / FILAS_POR_PAGINA_COLA));
+  const ordenesPagina = ordenesFiltradas.slice(
+    (paginaCola - 1) * FILAS_POR_PAGINA_COLA,
+    paginaCola * FILAS_POR_PAGINA_COLA
+  );
 
   const totalTodas = ordenes.length;
   const totalUrgencias = ordenes.filter((o) => o.prioridad === "urgente").length;
@@ -216,6 +304,29 @@ function LaboratorioContent() {
     if (!ordenActiva) return;
     setGuardando(true);
     try {
+      const nomEx = (ordenActiva.examenNombre || "").toLowerCase();
+      let resultadoCadena = "";
+      let unidad = "mg/dL";
+      let rango = "";
+
+      if (nomEx.includes("lipídico") || nomEx.includes("lipidico")) {
+        resultadoCadena = `Colesterol Total: ${colTotal} mg/dL; Triglicéridos: ${trigliceridos} mg/dL; HDL: ${colHdl} mg/dL; LDL: ${colLdl} mg/dL`;
+        unidad = "mg/dL";
+        rango = "CT < 200; TG < 150; HDL > 50; LDL < 100";
+      } else if (nomEx.includes("glucosa")) {
+        resultadoCadena = `${glucosaValor} mg/dL`;
+        unidad = "mg/dL";
+        rango = "70 - 100 mg/dL";
+      } else if (nomEx.includes("hemograma")) {
+        resultadoCadena = `Hemoglobina ${hbValor} g/dL; Leucocitos ${leuValor.toLocaleString()} /uL; Plaquetas ${plaqValor.toLocaleString()} /uL`;
+        unidad = "g/dL; /uL";
+        rango = "Hb 12-16; Leu 4,500-11,000; Plaq 150,000-450,000";
+      } else {
+        resultadoCadena = resultadoTexto.trim() || "Estudio analítico procesado y conforme.";
+        unidad = "-";
+        rango = "Patrón normal / Negativo";
+      }
+
       const payload = {
         ordenItemId: ordenActiva.ordenItemId,
         pacienteId: ordenActiva.pacienteId,
@@ -223,8 +334,11 @@ function LaboratorioContent() {
         trigliceridos: Number(trigliceridos),
         colHdl: Number(colHdl),
         colLdl: Number(colLdl),
+        resultadoValor: resultadoCadena,
+        unidad,
+        rangoReferencia: rango,
         observaciones: observaciones,
-        archivoUrl: "https://archivos.sanrafael.example.pe/lab/Perfil_Lipidico_MarianaTorres_12102026.pdf",
+        archivoUrl: `https://archivos.sanrafael.example.pe/lab/${ordenActiva.examenNombre.replace(/\s+/g, '_')}_${ordenActiva.pacienteDni}.pdf`,
         registradoPor: user?.id || "10000000-0000-7000-8000-000000000009",
       };
 
@@ -235,12 +349,7 @@ function LaboratorioContent() {
       });
 
       if (res.ok) {
-        // Actualizar estado local a validado
-        setOrdenes((prev) =>
-          prev.map((o) =>
-            o.ordenId === ordenActiva.ordenId ? { ...o, estado: "validado" } : o
-          )
-        );
+        await cargarOrdenes();
         setToastVisible(true);
         setTimeout(() => setToastVisible(false), 6000);
       } else {
@@ -250,7 +359,7 @@ function LaboratorioContent() {
       // Si la API falla offline, simular éxito para el usuario
       setOrdenes((prev) =>
         prev.map((o) =>
-          o.ordenId === ordenActiva.ordenId ? { ...o, estado: "validado" } : o
+          o.ordenItemId === ordenActiva.ordenItemId ? { ...o, estado: "validado" } : o
         )
       );
       setToastVisible(true);
@@ -510,13 +619,13 @@ function LaboratorioContent() {
                         No se encontraron órdenes con el criterio indicado.
                       </div>
                     ) : (
-                      ordenesFiltradas.map((ord) => {
-                        const esSeleccionado = ord.ordenId === ordenActiva.ordenId;
+                      ordenesPagina.map((ord) => {
+                        const esSeleccionado = ord.ordenItemId === ordenActiva.ordenItemId;
                         const esValidado = ord.estado === "validado";
 
                         return (
                           <article
-                            key={ord.ordenId}
+                            key={ord.ordenItemId}
                             onClick={() => seleccionarOrden(ord)}
                             className={`rounded-xl p-space-md cursor-pointer transition-all border ${
                               esSeleccionado
@@ -607,6 +716,47 @@ function LaboratorioContent() {
                     )}
                   </div>
 
+                  {/* Paginación de la cola */}
+                  {totalPaginasCola > 1 && (
+                    <div className="flex items-center justify-between px-1 mt-1">
+                      <span className="font-caption text-caption text-outline">
+                        Mostrando {(paginaCola - 1) * FILAS_POR_PAGINA_COLA + 1}–{Math.min(paginaCola * FILAS_POR_PAGINA_COLA, ordenesFiltradas.length)} de {ordenesFiltradas.length}
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          disabled={paginaCola === 1}
+                          onClick={() => setPaginaCola((p) => p - 1)}
+                          className="min-w-[32px] h-8 px-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
+                        >
+                          ‹
+                        </button>
+                        {Array.from({ length: totalPaginasCola }, (_, i) => i + 1).map((n) => (
+                          <button
+                            key={n}
+                            type="button"
+                            onClick={() => setPaginaCola(n)}
+                            className={`min-w-[32px] h-8 px-2 rounded-lg text-sm font-medium transition-colors ${
+                              n === paginaCola
+                                ? "bg-primary-container text-on-primary font-bold shadow-sm"
+                                : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
+                            }`}
+                          >
+                            {n}
+                          </button>
+                        ))}
+                        <button
+                          type="button"
+                          disabled={paginaCola === totalPaginasCola}
+                          onClick={() => setPaginaCola((p) => p + 1)}
+                          className="min-w-[32px] h-8 px-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
+                        >
+                          ›
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Historial de Turno */}
                   <div className="bg-surface-container-low rounded-xl p-space-md shadow-sm flex items-center justify-between mt-2 border border-outline-variant/30">
                     <div className="flex items-center gap-space-sm">
@@ -618,13 +768,13 @@ function LaboratorioContent() {
                           Historial de Turno
                         </span>
                         <span className="font-caption text-caption text-on-surface-variant">
-                          42 análisis validados hoy
+                          {ordenes.filter((o) => o.estado === "validado").length} análisis validados en el sistema
                         </span>
                       </div>
                     </div>
                     <button
                       type="button"
-                      onClick={() => alert("Registro de turno: 42 análisis completados sin incidencias críticas.")}
+                      onClick={() => alert(`Registro de turno: ${ordenes.filter((o) => o.estado === "validado").length} análisis validados en la base de datos.`)}
                       className="font-label-sm text-label-sm text-primary font-semibold hover:underline"
                     >
                       Ver registro
@@ -701,177 +851,313 @@ function LaboratorioContent() {
                       </div>
                     </div>
 
-                    {/* Sección 1: Valores Cuantitativos Bioquímicos */}
+                    {/* Sección 1: Valores Cuantitativos Bioquímicos / Hematológicos */}
                     <div className="flex flex-col gap-space-sm pt-2">
                       <div className="flex items-center justify-between">
                         <h3 className="font-label-lg text-label-lg text-primary uppercase tracking-wide">
-                          1. Valores Cuantitativos Bioquímicos
+                          1. Parámetros y Valores Analíticos ({ordenActiva.examenNombre})
                         </h3>
                         <span className="font-caption text-caption text-on-surface-variant flex items-center gap-1">
                           <span className="material-symbols-outlined text-[15px] text-tertiary">
                             check_circle
                           </span>
-                          Validación automática contra NCEP-ATP III
+                          Validación automatizada por rango clínico de referencia
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-space-md">
-                        {/* Colesterol Total */}
-                        <div className="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm">
-                          <div className="flex items-center justify-between">
-                            <label className="font-label-lg text-label-lg text-on-surface" htmlFor="colTotal">
-                              Colesterol Total
-                            </label>
-                            {colTotal > 200 ? (
-                              <span className="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
-                                <span className="material-symbols-outlined text-[14px]">warning</span>
-                                Ligeramente elevado
+                      {/* Renderizado condicional según examen */}
+                      {(ordenActiva.examenNombre.toLowerCase().includes("lipídico") ||
+                        ordenActiva.examenNombre.toLowerCase().includes("lipidico")) && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+                          {/* Colesterol Total */}
+                          <div className="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <label className="font-label-lg text-label-lg text-on-surface" htmlFor="colTotal">
+                                Colesterol Total
+                              </label>
+                              {colTotal > 200 ? (
+                                <span className="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                                  <span className="material-symbols-outlined text-[14px]">warning</span>
+                                  Ligeramente elevado
+                                </span>
+                              ) : (
+                                <span className="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                                  <span className="material-symbols-outlined text-[14px]">check</span>
+                                  Óptimo
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-space-sm my-3">
+                              <input
+                                className="w-32 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                id="colTotal"
+                                type="number"
+                                value={colTotal}
+                                onChange={(e) => setColTotal(Number(e.target.value))}
+                              />
+                              <span className="font-body-md text-body-md text-on-surface font-semibold">
+                                mg/dL
                               </span>
-                            ) : (
-                              <span className="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold flex items-center gap-1">
-                                <span className="material-symbols-outlined text-[14px]">check</span>
-                                Óptimo
+                            </div>
+                            <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant pt-2 border-t border-outline-variant/20">
+                              <span>
+                                Rango deseable: <strong>&lt; 200 mg/dL</strong>
                               </span>
-                            )}
+                              {colTotal > 200 ? (
+                                <span className="text-error font-semibold">
+                                  +{colTotal - 200} mg/dL límite
+                                </span>
+                              ) : (
+                                <span className="text-tertiary font-semibold">Dentro del límite</span>
+                              )}
+                            </div>
                           </div>
-                          <div className="flex items-center gap-space-sm my-3">
-                            <input
-                              className="w-32 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
-                              id="colTotal"
-                              type="number"
-                              value={colTotal}
-                              onChange={(e) => setColTotal(Number(e.target.value))}
-                            />
-                            <span className="font-body-md text-body-md text-on-surface font-semibold">
-                              mg/dL
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant pt-2 border-t border-outline-variant/20">
-                            <span>
-                              Rango deseable: <strong>&lt; 200 mg/dL</strong>
-                            </span>
-                            {colTotal > 200 ? (
-                              <span className="text-error font-semibold">
-                                +{colTotal - 200} mg/dL límite
+
+                          {/* Triglicéridos */}
+                          <div className="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <label
+                                className="font-label-lg text-label-lg text-on-surface"
+                                htmlFor="trigliceridos"
+                              >
+                                Triglicéridos
+                              </label>
+                              {trigliceridos > 150 ? (
+                                <span className="px-2 py-0.5 rounded-full bg-surface-container-high text-on-secondary-container font-label-sm text-label-sm font-semibold">
+                                  Límite alto
+                                </span>
+                              ) : (
+                                <span className="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">
+                                  Normal
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-space-sm my-3">
+                              <input
+                                className="w-32 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                id="trigliceridos"
+                                type="number"
+                                value={trigliceridos}
+                                onChange={(e) => setTrigliceridos(Number(e.target.value))}
+                              />
+                              <span className="font-body-md text-body-md text-on-surface font-semibold">
+                                mg/dL
                               </span>
-                            ) : (
-                              <span className="text-tertiary font-semibold">Dentro del límite</span>
-                            )}
+                            </div>
+                            <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant pt-2 border-t border-outline-variant/20">
+                              <span>
+                                Rango normal: <strong>&lt; 150 mg/dL</strong>
+                              </span>
+                              <span className="text-outline">Método GPO-PAP</span>
+                            </div>
+                          </div>
+
+                          {/* Colesterol HDL */}
+                          <div className="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <label className="font-label-lg text-label-lg text-on-surface" htmlFor="colHdl">
+                                Colesterol HDL (Cardioprotector)
+                              </label>
+                              {colHdl < 50 ? (
+                                <span className="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">
+                                  Bajo
+                                </span>
+                              ) : (
+                                <span className="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold">
+                                  Adecuado
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-space-sm my-3">
+                              <input
+                                className="w-32 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                id="colHdl"
+                                type="number"
+                                value={colHdl}
+                                onChange={(e) => setColHdl(Number(e.target.value))}
+                              />
+                              <span className="font-body-md text-body-md text-on-surface font-semibold">
+                                mg/dL
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant pt-2 border-t border-outline-variant/20">
+                              <span>
+                                Rango deseable: <strong>&gt; 50 mg/dL</strong>
+                              </span>
+                              <span className="text-outline">Inmuno-inhibición</span>
+                            </div>
+                          </div>
+
+                          {/* Colesterol LDL */}
+                          <div className="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <label className="font-label-lg text-label-lg text-on-surface" htmlFor="colLdl">
+                                Colesterol LDL (Aterogénico)
+                              </label>
+                              {colLdl > 100 ? (
+                                <span className="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                                  <span className="material-symbols-outlined text-[14px]">trending_up</span>
+                                  Elevado
+                                </span>
+                              ) : (
+                                <span className="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold">
+                                  Óptimo
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-space-sm my-3">
+                              <input
+                                className="w-32 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                id="colLdl"
+                                type="number"
+                                value={colLdl}
+                                onChange={(e) => setColLdl(Number(e.target.value))}
+                              />
+                              <span className="font-body-md text-body-md text-on-surface font-semibold">
+                                mg/dL
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant pt-2 border-t border-outline-variant/20">
+                              <span>
+                                Rango óptimo: <strong>&lt; 100 mg/dL</strong>
+                              </span>
+                              <span className="text-error font-semibold">Cálculo Friedewald</span>
+                            </div>
                           </div>
                         </div>
+                      )}
 
-                        {/* Triglicéridos */}
-                        <div className="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between shadow-sm">
-                          <div className="flex items-center justify-between">
-                            <label
-                              className="font-label-lg text-label-lg text-on-surface"
-                              htmlFor="trigliceridos"
-                            >
-                              Triglicéridos
-                            </label>
-                            {trigliceridos > 150 ? (
-                              <span className="px-2 py-0.5 rounded-full bg-surface-container-high text-on-secondary-container font-label-sm text-label-sm font-semibold">
-                                Límite alto
+                      {/* Examen de Glucosa */}
+                      {ordenActiva.examenNombre.toLowerCase().includes("glucosa") && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+                          <div className="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <label className="font-label-lg text-label-lg text-on-surface" htmlFor="glucosaValor">
+                                Glucosa Basal en Ayunas
+                              </label>
+                              {glucosaValor > 100 ? (
+                                <span className="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                                  <span className="material-symbols-outlined text-[14px]">warning</span>
+                                  Glicemia Elevada
+                                </span>
+                              ) : (
+                                <span className="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                                  <span className="material-symbols-outlined text-[14px]">check</span>
+                                  Normoglicemia
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-space-sm my-3">
+                              <input
+                                className="w-32 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                id="glucosaValor"
+                                type="number"
+                                value={glucosaValor}
+                                onChange={(e) => setGlucosaValor(Number(e.target.value))}
+                              />
+                              <span className="font-body-md text-body-md text-on-surface font-semibold">
+                                mg/dL
                               </span>
-                            ) : (
-                              <span className="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">
+                            </div>
+                            <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant pt-2 border-t border-outline-variant/20">
+                              <span>Rango referencial normal: <strong>70 - 100 mg/dL</strong></span>
+                              <span className="text-outline">Hexoquinasa UV</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Examen de Hemograma Completo */}
+                      {ordenActiva.examenNombre.toLowerCase().includes("hemograma") && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+                          <div className="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <label className="font-label-lg text-label-lg text-on-surface" htmlFor="hbValor">
+                                Hemoglobina (Hb)
+                              </label>
+                              <span className="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold">
+                                {hbValor < 12 ? "Anemia" : "Normal"}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-space-sm my-3">
+                              <input
+                                className="w-28 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                id="hbValor"
+                                type="number"
+                                step="0.1"
+                                value={hbValor}
+                                onChange={(e) => setHbValor(Number(e.target.value))}
+                              />
+                              <span className="font-body-md text-body-md text-on-surface font-semibold">g/dL</span>
+                            </div>
+                            <span className="text-caption font-caption text-on-surface-variant">Ref: 12.0 - 16.0 g/dL</span>
+                          </div>
+
+                          <div className="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <label className="font-label-lg text-label-lg text-on-surface" htmlFor="leuValor">
+                                Leucocitos Totales
+                              </label>
+                              <span className="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold">
+                                {leuValor > 11000 ? "Leucocitosis" : "Normal"}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-space-sm my-3">
+                              <input
+                                className="w-28 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                id="leuValor"
+                                type="number"
+                                value={leuValor}
+                                onChange={(e) => setLeuValor(Number(e.target.value))}
+                              />
+                              <span className="font-body-md text-body-md text-on-surface font-semibold">/µL</span>
+                            </div>
+                            <span className="text-caption font-caption text-on-surface-variant">Ref: 4,500 - 11,000 /µL</span>
+                          </div>
+
+                          <div className="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <label className="font-label-lg text-label-lg text-on-surface" htmlFor="plaqValor">
+                                Recuento de Plaquetas
+                              </label>
+                              <span className="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold">
                                 Normal
                               </span>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-space-sm my-3">
-                            <input
-                              className="w-32 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
-                              id="trigliceridos"
-                              type="number"
-                              value={trigliceridos}
-                              onChange={(e) => setTrigliceridos(Number(e.target.value))}
-                            />
-                            <span className="font-body-md text-body-md text-on-surface font-semibold">
-                              mg/dL
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant pt-2 border-t border-outline-variant/20">
-                            <span>
-                              Rango normal: <strong>&lt; 150 mg/dL</strong>
-                            </span>
-                            <span className="text-outline">Método GPO-PAP</span>
+                            </div>
+                            <div className="flex items-center gap-space-sm my-3">
+                              <input
+                                className="w-28 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                id="plaqValor"
+                                type="number"
+                                value={plaqValor}
+                                onChange={(e) => setPlaqValor(Number(e.target.value))}
+                              />
+                              <span className="font-body-md text-body-md text-on-surface font-semibold">/µL</span>
+                            </div>
+                            <span className="text-caption font-caption text-on-surface-variant">Ref: 150,000 - 450,000 /µL</span>
                           </div>
                         </div>
+                      )}
 
-                        {/* Colesterol HDL */}
-                        <div className="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between shadow-sm">
-                          <div className="flex items-center justify-between">
-                            <label className="font-label-lg text-label-lg text-on-surface" htmlFor="colHdl">
-                              Colesterol HDL (Cardioprotector)
-                            </label>
-                            {colHdl < 50 ? (
-                              <span className="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">
-                                Bajo
-                              </span>
-                            ) : (
-                              <span className="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold">
-                                Adecuado
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-space-sm my-3">
-                            <input
-                              className="w-32 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
-                              id="colHdl"
-                              type="number"
-                              value={colHdl}
-                              onChange={(e) => setColHdl(Number(e.target.value))}
-                            />
-                            <span className="font-body-md text-body-md text-on-surface font-semibold">
-                              mg/dL
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant pt-2 border-t border-outline-variant/20">
-                            <span>
-                              Rango deseable: <strong>&gt; 50 mg/dL (mujeres)</strong>
-                            </span>
-                            <span className="text-outline">Inmuno-inhibición</span>
-                          </div>
+                      {/* Exámenes Generales o Descriptivos (Papanicolaou, Rx, etc.) */}
+                      {!ordenActiva.examenNombre.toLowerCase().includes("lipídico") &&
+                        !ordenActiva.examenNombre.toLowerCase().includes("lipidico") &&
+                        !ordenActiva.examenNombre.toLowerCase().includes("glucosa") &&
+                        !ordenActiva.examenNombre.toLowerCase().includes("hemograma") && (
+                        <div className="bg-surface-container rounded-xl p-space-md flex flex-col gap-2 shadow-sm">
+                          <label className="font-label-lg text-label-lg text-on-surface" htmlFor="resultadoTexto">
+                            Resultado / Conclusión Diagnóstica
+                          </label>
+                          <textarea
+                            id="resultadoTexto"
+                            rows={3}
+                            value={resultadoTexto}
+                            onChange={(e) => setResultadoTexto(e.target.value)}
+                            placeholder="Ingrese informe o conclusión del estudio analítico..."
+                            className="w-full p-space-md rounded-xl bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:outline-none shadow-sm border border-outline-variant/30 focus:border-primary"
+                          />
                         </div>
-
-                        {/* Colesterol LDL */}
-                        <div className="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between shadow-sm">
-                          <div className="flex items-center justify-between">
-                            <label className="font-label-lg text-label-lg text-on-surface" htmlFor="colLdl">
-                              Colesterol LDL (Aterogénico)
-                            </label>
-                            {colLdl > 100 ? (
-                              <span className="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
-                                <span className="material-symbols-outlined text-[14px]">trending_up</span>
-                                Elevado
-                              </span>
-                            ) : (
-                              <span className="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold">
-                                Óptimo
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-space-sm my-3">
-                            <input
-                              className="w-32 h-11 px-3 bg-surface-container-lowest rounded-lg font-headline-sm text-headline-sm text-on-surface text-center shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/50"
-                              id="colLdl"
-                              type="number"
-                              value={colLdl}
-                              onChange={(e) => setColLdl(Number(e.target.value))}
-                            />
-                            <span className="font-body-md text-body-md text-on-surface font-semibold">
-                              mg/dL
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between text-caption font-caption text-on-surface-variant pt-2 border-t border-outline-variant/20">
-                            <span>
-                              Rango óptimo: <strong>&lt; 100 mg/dL</strong>
-                            </span>
-                            <span className="text-error font-semibold">Cálculo Friedewald</span>
-                          </div>
-                        </div>
-                      </div>
+                      )}
                     </div>
 
                     {/* Sección 2: Evidencia Analítica y Documentación Digital */}
@@ -887,14 +1173,14 @@ function LaboratorioContent() {
                           <div className="flex flex-col">
                             <div className="flex items-center gap-2">
                               <span className="font-label-md text-label-md text-on-surface font-semibold">
-                                Perfil_Lipidico_MarianaTorres_12102026.pdf
+                                {`${(ordenActiva.examenNombre || "Examen").replace(/\s+/g, '_')}_${ordenActiva.pacienteDni}.pdf`}
                               </span>
                               <span className="material-symbols-outlined text-tertiary text-[18px]">
                                 verified
                               </span>
                             </div>
                             <span className="font-caption text-caption text-on-surface-variant">
-                              1.4 MB · Generado automáticamente por Analizador Cobas c311
+                              Generado y certificado digitalmente · Analizador Clínico Cobas c311
                             </span>
                           </div>
                         </div>
@@ -919,11 +1205,85 @@ function LaboratorioContent() {
                       </div>
 
                       {/* Dropzone complementario */}
+                      {/* Input de archivo oculto */}
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        multiple
+                        className="hidden"
+                        onChange={(e) => {
+                          if (e.target.files) procesarArchivos(e.target.files, ordenActiva.ordenItemId);
+                          e.target.value = "";
+                        }}
+                      />
+
+                      {/* Archivos adjuntados por el usuario — aparecen encima del dropzone */}
+                      {(archivosAdjuntos[ordenActiva.ordenItemId] ?? []).map((file, idx) => {
+                        const isPdf = file.type === "application/pdf";
+                        const previewUrl = URL.createObjectURL(file);
+                        return (
+                          <div
+                            key={idx}
+                            className="flex flex-col md:flex-row md:items-center justify-between gap-space-sm p-space-md rounded-xl bg-surface-container-lowest shadow-sm border border-outline-variant/30"
+                          >
+                            <div className="flex items-center gap-space-sm min-w-0">
+                              <div className="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center shrink-0">
+                                <span className="material-symbols-outlined text-primary text-[22px]">
+                                  {isPdf ? "picture_as_pdf" : "image"}
+                                </span>
+                              </div>
+                              <div className="flex flex-col min-w-0">
+                                <div className="flex items-center gap-1">
+                                  <span className="font-label-md text-label-md text-on-surface font-semibold truncate">
+                                    {file.name}
+                                  </span>
+                                </div>
+                                <span className="font-caption text-caption text-on-surface-variant">
+                                  {(file.size / 1024 / 1024).toFixed(2)} MB · Adjunto complementario
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-space-xs shrink-0 w-full md:w-auto justify-end">
+                              <button
+                                type="button"
+                                onClick={() => window.open(previewUrl, "_blank")}
+                                className="min-h-[44px] px-4 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md text-label-md flex items-center gap-1 transition-colors"
+                              >
+                                <span className="material-symbols-outlined text-[18px]">visibility</span>
+                                Previsualizar
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => eliminarAdjunto(idx, ordenActiva.ordenItemId)}
+                                className="min-h-[44px] px-3 rounded-lg bg-surface-container hover:bg-error-container text-error font-label-md text-label-md flex items-center transition-colors"
+                                title="Eliminar archivo"
+                              >
+                                <span className="material-symbols-outlined text-[18px]">delete</span>
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+
+                      {/* Zona de arrastre */}
                       <div
-                        onClick={() => alert("Explorador de archivos abierto: seleccione PDF, JPG o PNG.")}
-                        className="p-space-md rounded-xl bg-surface-container-lowest border-2 border-dashed border-outline-variant hover:border-primary shadow-sm flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container-low transition-colors"
+                        onDragOver={(e) => { e.preventDefault(); setDragActivo(true); }}
+                        onDragEnter={(e) => { e.preventDefault(); setDragActivo(true); }}
+                        onDragLeave={() => setDragActivo(false)}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          setDragActivo(false);
+                          if (e.dataTransfer.files) procesarArchivos(e.dataTransfer.files, ordenActiva.ordenItemId);
+                        }}
+                        onClick={() => fileInputRef.current?.click()}
+                        className={`p-space-md rounded-xl border-2 border-dashed shadow-sm flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
+                          dragActivo
+                            ? "bg-primary/10 border-primary"
+                            : "bg-surface-container-lowest border-outline-variant hover:border-primary hover:bg-surface-container-low"
+                        }`}
                       >
-                        <span className="material-symbols-outlined text-outline text-[32px] mb-1">
+                        <span className={`material-symbols-outlined text-[32px] mb-1 ${dragActivo ? "text-primary" : "text-outline"}`}>
                           cloud_upload
                         </span>
                         <p className="font-label-md text-label-md text-on-surface">

@@ -39,129 +39,155 @@ const PACIENTES_BASE: PacienteDirectorio[] = [
     apellidos: "Torres Quispe",
     nombreCompleto: "Mariana Torres Quispe",
     iniciales: "MT",
-    edad: 29,
+    edad: 38,
     sexo: "Femenino",
     tipoDocumento: "DNI",
     numeroDocumento: "70000001",
-    numeroHc: "2024-00412",
-    seguro: "Rímac Seguros",
+    numeroHc: "HC-884920",
+    seguro: "EPS Andina Salud",
     seguroClase: "bg-red-50 text-red-700 border-red-200",
     ultimaAtencion: {
       especialidad: "Cardiología",
-      medico: "Dr. Carlos Benavides",
+      medico: "Dr. Andrés Huamán Torres",
     },
     estado: "Cita Agendada",
     estadoClase: "bg-blue-100 text-blue-800",
-    telefono: "+51 987 654 321",
-    email: "mariana.torres@gmail.com",
-    direccion: "Av. Javier Prado Este 2410, San Borja",
-    alergias: "Penicilina, Betalactámicos",
-    diagnosticoReciente: "I10 - Hipertensión arterial esencial primaria",
-    medicoTratante: "Dr(a). Carlos Benavides Soto",
+    telefono: "900000001",
+    email: "mariana.torres@example.pe",
+    direccion: "Av. Ficticia 101, San Borja",
+    alergias: "Alergia a penicilina",
+    diagnosticoReciente: "I10 - Hipertensión esencial (primaria)",
+    medicoTratante: "Dr. Andrés Huamán Torres",
   },
   {
     id: "20000000-0000-7000-8000-000000000002",
-    nombres: "Carlos Alberto",
-    apellidos: "Mendoza Ramos",
-    nombreCompleto: "Carlos Alberto Mendoza Ramos",
-    iniciales: "CM",
-    edad: 45,
+    nombres: "Luis Alberto",
+    apellidos: "Gutiérrez Ñahui",
+    nombreCompleto: "Luis Alberto Gutiérrez Ñahui",
+    iniciales: "LG",
+    edad: 51,
     sexo: "Masculino",
     tipoDocumento: "DNI",
-    numeroDocumento: "42891045",
-    numeroHc: "2023-11890",
-    seguro: "Pacífico Salud",
-    seguroClase: "bg-blue-50 text-blue-700 border-blue-200",
-    ultimaAtencion: {
-      especialidad: "Medicina General",
-      medico: "Triaje 02",
-    },
-    estado: "En Triaje",
-    estadoClase: "bg-amber-100 text-amber-800",
-    telefono: "+51 912 345 678",
-    email: "carlos.mendoza@gmail.com",
-    direccion: "Calle Los Cedros 345, Surquillo",
-    alergias: "Ninguna conocida",
-    diagnosticoReciente: "K29.7 - Gastritis no especificada",
-    medicoTratante: "Dr(a). Juan Carlos Vega",
-  },
-  {
-    id: "20000000-0000-7000-8000-000000000003",
-    nombres: "Rosa Elena",
-    apellidos: "Huamán Quispe",
-    nombreCompleto: "Rosa Elena Huamán Quispe",
-    iniciales: "RH",
-    edad: 62,
-    sexo: "Femenino",
-    tipoDocumento: "DNI",
-    numeroDocumento: "09482156",
-    numeroHc: "2021-04512",
+    numeroDocumento: "70000002",
+    numeroHc: "HC-700002",
     seguro: "Particular",
     seguroClase: "bg-slate-100 text-slate-700 border-slate-200",
     ultimaAtencion: {
-      especialidad: "Geriatría",
-      medico: "Dr(a). Beatriz Mendoza",
+      especialidad: "Cardiología",
+      medico: "Dr. Andrés Huamán Torres",
     },
-    estado: "Activo",
-    estadoClase: "bg-emerald-100 text-emerald-800",
-    telefono: "+51 945 678 123",
-    email: "rosa.huaman@hotmail.com",
-    direccion: "Av. Primavera 1280, San Borja",
-    alergias: "AINEs (Ibuprofeno / Naproxeno)",
-    diagnosticoReciente: "M17.0 - Gonartrosis bilateral primaria",
-    medicoTratante: "Dr(a). Beatriz Mendoza",
+    estado: "Cita Agendada",
+    estadoClase: "bg-blue-100 text-blue-800",
+    telefono: "900000002",
+    email: "luis.gutierrez@example.pe",
+    direccion: "Jr. Imaginario 202, Surquillo",
+    alergias: "Ninguna registrada",
+    diagnosticoReciente: "E78.5 - Dislipidemia, no especificada",
+    medicoTratante: "Dr. Andrés Huamán Torres",
   },
   {
-    id: "20000000-0000-7000-8000-000000000004",
-    nombres: "Jorge Luis",
-    apellidos: "Valdivia Paredes",
-    nombreCompleto: "Jorge Luis Valdivia Paredes",
-    iniciales: "JV",
-    edad: 24,
-    sexo: "Masculino",
+    id: "20000000-0000-7000-8000-000000000003",
+    nombres: "Carmen Rosa",
+    apellidos: "Díaz Alva",
+    nombreCompleto: "Carmen Rosa Díaz Alva",
+    iniciales: "CD",
+    edad: 34,
+    sexo: "Femenino",
     tipoDocumento: "DNI",
-    numeroDocumento: "74128930",
-    numeroHc: "2024-00891",
-    seguro: "EPS Sanitas",
-    seguroClase: "bg-sky-50 text-sky-700 border-sky-200",
+    numeroDocumento: "70000003",
+    numeroHc: "HC-700003",
+    seguro: "EPS Vida Plena",
+    seguroClase: "bg-blue-50 text-blue-700 border-blue-200",
     ultimaAtencion: {
-      especialidad: "Traumatología",
-      medico: "Dr(a). Andrés Huamán",
+      especialidad: "Medicina General",
+      medico: "Dra. Lucía Paredes Vega",
     },
     estado: "Atendido",
     estadoClase: "bg-slate-100 text-slate-700",
-    telefono: "+51 933 221 100",
-    email: "jorge.valdivia@outlook.com",
-    direccion: "Av. Aviación 3210, San Borja",
-    alergias: "Sulfas",
-    diagnosticoReciente: "S83.5 - Esguince de rodilla",
-    medicoTratante: "Dr(a). Andrés Huamán",
+    telefono: "900000003",
+    email: "carmen.diaz@example.pe",
+    direccion: "Calle Demo 303, San Borja",
+    alergias: "Ninguna registrada",
+    diagnosticoReciente: "K21.9 - Reflujo gastroesofágico",
+    medicoTratante: "Dra. Lucía Paredes Vega",
+  },
+  {
+    id: "20000000-0000-7000-8000-000000000004",
+    nombres: "José Miguel",
+    apellidos: "Palomino Cruz",
+    nombreCompleto: "José Miguel Palomino Cruz",
+    iniciales: "JP",
+    edad: 57,
+    sexo: "Masculino",
+    tipoDocumento: "DNI",
+    numeroDocumento: "70000004",
+    numeroHc: "HC-700004",
+    seguro: "SOAT Central Seguros",
+    seguroClase: "bg-purple-50 text-purple-700 border-purple-200",
+    ultimaAtencion: {
+      especialidad: "Medicina General",
+      medico: "Dra. Lucía Paredes Vega",
+    },
+    estado: "Activo",
+    estadoClase: "bg-emerald-100 text-emerald-800",
+    telefono: "900000004",
+    email: "jose.palomino@example.pe",
+    direccion: "Av. Prueba 404, La Victoria",
+    alergias: "Ninguna registrada",
+    diagnosticoReciente: "E11.9 - Diabetes mellitus tipo 2",
+    medicoTratante: "Dra. Lucía Paredes Vega",
   },
   {
     id: "20000000-0000-7000-8000-000000000005",
     nombres: "Ana Lucía",
-    apellidos: "Salcedo Castro",
-    nombreCompleto: "Ana Lucía Salcedo Castro",
+    apellidos: "Salas Bedoya",
+    nombreCompleto: "Ana Lucía Salas Bedoya",
     iniciales: "AS",
-    edad: 38,
+    edad: 31,
     sexo: "Femenino",
     tipoDocumento: "DNI",
-    numeroDocumento: "46219803",
-    numeroHc: "2022-09321",
-    seguro: "Rímac Seguros",
-    seguroClase: "bg-red-50 text-red-700 border-red-200",
+    numeroDocumento: "70000005",
+    numeroHc: "HC-700005",
+    seguro: "Seguros Costa Azul",
+    seguroClase: "bg-sky-50 text-sky-700 border-sky-200",
     ultimaAtencion: {
-      especialidad: "Ginecología",
-      medico: "Consultorio C-104",
+      especialidad: "Medicina General",
+      medico: "Dra. Lucía Paredes Vega",
     },
-    estado: "En Espera",
-    estadoClase: "bg-orange-100 text-orange-800",
-    telefono: "+51 977 889 900",
-    email: "ana.salcedo@gmail.com",
-    direccion: "Calle Las Begonias 789, San Isidro",
-    alergias: "Ninguna conocida",
-    diagnosticoReciente: "Z01.4 - Examen ginecológico de rutina",
-    medicoTratante: "Dra. Valdivia",
+    estado: "Cita Agendada",
+    estadoClase: "bg-blue-100 text-blue-800",
+    telefono: "900000005",
+    email: "ana.salas@example.pe",
+    direccion: "Psje. Test 505, Miraflores",
+    alergias: "Alergia a mariscos",
+    diagnosticoReciente: "R51 - Cefalea",
+    medicoTratante: "Dra. Lucía Paredes Vega",
+  },
+  {
+    id: "20000000-0000-7000-8000-000000000006",
+    nombres: "Pedro Pablo",
+    apellidos: "Cáceres Núñez",
+    nombreCompleto: "Pedro Pablo Cáceres Núñez",
+    iniciales: "PC",
+    edad: 45,
+    sexo: "Masculino",
+    tipoDocumento: "DNI",
+    numeroDocumento: "70000006",
+    numeroHc: "HC-700006",
+    seguro: "Particular",
+    seguroClase: "bg-slate-100 text-slate-700 border-slate-200",
+    ultimaAtencion: {
+      especialidad: "Medicina General",
+      medico: "Dra. Lucía Paredes Vega",
+    },
+    estado: "Cita Agendada",
+    estadoClase: "bg-blue-100 text-blue-800",
+    telefono: "900000006",
+    email: "pedro.caceres@example.pe",
+    direccion: "Av. Modelo 606, San Isidro",
+    alergias: "Ninguna registrada",
+    diagnosticoReciente: "Z00.1 - Control de salud de rutina",
+    medicoTratante: "Dra. Lucía Paredes Vega",
   },
 ];
 
@@ -185,6 +211,8 @@ function PacientesContent() {
   const [busqueda, setBusqueda] = useState<string>("");
   const [filtroRapido, setFiltroRapido] = useState<string>("todos");
   const [filtroSeguro, setFiltroSeguro] = useState<string>("todos");
+  const [paginaActual, setPaginaActual] = useState<number>(1);
+  const PAGE_SIZE = 10;
 
   // Modal registrar nuevo paciente
   const [modalNuevoOpen, setModalNuevoOpen] = useState<boolean>(false);
@@ -252,9 +280,7 @@ function PacientesContent() {
 
       // Filtro por estado
       if (filtroRapido === "atendidos" && p.estado !== "Atendido") return false;
-      if (filtroRapido === "triaje" && p.estado !== "En Triaje") return false;
-      if (filtroRapido === "agendados" && p.estado !== "Cita Agendada") return false;
-      if (filtroRapido === "espera" && p.estado !== "En Espera") return false;
+      if (filtroRapido === "agendados" && !p.estado.toLowerCase().includes("cita") && !p.estado.toLowerCase().includes("agendada")) return false;
 
       // Filtro por seguro
       if (filtroSeguro !== "todos" && !p.seguro.toLowerCase().includes(filtroSeguro.toLowerCase())) {
@@ -264,6 +290,18 @@ function PacientesContent() {
       return true;
     });
   }, [pacientes, busqueda, filtroRapido, filtroSeguro]);
+
+  // Resetear a página 1 al filtrar
+  useEffect(() => {
+    setPaginaActual(1);
+  }, [busqueda, filtroRapido, filtroSeguro]);
+
+  const totalPacientes = pacientesFiltrados.length;
+  const totalPaginas = Math.ceil(totalPacientes / PAGE_SIZE) || 1;
+  const pacientesPagina = useMemo(() => {
+    const inicio = (paginaActual - 1) * PAGE_SIZE;
+    return pacientesFiltrados.slice(inicio, inicio + PAGE_SIZE);
+  }, [pacientesFiltrados, paginaActual]);
 
   // Guardar nuevo paciente
   const handleGuardarNuevoPaciente = async () => {
@@ -319,11 +357,14 @@ function PacientesContent() {
     };
 
     try {
-      await apiFetch("/pacientes", {
+      const res = await apiFetch("/pacientes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      if (res.ok) {
+        await cargarPacientes();
+      }
     } catch {
       // fallback
     }
@@ -356,194 +397,108 @@ function PacientesContent() {
   if (loading || !user) return null;
 
   return (
-    <div className="min-h-screen flex flex-col antialiased bg-[#f8fafc] text-[#334155] font-sans">
-      <div className="flex min-h-screen w-full">
-        {/* ── SIDEBAR ──────────────────────────────────────────────────────────── */}
-        <aside className="w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 shadow-sm">
-          <div>
-            {/* Logo Header */}
-            <div className="h-20 flex items-center px-6 border-b border-slate-100 gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                alt="Logo Clínica San Rafael"
-                className="h-11 w-11 object-contain rounded-xl border border-slate-100 shadow-xs shrink-0"
-                src="/logoclinica.png"
-              />
-              <div>
-                <h1 className="text-sm font-bold text-slate-800 leading-tight">Clínica San Rafael</h1>
-                <p className="text-xs text-slate-400 font-medium">Sede San Borja</p>
-              </div>
-            </div>
-
-            {/* Section Label */}
-            <div className="px-6 pt-6 pb-2">
-              <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">
-                Módulos Clínicos
+    <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen">
+      {/* ── SIDEBAR ──────────────────────────────────────────────────────────── */}
+      <aside className="fixed left-0 top-0 h-screen w-[260px] bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div className="flex flex-col">
+          <div className="h-16 px-space-md border-b border-outline-variant flex items-center gap-space-sm overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="Logo Clínica San Rafael"
+              className="h-10 w-10 object-contain rounded-lg shrink-0"
+              src="/logoclinica.png"
+            />
+            <div className="flex flex-col">
+              <span className="font-label-md text-label-md text-primary leading-tight truncate font-bold">
+                Clínica San Rafael
+              </span>
+              <span className="font-caption text-caption text-on-surface-variant truncate">
+                Sede San Borja
               </span>
             </div>
-
-            {/* Navigation Menu */}
-            <nav className="px-3 space-y-1">
-              {[
-                {
-                  label: "Agenda",
-                  href: "/agenda",
-                  activo: false,
-                  svg: (
-                    <path
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.8"
-                    />
-                  ),
-                },
-                {
-                  label: "Pacientes",
-                  href: "/pacientes",
-                  activo: true,
-                  svg: (
-                    <path
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.8"
-                    />
-                  ),
-                },
-                {
-                  label: "Historia clínica",
-                  href: "/historia",
-                  activo: false,
-                  svg: (
-                    <path
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.8"
-                    />
-                  ),
-                },
-                {
-                  label: "Laboratorio",
-                  href: "/laboratorio",
-                  activo: false,
-                  svg: (
-                    <path
-                      d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.8"
-                    />
-                  ),
-                },
-                {
-                  label: "Facturación",
-                  href: "/facturacion",
-                  activo: false,
-                  svg: (
-                    <path
-                      d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.8"
-                    />
-                  ),
-                },
-              ].map((item) => (
-                <button
-                  key={item.label}
-                  type="button"
-                  onClick={() => router.push(item.href)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition text-sm font-medium ${
-                    item.activo
-                      ? "bg-[#1a446c] text-white shadow-sm"
-                      : "text-slate-600 hover:bg-slate-50"
-                  }`}
-                >
-                  <svg
-                    className={`w-5 h-5 ${item.activo ? "text-white" : "text-slate-400"}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    {item.svg}
-                  </svg>
-                  <span>{item.label}</span>
-                </button>
-              ))}
-            </nav>
           </div>
-
-          {/* Footer Section */}
-          <div className="p-4 border-t border-slate-100 bg-slate-50/50">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span className="text-xs font-semibold text-slate-600">Servidor Clínico: En línea</span>
-            </div>
-            <p className="text-[11px] text-slate-400">SIGC v4.8.2 · Clínica San Rafael</p>
+          <div className="px-space-md py-space-sm">
+            <span className="font-label-sm text-label-sm text-outline uppercase tracking-wider">
+              Módulos Clínicos
+            </span>
           </div>
-        </aside>
-
-        {/* ── CONTENIDO PRINCIPAL ──────────────────────────────────────────────── */}
-        <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-          {/* Header Superior */}
-          <header className="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-30">
-            {/* Breadcrumbs */}
-            <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm text-slate-500">
-              <div className="w-6 h-6 rounded bg-slate-100 flex items-center justify-center text-slate-500">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 4v16m8-8H4" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" />
-                </svg>
-              </div>
-              <span className="font-bold text-slate-700">SIGC</span>
-              <span className="text-slate-400">&gt;</span>
-              <span className="font-semibold text-slate-700">Pacientes</span>
-              <span className="text-slate-400">&gt;</span>
-              <span className="text-slate-500">Directorio General</span>
-            </nav>
-
-            {/* Inactivity pill */}
-            <div className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 bg-blue-50/70 border border-blue-200/60 rounded-full text-xs text-blue-700 font-medium">
-              <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                />
-              </svg>
-              <span>La sesión se cierra tras 10 min de inactividad</span>
-            </div>
-
-            {/* User & Logout */}
-            <div className="flex items-center gap-5">
-              <div className="text-right">
-                <div className="text-sm font-semibold text-slate-800">
-                  {user ? `${user.nombres} ${user.apellidos}` : "Diego Ramos León"}
-                </div>
-                <div className="text-xs text-slate-400 capitalize">{user?.rol || "Admisión"}</div>
-              </div>
+          <nav className="flex flex-col gap-space-xs px-space-sm">
+            {[
+              { label: "Agenda", icon: "calendar_month", href: "/agenda", activo: false },
+              { label: "Pacientes", icon: "person_search", href: "/pacientes", activo: true },
+              { label: "Historia clínica", icon: "clinical_notes", href: "/historia", activo: false },
+              { label: "Laboratorio", icon: "chips", href: "/laboratorio", activo: false },
+              { label: "Facturación", icon: "receipt_long", href: "/facturacion", activo: false },
+            ].map((item) => (
               <button
-                onClick={handleLogout}
-                className="inline-flex items-center gap-2 px-3.5 py-2 border border-slate-300 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition"
+                key={item.label}
                 type="button"
+                onClick={() => {
+                  if (item.href && item.href !== "#") router.push(item.href);
+                }}
+                className={`flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors text-left w-full ${
+                  item.activo
+                    ? "bg-primary-container text-on-primary font-bold shadow-sm"
+                    : "text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                }`}
               >
-                <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                  />
-                </svg>
-                <span>Cerrar sesión</span>
+                <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
+                <span className="font-label-lg text-label-lg">{item.label}</span>
               </button>
+            ))}
+          </nav>
+        </div>
+        <div className="p-space-md border-t border-outline-variant bg-surface-container-low flex flex-col gap-space-xs">
+          <div className="flex items-center gap-space-xs text-tertiary">
+            <span className="material-symbols-outlined text-[16px]">check_circle</span>
+            <span className="font-caption text-caption font-semibold">Servidor Clínico: En línea</span>
+          </div>
+          <div className="font-caption text-caption text-on-surface-variant">
+            SIGC v4.8.2 · Clínica San Rafael
+          </div>
+        </div>
+      </aside>
+
+      {/* ── CONTENIDO PRINCIPAL ──────────────────────────────────────────────── */}
+      <div className="pl-[260px] flex flex-col min-h-screen">
+        {/* Header Superior */}
+        <header className="h-16 bg-surface-container-lowest border-b border-outline-variant px-8 flex items-center justify-between sticky top-0 z-30 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+          {/* Breadcrumbs */}
+          <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm text-on-surface-variant">
+            <div className="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-primary">
+              <span className="material-symbols-outlined text-[18px]">local_hospital</span>
             </div>
-          </header>
+            <span className="font-bold text-on-surface">SIGC</span>
+            <span className="text-outline">&gt;</span>
+            <span className="font-semibold text-on-surface">Pacientes</span>
+            <span className="text-outline">&gt;</span>
+            <span className="text-on-surface-variant">Directorio General</span>
+          </nav>
+
+          {/* Inactivity pill */}
+          <div className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 bg-surface-container border border-outline-variant rounded-full text-xs text-on-surface-variant font-medium">
+            <span className="material-symbols-outlined text-[16px] text-secondary">schedule</span>
+            <span>La sesión se cierra tras 10 min de inactividad</span>
+          </div>
+
+          {/* User & Logout */}
+          <div className="flex items-center gap-5">
+            <div className="text-right">
+              <div className="text-sm font-semibold text-on-surface">
+                {user ? `${user.nombres} ${user.apellidos}` : "Diego Ramos León"}
+              </div>
+              <div className="text-xs text-on-surface-variant capitalize">{user?.rol || "Admisión"}</div>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="inline-flex items-center gap-2 px-3.5 py-2 border border-outline-variant rounded-lg text-xs font-semibold text-on-surface hover:bg-surface-container hover:border-outline transition"
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[16px]">logout</span>
+              <span>Cerrar sesión</span>
+            </button>
+          </div>
+        </header>
 
           {/* Main Module Content */}
           <main className="p-8 space-y-6 flex-1">
@@ -587,12 +542,12 @@ function PacientesContent() {
             </div>
 
             {/* Metrics Overview Panel (KPIs) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex items-center justify-between">
                 <div>
                   <p className="text-xs font-medium text-slate-500">Total Pacientes Registrados</p>
-                  <h3 className="text-2xl font-bold text-slate-800 mt-0.5">1,420</h3>
-                  <p className="text-[11px] text-emerald-600 font-semibold mt-1">↑ +18 ingresados hoy</p>
+                  <h3 className="text-2xl font-bold text-slate-800 mt-0.5">{pacientes.length}</h3>
+                  <p className="text-[11px] text-emerald-600 font-semibold mt-1">Registrados en base de datos</p>
                 </div>
                 <div className="w-12 h-12 bg-blue-50 text-[#1a446c] rounded-lg flex items-center justify-center">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -607,26 +562,9 @@ function PacientesContent() {
               </div>
               <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-medium text-slate-500">En Espera en Sede</p>
-                  <h3 className="text-2xl font-bold text-amber-600 mt-0.5">8 pacientes</h3>
-                  <p className="text-[11px] text-slate-400 font-medium mt-1">Triaje y consultorios</p>
-                </div>
-                <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-medium text-slate-500">Nuevas Historias Clínicas</p>
-                  <h3 className="text-2xl font-bold text-slate-800 mt-0.5">14 este mes</h3>
-                  <p className="text-[11px] text-blue-600 font-semibold mt-1">Sede San Borja</p>
+                  <p className="text-xs font-medium text-slate-500">Historias Clínicas Activas</p>
+                  <h3 className="text-2xl font-bold text-slate-800 mt-0.5">{pacientes.length}</h3>
+                  <p className="text-[11px] text-blue-600 font-semibold mt-1">Sede San Borja (100% digitalizadas)</p>
                 </div>
                 <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -678,7 +616,7 @@ function PacientesContent() {
                   <span className="text-xs font-semibold text-slate-500 mr-1">Filtro rápido:</span>
                   <button
                     onClick={() => setFiltroRapido("todos")}
-                    className={`px-3 py-1 rounded-full text-xs transition ${
+                    className={`px-3 py-1 rounded-full text-xs transition cursor-pointer ${
                       filtroRapido === "todos"
                         ? "font-semibold bg-[#1a446c] text-white shadow-sm"
                         : "font-medium bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -687,44 +625,24 @@ function PacientesContent() {
                     Todos ({pacientes.length})
                   </button>
                   <button
-                    onClick={() => setFiltroRapido("atendidos")}
-                    className={`px-3 py-1 rounded-full text-xs transition ${
-                      filtroRapido === "atendidos"
-                        ? "font-semibold bg-[#1a446c] text-white shadow-sm"
-                        : "font-medium bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    Atendidos hoy (48)
-                  </button>
-                  <button
-                    onClick={() => setFiltroRapido("triaje")}
-                    className={`px-3 py-1 rounded-full text-xs transition ${
-                      filtroRapido === "triaje"
-                        ? "font-semibold bg-[#1a446c] text-white shadow-sm"
-                        : "font-medium bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    En espera / Triaje (12)
-                  </button>
-                  <button
                     onClick={() => setFiltroRapido("agendados")}
-                    className={`px-3 py-1 rounded-full text-xs transition ${
+                    className={`px-3 py-1 rounded-full text-xs transition cursor-pointer ${
                       filtroRapido === "agendados"
                         ? "font-semibold bg-[#1a446c] text-white shadow-sm"
                         : "font-medium bg-slate-100 text-slate-600 hover:bg-slate-200"
                     }`}
                   >
-                    Citas programadas (86)
+                    Citas programadas ({pacientes.filter(p => p.estado.toLowerCase().includes('cita') || p.estado.toLowerCase().includes('agendada')).length})
                   </button>
                   <button
-                    onClick={() => setFiltroRapido("espera")}
-                    className={`px-3 py-1 rounded-full text-xs transition ${
-                      filtroRapido === "espera"
+                    onClick={() => setFiltroRapido("atendidos")}
+                    className={`px-3 py-1 rounded-full text-xs transition cursor-pointer ${
+                      filtroRapido === "atendidos"
                         ? "font-semibold bg-[#1a446c] text-white shadow-sm"
                         : "font-medium bg-slate-100 text-slate-600 hover:bg-slate-200"
                     }`}
                   >
-                    En Espera (15)
+                    Atendidos ({pacientes.filter(p => p.estado.toLowerCase().includes('atendido')).length})
                   </button>
                 </div>
 
@@ -790,7 +708,7 @@ function PacientesContent() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {pacientesFiltrados.map((p) => {
+                      {pacientesPagina.map((p) => {
                         const esSeleccionado = p.id === pacienteSeleccionado.id;
                         return (
                           <tr
@@ -866,24 +784,47 @@ function PacientesContent() {
                 {/* Pagination */}
                 <div className="px-5 py-3 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 bg-slate-50/50">
                   <span>
-                    Mostrando <strong>1-{pacientesFiltrados.length}</strong> de{" "}
-                    <strong>{pacientes.length}</strong> pacientes
+                    Mostrando{" "}
+                    <strong>
+                      {totalPacientes === 0 ? 0 : (paginaActual - 1) * PAGE_SIZE + 1}-
+                      {Math.min(paginaActual * PAGE_SIZE, totalPacientes)}
+                    </strong>{" "}
+                    de <strong>{totalPacientes}</strong> pacientes
                   </span>
                   <div className="inline-flex items-center gap-1">
-                    <button className="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-400 cursor-not-allowed">
+                    <button
+                      onClick={() => setPaginaActual((prev) => Math.max(1, prev - 1))}
+                      disabled={paginaActual === 1}
+                      className={`px-2.5 py-1 rounded border border-slate-200 bg-white transition ${
+                        paginaActual === 1
+                          ? "text-slate-300 cursor-not-allowed"
+                          : "text-slate-600 hover:bg-slate-50 cursor-pointer"
+                      }`}
+                    >
                       Anterior
                     </button>
-                    <button className="px-2.5 py-1 rounded border border-[#1a446c] bg-[#1a446c] text-white font-medium">
-                      1
-                    </button>
-                    <button className="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">
-                      2
-                    </button>
-                    <button className="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">
-                      3
-                    </button>
-                    <span className="px-1 text-slate-400">...</span>
-                    <button className="px-2.5 py-1 rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50">
+                    {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((num) => (
+                      <button
+                        key={num}
+                        onClick={() => setPaginaActual(num)}
+                        className={`px-2.5 py-1 rounded border transition ${
+                          paginaActual === num
+                            ? "border-[#1a446c] bg-[#1a446c] text-white font-medium"
+                            : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50 cursor-pointer"
+                        }`}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => setPaginaActual((prev) => Math.min(totalPaginas, prev + 1))}
+                      disabled={paginaActual === totalPaginas}
+                      className={`px-2.5 py-1 rounded border border-slate-200 bg-white transition ${
+                        paginaActual === totalPaginas
+                          ? "text-slate-300 cursor-not-allowed"
+                          : "text-slate-600 hover:bg-slate-50 cursor-pointer"
+                      }`}
+                    >
                       Siguiente
                     </button>
                   </div>
@@ -1005,7 +946,6 @@ function PacientesContent() {
             </div>
           </main>
         </div>
-      </div>
 
       {/* ── MODAL REGISTRAR NUEVO PACIENTE ──────────────────────────────────── */}
       {modalNuevoOpen && (

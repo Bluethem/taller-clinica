@@ -263,6 +263,8 @@ function FacturacionContent() {
 
   if (loading || !user) return null;
 
+  if (loading || !user) return null;
+
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen">
       {/* ── SIDEBAR ──────────────────────────────────────────────────────────── */}

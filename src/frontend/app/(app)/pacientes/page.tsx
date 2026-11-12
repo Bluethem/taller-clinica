@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../context/auth-context";
+import { useAuth } from "../../context/auth-context";
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
 interface PacienteDirectorio {
@@ -203,7 +203,7 @@ async function apiFetch(path: string, opts?: RequestInit) {
 }
 
 function PacientesContent() {
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   const [pacientes, setPacientes] = useState<PacienteDirectorio[]>(PACIENTES_BASE);
@@ -390,117 +390,17 @@ function PacientesContent() {
     );
   };
 
-  const handleLogout = () => {
-    logout();
-  };
-
-  if (loading || !user) return null;
+  if (loading || !user) {
+    return (
+    <div className="w-full min-h-[40vh] flex items-center justify-center text-on-surface-variant font-label-md">
+      Cargando…
+    </div>
+    );
+  }
 
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen">
-      {/* ── SIDEBAR ──────────────────────────────────────────────────────────── */}
-      <aside className="fixed left-0 top-0 h-screen w-[260px] bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-        <div className="flex flex-col">
-          <div className="h-16 px-space-md border-b border-outline-variant flex items-center gap-space-sm overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt="Logo Clínica San Rafael"
-              className="h-10 w-10 object-contain rounded-lg shrink-0"
-              src="/logoclinica.png"
-            />
-            <div className="flex flex-col">
-              <span className="font-label-md text-label-md text-primary leading-tight truncate font-bold">
-                Clínica San Rafael
-              </span>
-              <span className="font-caption text-caption text-on-surface-variant truncate">
-                Sede San Borja
-              </span>
-            </div>
-          </div>
-          <div className="px-space-md py-space-sm">
-            <span className="font-label-sm text-label-sm text-outline uppercase tracking-wider">
-              Módulos Clínicos
-            </span>
-          </div>
-          <nav className="flex flex-col gap-space-xs px-space-sm">
-            {[
-              { label: "Agenda", icon: "calendar_month", href: "/agenda", activo: false },
-              { label: "Pacientes", icon: "person_search", href: "/pacientes", activo: true },
-              { label: "Historia clínica", icon: "clinical_notes", href: "/historia", activo: false },
-              { label: "Laboratorio", icon: "chips", href: "/laboratorio", activo: false },
-              { label: "Facturación", icon: "receipt_long", href: "/facturacion", activo: false },
-            ].map((item) => (
-              <button
-                key={item.label}
-                type="button"
-                onClick={() => {
-                  if (item.href && item.href !== "#") router.push(item.href);
-                }}
-                className={`flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors text-left w-full ${
-                  item.activo
-                    ? "bg-primary-container text-on-primary font-bold shadow-sm"
-                    : "text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
-                }`}
-              >
-                <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
-                <span className="font-label-lg text-label-lg">{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-        <div className="p-space-md border-t border-outline-variant bg-surface-container-low flex flex-col gap-space-xs">
-          <div className="flex items-center gap-space-xs text-tertiary">
-            <span className="material-symbols-outlined text-[16px]">check_circle</span>
-            <span className="font-caption text-caption font-semibold">Servidor Clínico: En línea</span>
-          </div>
-          <div className="font-caption text-caption text-on-surface-variant">
-            SIGC v4.8.2 · Clínica San Rafael
-          </div>
-        </div>
-      </aside>
-
-      {/* ── CONTENIDO PRINCIPAL ──────────────────────────────────────────────── */}
-      <div className="pl-[260px] flex flex-col min-h-screen">
-        {/* Header Superior */}
-        <header className="h-16 bg-surface-container-lowest border-b border-outline-variant px-8 flex items-center justify-between sticky top-0 z-30 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-          {/* Breadcrumbs */}
-          <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm text-on-surface-variant">
-            <div className="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-primary">
-              <span className="material-symbols-outlined text-[18px]">local_hospital</span>
-            </div>
-            <span className="font-bold text-on-surface">SIGC</span>
-            <span className="text-outline">&gt;</span>
-            <span className="font-semibold text-on-surface">Pacientes</span>
-            <span className="text-outline">&gt;</span>
-            <span className="text-on-surface-variant">Directorio General</span>
-          </nav>
-
-          {/* Inactivity pill */}
-          <div className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 bg-surface-container border border-outline-variant rounded-full text-xs text-on-surface-variant font-medium">
-            <span className="material-symbols-outlined text-[16px] text-secondary">schedule</span>
-            <span>La sesión se cierra tras 10 min de inactividad</span>
-          </div>
-
-          {/* User & Logout */}
-          <div className="flex items-center gap-5">
-            <div className="text-right">
-              <div className="text-sm font-semibold text-on-surface">
-                {user ? `${user.nombres} ${user.apellidos}` : "Diego Ramos León"}
-              </div>
-              <div className="text-xs text-on-surface-variant capitalize">{user?.rol || "Admisión"}</div>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="inline-flex items-center gap-2 px-3.5 py-2 border border-outline-variant rounded-lg text-xs font-semibold text-on-surface hover:bg-surface-container hover:border-outline transition"
-              type="button"
-            >
-              <span className="material-symbols-outlined text-[16px]">logout</span>
-              <span>Cerrar sesión</span>
-            </button>
-          </div>
-        </header>
-
-          {/* Main Module Content */}
+      {/* Main Module Content */}
           <main className="p-8 space-y-6 flex-1">
             {/* Header Module Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -528,16 +428,18 @@ function PacientesContent() {
                   </svg>
                   <span>Exportar Reporte</span>
                 </button>
-                <button
-                  onClick={() => setModalNuevoOpen(true)}
-                  className="px-4 py-2 bg-[#1a446c] text-white rounded-lg text-xs font-semibold hover:bg-[#133556] transition shadow-sm flex items-center gap-2"
-                  type="button"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 4v16m8-8H4" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
-                  </svg>
-                  <span>+ Registrar Nuevo Paciente</span>
-                </button>
+                {(user?.rol === "admision" || user?.rol === "administrador") && (
+                  <button
+                    onClick={() => setModalNuevoOpen(true)}
+                    className="px-4 py-2 bg-[#1a446c] text-white rounded-lg text-xs font-semibold hover:bg-[#133556] transition shadow-sm flex items-center gap-2"
+                    type="button"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 4v16m8-8H4" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+                    </svg>
+                    <span>+ Registrar Nuevo Paciente</span>
+                  </button>
+                )}
               </div>
             </div>
 
@@ -911,41 +813,30 @@ function PacientesContent() {
 
                 {/* Action Buttons for Selected Patient */}
                 <div className="mt-6 pt-4 border-t border-slate-100 space-y-2">
+                  {(user?.rol === "admision" || user?.rol === "administrador") && (
+                    <button
+                      onClick={() => router.push("/agenda")}
+                      className="w-full py-2.5 px-4 bg-[#1a446c] hover:bg-[#133556] text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm"
+                      type="button"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">event_available</span>
+                      <span>Agendar Nueva Cita Médica</span>
+                    </button>
+                  )}
                   <button
-                    onClick={() => router.push("/agenda")}
-                    className="w-full py-2.5 px-4 bg-[#1a446c] hover:bg-[#133556] text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm"
-                    type="button"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                    <span>Agendar Nueva Cita Médica</span>
-                  </button>
-                  <button
-                    onClick={() => router.push("/historia")}
+                    onClick={() =>
+                      router.push(`/historia?pacienteId=${encodeURIComponent(pacienteSeleccionado.id)}`)
+                    }
                     className="w-full py-2 px-4 border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-2"
                     type="button"
                   >
-                    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                      />
-                    </svg>
+                    <span className="material-symbols-outlined text-[18px] text-slate-500">clinical_notes</span>
                     <span>Abrir Historia Clínica Completa</span>
                   </button>
                 </div>
               </div>
             </div>
           </main>
-        </div>
 
       {/* ── MODAL REGISTRAR NUEVO PACIENTE ──────────────────────────────────── */}
       {modalNuevoOpen && (

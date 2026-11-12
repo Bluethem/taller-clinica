@@ -398,7 +398,7 @@ function HistoriaContent() {
     setGuardandoAnulacion(true);
 
     try {
-      const res = await apiFetch("/historia/anular", {
+      const _res = await apiFetch("/historia/anular", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

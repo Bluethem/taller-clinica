@@ -172,7 +172,10 @@ function LaboratorioContent() {
   const [paginaCola, setPaginaCola] = useState<number>(1);
   const FILAS_POR_PAGINA_COLA = 10;
 
-  const TIPOS_PERMITIDOS = ["application/pdf", "image/jpeg", "image/png"];
+  const TIPOS_PERMITIDOS = useMemo(
+    () => ["application/pdf", "image/jpeg", "image/png"],
+    []
+  );
   const MAX_SIZE_MB = 15;
 
   const procesarArchivos = useCallback((files: FileList | File[], itemId: string) => {
@@ -193,7 +196,7 @@ function LaboratorioContent() {
       ...prev,
       [itemId]: [...(prev[itemId] ?? []), ...validos],
     }));
-  }, []);
+  }, [TIPOS_PERMITIDOS]);
 
   const eliminarAdjunto = (idx: number, itemId: string) =>
     setArchivosAdjuntos((prev) => ({
@@ -214,7 +217,7 @@ function LaboratorioContent() {
         if (Array.isArray(data) && data.length > 0) {
           setOrdenes(data);
           // Si no hay seleccionado o el seleccionado no existe en data, tomar el primero
-          if (!selectedId || !data.some((d: any) => d.ordenItemId === selectedId)) {
+          if (!selectedId || !data.some((d: OrdenLaboratorio) => d.ordenItemId === selectedId)) {
             setSelectedId(data[0].ordenItemId);
           }
         }

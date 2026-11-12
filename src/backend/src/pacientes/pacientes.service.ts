@@ -34,7 +34,6 @@ export class PacientesService {
   constructor(private readonly dataSource: DataSource) {}
 
   async getDirectorio(q?: string, filtro?: string): Promise<PacienteDirectorio[]> {
-<<<<<<< Updated upstream
     const pacientesBase: PacienteDirectorio[] = [
       {
         id: '20000000-0000-7000-8000-000000000001',
@@ -168,9 +167,7 @@ export class PacientesService {
       },
     ];
 
-    // Consultar si hay nuevos pacientes creados en la BD
-=======
->>>>>>> Stashed changes
+    
     try {
       // DISTINCT ON elimina duplicados por nombre completo, conservando el registro más antiguo
       const rows = await this.dataSource.query(
@@ -335,6 +332,13 @@ export class PacientesService {
   async crearPaciente(dto: CrearPacienteDto): Promise<{ success: boolean; id: string; mensaje: string }> {
     if (!dto.numeroDocumento || !dto.nombres || !dto.apellidoPaterno) {
       throw new BadRequestException('Documento, nombres y apellido paterno son requeridos');
+    }
+
+    if (
+      (dto.tipoDocumento || 'DNI') === 'DNI' &&
+      !/^\d{8}$/.test(dto.numeroDocumento)
+    ) {
+      throw new BadRequestException('El DNI debe tener exactamente 8 dígitos');
     }
 
     const creadorId = dto.creadoPor || '10000000-0000-7000-8000-000000000001';

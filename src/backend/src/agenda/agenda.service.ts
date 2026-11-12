@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { CrearCitaDto } from './dto/crear-cita.dto.js';
 
@@ -187,7 +187,6 @@ export class AgendaService {
       const fechaStr = d.toISOString().split('T')[0];
 
       for (const hora of horas) {
-        const [h, m] = hora.split(':').map(Number);
         const slotInicio = new Date(`${fechaStr}T${hora}:00-05:00`); // Lima UTC-5
         const slotFin = new Date(slotInicio.getTime() + 30 * 60 * 1000);
 
@@ -214,20 +213,28 @@ export class AgendaService {
     );
     const consultorioId = consultorios[0]?.id ?? 1;
 
-    const result = await this.dataSource.query(
-      `INSERT INTO agenda.cita (paciente_id, medico_id, consultorio_id, inicio, fin, motivo, estado, creado_por)
-       VALUES ($1, $2, $3, $4, $5, $6, 'programada', $7)
-       RETURNING id`,
-      [
-        dto.pacienteId,
-        dto.medicoId,
-        consultorioId,
-        inicio.toISOString(),
-        fin.toISOString(),
-        dto.motivo,
-        dto.creadoPor,
-      ],
-    );
+    let result: { id: string }[];
+    try {
+      result = await this.dataSource.query(
+        `INSERT INTO agenda.cita (paciente_id, medico_id, consultorio_id, inicio, fin, motivo, estado, creado_por)
+         VALUES ($1, $2, $3, $4, $5, $6, 'programada', $7)
+         RETURNING id`,
+        [
+          dto.pacienteId,
+          dto.medicoId,
+          consultorioId,
+          inicio.toISOString(),
+          fin.toISOString(),
+          dto.motivo,
+          dto.creadoPor,
+        ],
+      );
+    } catch (e) {
+      if ((e as { code?: string }).code === '23P01') {
+        throw new ConflictException('Horario no disponible');
+      }
+      throw e;
+    }
 
     const citaId: string = result[0].id;
     // Folio legible tipo CIT-YYYY-XXXX

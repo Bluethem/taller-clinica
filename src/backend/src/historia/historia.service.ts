@@ -594,7 +594,6 @@ export class HistoriaService {
 
   async crearConsulta(dto: CrearConsultaDto): Promise<{ success: boolean; id: string; mensaje: string }> {
     const medicoId = dto.medicoId || '30000000-0000-7000-8000-000000000004';
-    const creadorId = dto.creadoPor || '10000000-0000-7000-8000-000000000001';
 
     const insertResult = await this.dataSource.query(
       `INSERT INTO hce.entrada (paciente_id, medico_id, motivo_consulta, enfermedad_actual, examen_fisico)

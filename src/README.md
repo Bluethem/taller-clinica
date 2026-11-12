@@ -1,4 +1,4 @@
-#Código fuente del SIGC
+# Código fuente del SIGC
 
 Contiene las dos aplicaciones del sistema. Para el contexto general del proyecto, ver el [README principal](../README.md).
 

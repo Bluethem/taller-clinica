@@ -29,6 +29,14 @@ export class SeguridadService {
       });
     }
 
+    if (passwordPlain.length < 8) {
+      throw new UnauthorizedException({
+        success: false,
+        message: 'La contraseña debe tener al menos 8 caracteres',
+        intentosRestantes: 2,
+      });
+    }
+
     const trimmed = usernameOrEmail.trim().toLowerCase();
     const alias = trimmed.split('@')[0];
 

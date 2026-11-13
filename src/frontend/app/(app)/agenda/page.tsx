@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../context/auth-context";
+import { useAuth } from "../../context/auth-context";
+import { canCreateCitas, isMedico } from "../../lib/nav";
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
 interface Especialidad { id: number; nombre: string; }
@@ -44,7 +45,7 @@ function formatearFecha(d: Date): string {
 const DIAS = ["Lun", "Mar", "Mié", "Jue", "Vie"];
 
 function AgendaPageContent() {
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -197,113 +198,122 @@ function AgendaPageContent() {
     return `${semanaInicio.toLocaleDateString("es-PE", { day: "2-digit", month: "short" })} – ${fin.toLocaleDateString("es-PE", { day: "2-digit", month: "short", year: "numeric" })}`;
   };
 
-  const handleLogout = () => { logout(); router.replace("/"); };
+  const [misCitas, setMisCitas] = useState<Array<{
+    id: string;
+    inicio: string;
+    fin: string;
+    estado: string;
+    motivo: string | null;
+    pacienteId: string;
+    pacienteNombres: string;
+    pacienteApellidos: string;
+    numeroDocumento: string;
+  }>>([]);
+  const [cargandoMisCitas, setCargandoMisCitas] = useState(false);
+
+  useEffect(() => {
+    if (!user || !isMedico(user.rol)) return;
+    let active = true;
+    setCargandoMisCitas(true);
+    apiFetch("/agenda/mis-citas")
+      .then(async (r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        if (active) setMisCitas(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (active) setMisCitas([]);
+      })
+      .finally(() => {
+        if (active) setCargandoMisCitas(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [user]);
 
   // ── Render ─────────────────────────────────────────────────────────────────
-  if (loading || !user) return null;
+  if (loading || !user) {
+    return (
+    <div className="w-full min-h-[40vh] flex items-center justify-center text-on-surface-variant font-label-md">
+      Cargando…
+    </div>
+    );
+  }
+
+  if (isMedico(user.rol) || !canCreateCitas(user.rol)) {
+    return (
+      <main className="w-full max-w-[1600px] mx-auto px-gutter-desktop py-space-md flex flex-col gap-space-lg">
+        <section className="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs">
+          <span className="font-caption text-caption text-on-surface-variant uppercase tracking-wider">
+            Consulta externa
+          </span>
+          <h1 className="font-headline-md text-headline-md text-on-surface">Mis citas</h1>
+          <p className="font-body-md text-body-md text-on-surface-variant">
+            Citas asignadas a tu usuario. El alta la realiza Admisión (semana demo del wizard).
+          </p>
+        </section>
+        <section className="bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden">
+          {cargandoMisCitas && (
+            <p className="p-space-md font-body-md text-on-surface-variant">Cargando citas…</p>
+          )}
+          {!cargandoMisCitas && misCitas.length === 0 && (
+            <p className="p-space-md font-body-md text-on-surface-variant">
+              No tienes citas programadas. Verifica que Admisión te haya asignado el turno
+              (mismo médico/usuario).
+            </p>
+          )}
+          <ul className="divide-y divide-outline-variant/30">
+            {misCitas.map((c) => (
+              <li key={c.id} className="px-space-md py-space-md flex items-center justify-between gap-space-md">
+                <div>
+                  <p className="font-label-lg text-label-lg font-bold">
+                    {c.pacienteNombres} {c.pacienteApellidos}
+                  </p>
+                  <p className="font-caption text-caption text-on-surface-variant">
+                    DNI {c.numeroDocumento}
+                    {c.motivo ? ` · ${c.motivo}` : ""} · {c.estado}
+                  </p>
+                </div>
+                <div className="flex items-center gap-space-sm">
+                  <span className="font-label-md text-label-md text-primary font-bold text-right">
+                    {new Date(c.inicio).toLocaleString("es-PE", {
+                      day: "2-digit",
+                      month: "short",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      router.push(`/historia?pacienteId=${encodeURIComponent(c.pacienteId)}`)
+                    }
+                    className="px-space-sm py-1 rounded-lg border border-outline-variant font-label-sm text-label-sm"
+                  >
+                    Historia
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen">
-
-      {/* ── SIDEBAR ────────────────────────────────────────────────────────── */}
-      <aside className="fixed left-0 top-0 h-screen w-[260px] bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-        <div className="flex flex-col">
-          <div className="h-16 px-space-md border-b border-outline-variant flex items-center gap-space-sm overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt="Logo Clínica San Rafael"
-              className="h-10 w-10 object-contain rounded-lg shrink-0"
-              src="/logoclinica.png"
-            />
-            <div className="flex flex-col">
-              <span className="font-label-md text-label-md text-primary leading-tight truncate font-bold">
-                Clínica San Rafael
-              </span>
-              <span className="font-caption text-caption text-on-surface-variant truncate">
-                Sede San Borja
-              </span>
-            </div>
-          </div>
-          <div className="px-space-md py-space-sm">
-            <span className="font-label-sm text-label-sm text-outline uppercase tracking-wider">Módulos Clínicos</span>
-          </div>
-          <nav className="flex flex-col gap-space-xs px-space-sm">
-            {[
-              { label: "Agenda", icon: "calendar_month", href: "/agenda", activo: true },
-              { label: "Pacientes", icon: "person_search", href: "/pacientes", activo: false },
-              { label: "Historia clínica", icon: "clinical_notes", href: "/historia", activo: false },
-              { label: "Laboratorio", icon: "chips", href: "/laboratorio", activo: false },
-              { label: "Facturación", icon: "receipt_long", href: "/facturacion", activo: false },
-            ].map(item => (
-              <button
-                key={item.label}
-                type="button"
-                onClick={() => {
-                  if (item.href && item.href !== "#") router.push(item.href);
-                }}
-                className={`flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors text-left w-full ${
-                  item.activo
-                    ? "bg-primary-container text-on-primary font-bold"
-                    : "text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
-                }`}
-              >
-                <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
-                <span className="font-label-lg text-label-lg">{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-        <div className="p-space-md border-t border-outline-variant bg-surface-container-low flex flex-col gap-space-xs">
-          <div className="flex items-center gap-space-xs text-tertiary">
-            <span className="material-symbols-outlined text-[16px]">check_circle</span>
-            <span className="font-caption text-caption font-semibold">Servidor Clínico: En línea</span>
-          </div>
-          <div className="font-caption text-caption text-on-surface-variant">SIGC v4.8.2 · Clínica San Rafael</div>
-        </div>
-      </aside>
-
-      {/* ── CONTENIDO PRINCIPAL ─────────────────────────────────────────────── */}
-      <div className="pl-[260px]">
-
-        {/* Header */}
-        <header className="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-gutter-desktop shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-          <div className="flex items-center gap-space-sm text-on-surface-variant">
-            <span className="material-symbols-outlined text-[18px] text-primary">local_hospital</span>
-            <span className="font-label-md text-label-md text-on-surface font-semibold">SIGC</span>
-            <span className="font-caption text-caption text-outline">&gt;</span>
-            <span className="font-label-md text-label-md text-on-surface-variant">Agenda</span>
-          </div>
-          <div className="hidden md:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container border border-outline-variant rounded-full text-on-surface-variant">
-            <span className="material-symbols-outlined text-[16px] text-secondary">schedule</span>
-            <span className="font-caption text-caption">La sesión se cierra tras 10 min de inactividad</span>
-          </div>
-          <div className="flex items-center gap-space-md">
-            <div className="flex items-center gap-space-sm">
-              <div className="flex flex-col text-right">
-                <span className="font-label-md text-label-md text-on-surface leading-tight">{user.nombres} {user.apellidos}</span>
-                <span className="font-caption text-caption text-on-surface-variant capitalize">{user.rol}</span>
-              </div>
-            </div>
-            <div className="h-6 w-[1px] bg-outline-variant"></div>
-            <button onClick={handleLogout}
-              className="min-h-[44px] px-space-md border border-primary text-primary hover:bg-surface-container-low rounded-lg font-label-md text-label-md flex items-center gap-space-xs transition-colors"
-              type="button">
-              <span className="material-symbols-outlined text-[18px]">logout</span>
-              <span>Cerrar sesión</span>
-            </button>
-          </div>
-        </header>
-
-        {/* Main content */}
-        <main className="w-full pt-16 bg-surface min-h-screen">
+        <main className="w-full bg-surface min-h-screen">
           <div className="w-full max-w-[1600px] mx-auto px-gutter-desktop py-space-md flex flex-col gap-space-lg">
 
             {/* ── Stepper Header ─────────────────────────────────────────────── */}
             <section className="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
               <div className="flex items-center gap-space-md">
-                <button type="button" onClick={() => paso > 1 && setPaso((p) => (p - 1) as 1 | 2 | 3)}
-                  className="min-h-[44px] px-space-md bg-surface-container-lowest text-primary rounded-lg font-label-lg text-label-lg flex items-center gap-space-xs hover:bg-surface-container-low transition-colors shadow-sm disabled:opacity-40"
-                  disabled={paso === 1}>
+                <button type="button" onClick={() => {
+                    if (paso === 1) router.push("/dashboard");
+                    else setPaso((p) => (p - 1) as 1 | 2 | 3);
+                  }}
+                  className="min-h-[44px] px-space-md bg-surface-container-lowest text-primary rounded-lg font-label-lg text-label-lg flex items-center gap-space-xs hover:bg-surface-container-low transition-colors shadow-sm">
                   <span className="material-symbols-outlined text-[20px]">arrow_back</span>
                   <span>Atrás</span>
                 </button>
@@ -873,7 +883,6 @@ function AgendaPageContent() {
             </div>
           </div>
         </main>
-      </div>
     </div>
   );
 }

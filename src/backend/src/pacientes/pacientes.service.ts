@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { CrearPacienteDto } from './dto/crear-paciente.dto.js';
 
@@ -27,6 +27,30 @@ export interface PacienteDirectorio {
   alergias: string;
   diagnosticoReciente: string;
   medicoTratante: string;
+}
+
+export interface PacienteFicha {
+  id: string;
+  tipoDocumento: string;
+  numeroDocumento: string;
+  nombres: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  fechaNacimiento: string | null;
+  sexo: string;
+  telefono: string | null;
+  email: string | null;
+  direccion: string | null;
+  canalRecordatorio: string | null;
+  antecedentes: Array<{ id: string; tipo: string; descripcion: string }>;
+  citasRecientes: Array<{
+    id: string;
+    inicio: string;
+    fin: string;
+    estado: string;
+    motivo: string | null;
+    medicoNombre?: string;
+  }>;
 }
 
 @Injectable()
@@ -271,6 +295,77 @@ export class PacientesService {
       success: true,
       id: pacienteId,
       mensaje: `Paciente ${dto.nombres} ${dto.apellidoPaterno} registrado con éxito con HC generada.`,
+    };
+  }
+
+  async getFicha(id: string): Promise<PacienteFicha> {
+    const pacientes = await this.dataSource.query(
+      `SELECT id, tipo_documento, numero_documento, nombres, apellido_paterno,
+              apellido_materno, fecha_nacimiento, sexo, telefono, email,
+              direccion, canal_recordatorio
+       FROM pacientes.paciente WHERE id = $1 LIMIT 1`,
+      [id],
+    );
+    const p = pacientes[0];
+    if (!p) {
+      throw new NotFoundException(`Paciente ${id} no encontrado`);
+    }
+
+    const antecedentes = await this.dataSource.query(
+      `SELECT id, tipo, descripcion FROM pacientes.antecedente
+       WHERE paciente_id = $1 ORDER BY registrado_en DESC`,
+      [id],
+    );
+
+    const citas = await this.dataSource.query(
+      `SELECT c.id, c.inicio, c.fin, c.estado, c.motivo,
+              (u.nombres || ' ' || u.apellidos) AS medico_nombre
+       FROM agenda.cita c
+       LEFT JOIN agenda.medico m ON m.id = c.medico_id
+       LEFT JOIN seguridad.usuario u ON u.id = m.usuario_id
+       WHERE c.paciente_id = $1
+       ORDER BY c.inicio DESC
+       LIMIT 5`,
+      [id],
+    );
+
+    return {
+      id: p.id,
+      tipoDocumento: p.tipo_documento,
+      numeroDocumento: p.numero_documento,
+      nombres: p.nombres,
+      apellidoPaterno: p.apellido_paterno,
+      apellidoMaterno: p.apellido_materno,
+      fechaNacimiento: p.fecha_nacimiento
+        ? new Date(p.fecha_nacimiento).toISOString().slice(0, 10)
+        : null,
+      sexo: p.sexo,
+      telefono: p.telefono,
+      email: p.email,
+      direccion: p.direccion,
+      canalRecordatorio: p.canal_recordatorio,
+      antecedentes: antecedentes.map((a: { id: string; tipo: string; descripcion: string }) => ({
+        id: a.id,
+        tipo: a.tipo,
+        descripcion: a.descripcion,
+      })),
+      citasRecientes: citas.map(
+        (c: {
+          id: string;
+          inicio: string | Date;
+          fin: string | Date;
+          estado: string;
+          motivo: string | null;
+          medico_nombre: string | null;
+        }) => ({
+          id: c.id,
+          inicio: new Date(c.inicio).toISOString(),
+          fin: new Date(c.fin).toISOString(),
+          estado: c.estado,
+          motivo: c.motivo,
+          medicoNombre: c.medico_nombre ?? undefined,
+        }),
+      ),
     };
   }
 }

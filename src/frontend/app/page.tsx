@@ -46,7 +46,7 @@ export default function LoginPage() {
 
       if (response.ok && data.success) {
         setUser(data.user);
-        router.push("/agenda");
+        router.push("/dashboard");
       } else {
         const remaining = Math.max(0, attempts - 1);
         setAttempts(remaining);

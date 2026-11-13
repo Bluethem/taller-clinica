@@ -1,10 +1,13 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Roles } from '../seguridad/decorators/roles.decorator.js';
 import { AuthenticatedGuard } from '../seguridad/guards/authenticated.guard.js';
+import { RolesGuard } from '../seguridad/guards/roles.guard.js';
 import { HistoriaService } from './historia.service.js';
 import { AnularEntradaDto, CrearConsultaDto } from './dto/historia.dto.js';
 
 @Controller('historia')
-@UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard, RolesGuard)
+@Roles('medico', 'enfermera', 'administrador')
 export class HistoriaController {
   constructor(private readonly historiaService: HistoriaService) {}
 
@@ -23,4 +26,3 @@ export class HistoriaController {
     return this.historiaService.crearConsulta(dto);
   }
 }
-

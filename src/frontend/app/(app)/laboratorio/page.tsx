@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../context/auth-context";
+import { useAuth } from "../../context/auth-context";
 
 interface OrdenLaboratorio {
   ordenId: string;
@@ -133,7 +133,7 @@ async function apiFetch(path: string, opts?: RequestInit) {
 }
 
 function LaboratorioContent() {
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   const [ordenes, setOrdenes] = useState<OrdenLaboratorio[]>(ORDENES_DEMO);
@@ -295,10 +295,6 @@ function LaboratorioContent() {
   const totalUrgencias = ordenes.filter((o) => o.prioridad === "urgente").length;
   const totalRutina = ordenes.filter((o) => o.prioridad === "rutina").length;
 
-  const handleLogout = () => {
-    logout();
-  };
-
   // Guardar y publicar resultado
   const handleGuardarResultado = async () => {
     if (!ordenActiva) return;
@@ -374,114 +370,17 @@ function LaboratorioContent() {
     setTimeout(() => setDraftToast(false), 4000);
   };
 
-  if (loading || !user) return null;
+  if (loading || !user) {
+    return (
+    <div className="w-full min-h-[40vh] flex items-center justify-center text-on-surface-variant font-label-md">
+      Cargando…
+    </div>
+    );
+  }
 
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen">
-      {/* ── SIDEBAR ────────────────────────────────────────────────────────── */}
-      <aside className="fixed left-0 top-0 h-screen w-[260px] bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-        <div className="flex flex-col">
-          <div className="h-16 px-space-md border-b border-outline-variant flex items-center justify-between gap-space-sm">
-            <div className="flex items-center gap-space-sm overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                alt="Logo Clínica San Rafael"
-                className="h-10 w-10 object-contain rounded-lg shrink-0"
-                src="/logoclinica.png"
-              />
-              <div className="flex flex-col">
-                <span className="font-label-md text-label-md text-primary leading-tight truncate font-bold">
-                  Clínica San Rafael
-                </span>
-                <span className="font-caption text-caption text-on-surface-variant truncate">
-                  Sede San Borja
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="px-space-md py-space-sm">
-            <span className="font-label-sm text-label-sm text-outline uppercase tracking-wider">
-              Módulos Clínicos
-            </span>
-          </div>
-          <nav className="flex flex-col gap-space-xs px-space-sm">
-            {[
-              { label: "Agenda", icon: "calendar_month", href: "/agenda", activo: false },
-              { label: "Pacientes", icon: "person_search", href: "/pacientes", activo: false },
-              { label: "Historia clínica", icon: "clinical_notes", href: "/historia", activo: false },
-              { label: "Laboratorio", icon: "chips", href: "/laboratorio", activo: true },
-              { label: "Facturación", icon: "receipt_long", href: "/facturacion", activo: false },
-            ].map((item) => (
-              <button
-                key={item.label}
-                type="button"
-                onClick={() => {
-                  if (item.href && item.href !== "#") router.push(item.href);
-                }}
-                className={`flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors text-left w-full ${
-                  item.activo
-                    ? "bg-primary-container text-on-primary font-bold shadow-sm"
-                    : "text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
-                }`}
-              >
-                <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
-                <span className="font-label-lg text-label-lg">{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-        <div className="p-space-md border-t border-outline-variant bg-surface-container-low flex flex-col gap-space-xs">
-          <div className="flex items-center gap-space-xs text-tertiary">
-            <span className="material-symbols-outlined text-[16px]">check_circle</span>
-            <span className="font-caption text-caption font-semibold">Servidor Clínico: En línea</span>
-          </div>
-          <div className="font-caption text-caption text-on-surface-variant">
-            SIGC v4.8.2 · Clínica San Rafael
-          </div>
-        </div>
-      </aside>
-
-      {/* ── CONTENIDO PRINCIPAL ─────────────────────────────────────────────── */}
-      <div className="pl-[260px]">
-        {/* Header Superior */}
-        <header className="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest border-b border-outline-variant z-40 flex items-center justify-between px-gutter-desktop shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-          <div className="flex items-center gap-space-sm text-on-surface-variant">
-            <span className="material-symbols-outlined text-[18px] text-primary">local_hospital</span>
-            <span className="font-label-md text-label-md text-on-surface font-semibold">SIGC</span>
-            <span className="font-caption text-caption text-outline">&gt;</span>
-            <span className="font-label-md text-label-md text-on-surface-variant">Laboratorio Clínico</span>
-          </div>
-          <div className="hidden md:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container border border-outline-variant rounded-full text-on-surface-variant">
-            <span className="material-symbols-outlined text-[16px] text-secondary">schedule</span>
-            <span className="font-caption text-caption">La sesión se cierra tras 10 min de inactividad</span>
-          </div>
-          <div className="flex items-center gap-space-md">
-            <div className="flex items-center gap-space-sm">
-              <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-sm">
-                {user ? user.nombres.charAt(0) : "J"}
-              </div>
-              <div className="flex flex-col text-right">
-                <span className="font-label-md text-label-md text-on-surface leading-tight">
-                  {user ? `${user.nombres} ${user.apellidos}` : "Julio Navarro"}
-                </span>
-                <span className="font-caption text-caption text-on-surface-variant capitalize">
-                  {user?.rol || "Laboratorio"}
-                </span>
-              </div>
-            </div>
-            <div className="h-6 w-[1px] bg-outline-variant"></div>
-            <button
-              onClick={handleLogout}
-              className="min-h-[44px] px-space-md border border-primary text-primary hover:bg-surface-container-low rounded-lg font-label-md text-label-md flex items-center gap-space-xs transition-colors"
-              type="button"
-            >
-              <span className="material-symbols-outlined text-[18px]">logout</span>
-              <span>Cerrar sesión</span>
-            </button>
-          </div>
-        </header>
-
-        {/* Notificación Toast Éxito */}
+      {/* Notificación Toast Éxito */}
         {toastVisible && (
           <div
             className="fixed top-20 right-8 z-50 flex items-start gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-xl max-w-md border border-tertiary-fixed transition-all duration-300 animate-in fade-in slide-in-from-top-4"
@@ -518,7 +417,7 @@ function LaboratorioContent() {
           </div>
         )}
 
-        <main className="w-full pt-16 bg-surface min-h-screen">
+        <main className="w-full bg-surface min-h-screen">
           <div className="flex flex-col w-full">
             <div className="p-gutter-desktop flex flex-col gap-space-lg">
               {/* Encabezado y Analizador */}
@@ -1380,7 +1279,6 @@ function LaboratorioContent() {
             </div>
           </div>
         </main>
-      </div>
 
       {/* Modal de Previsualización PDF */}
       {previewPdf && (

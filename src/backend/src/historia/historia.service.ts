@@ -1,6 +1,15 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import { AuditoriaService } from '../auditoria/auditoria.service.js';
 import { AnularEntradaDto, CrearConsultaDto } from './dto/historia.dto.js';
+
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export interface EntradaClinica {
   id: string;
@@ -80,7 +89,10 @@ export interface HistoriaPaciente {
 
 @Injectable()
 export class HistoriaService {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(
+    private readonly dataSource: DataSource,
+    private readonly auditoria: AuditoriaService,
+  ) {}
 
   async getHistoria(pacienteIdOrDni: string): Promise<HistoriaPaciente> {
     // 1. Obtener paciente de la BD ya sea por UUID o por número de documento
@@ -92,16 +104,10 @@ export class HistoriaService {
       [pacienteIdOrDni],
     );
 
-    const pac = pacientes[0] || {
-      id: pacienteIdOrDni,
-      tipo_documento: 'DNI',
-      numero_documento: pacienteIdOrDni.length === 8 ? pacienteIdOrDni : '70000001',
-      nombres: 'Mariana',
-      apellido_paterno: 'Torres',
-      apellido_materno: 'Quispe',
-      fecha_nacimiento: '1988-07-14',
-      sexo: 'F',
-    };
+    const pac = pacientes[0];
+    if (!pac) {
+      throw new NotFoundException('Paciente no encontrado');
+    }
 
     // Calcular edad estimada si tiene fecha_nacimiento
     let edad = 38;
@@ -545,84 +551,128 @@ export class HistoriaService {
     };
   }
 
-  async anularEntrada(dto: AnularEntradaDto): Promise<{ success: boolean; mensaje: string; auditId: string }> {
+  async anularEntrada(
+    dto: AnularEntradaDto,
+    usuarioId: string,
+  ): Promise<{ success: boolean; mensaje: string; anulacionId: string }> {
+    if (!UUID_PATTERN.test(dto.entradaId)) {
+      throw new BadRequestException('entradaId debe ser un UUID válido');
+    }
+
     const motivoLimpio = (dto.motivo || '').trim();
     if (motivoLimpio.length < 10) {
       throw new BadRequestException('El motivo de anulación debe tener al menos 10 caracteres');
     }
 
-    const operadorId = dto.anuladoPor || '10000000-0000-7000-8000-000000000001';
+    return this.dataSource.transaction(async (manager) => {
+      const [entrada]: Array<{ paciente_id: string }> = await manager.query(
+        `SELECT paciente_id
+         FROM hce.entrada
+         WHERE id = $1
+         FOR UPDATE`,
+        [dto.entradaId],
+      );
+      if (!entrada) {
+        throw new NotFoundException('Entrada clínica no encontrada');
+      }
 
-    // Insertar anulación inmutable en hce.anulacion
-    try {
-      await this.dataSource.query(
+      const anulaciones: Array<{ id: string }> = await manager.query(
+        `SELECT id FROM hce.anulacion WHERE entrada_id = $1`,
+        [dto.entradaId],
+      );
+      if (anulaciones.length > 0) {
+        throw new ConflictException('La entrada clínica ya está anulada');
+      }
+
+      const [anulacion]: Array<{ id: string }> = await manager.query(
         `INSERT INTO hce.anulacion (entrada_id, anulado_por, motivo)
          VALUES ($1, $2, $3)
-         ON CONFLICT (entrada_id) DO NOTHING`,
-        [dto.entradaId, operadorId, motivoLimpio],
+         RETURNING id`,
+        [dto.entradaId, usuarioId, motivoLimpio],
       );
-    } catch (err: any) {
-      console.warn('Registro de anulación en BD:', err.message);
-    }
 
-    // Registrar en auditoria.bitacora
-    const auditId = `AUD-${Math.floor(1000 + Math.random() * 9000)}`;
-    try {
-      await this.dataSource.query(
-        `INSERT INTO auditoria.bitacora (usuario_id, accion, recurso, recurso_id, detalle)
-         VALUES ($1, 'ESCRITURA', 'hce.anulacion', $2, $3::jsonb)`,
-        [
-          operadorId,
-          dto.entradaId,
-          JSON.stringify({
-            accion: 'ANULAR_ENTRADA_HCE',
-            motivo: motivoLimpio,
-            norma: 'NTS N° 139-MINSA',
-          }),
-        ],
-      );
-    } catch (err) {
-      console.error('Error auditoria bitacora:', err);
-    }
+      await this.auditoria.registrar({
+        usuarioId,
+        accion: 'ANULACION',
+        recurso: 'hce.anulacion',
+        recursoId: dto.entradaId,
+        pacienteId: entrada.paciente_id,
+        detalle: {
+          accion: 'ANULAR_ENTRADA_HCE',
+          motivo: motivoLimpio,
+          norma: 'NTS N° 139-MINSA',
+        },
+      }, manager);
 
-    return {
-      success: true,
-      mensaje: `Entrada anulada formalmente conforme a NTS N° 139-MINSA. Registro #${auditId}`,
-      auditId,
-    };
+      return {
+        success: true,
+        mensaje: 'Entrada anulada formalmente conforme a NTS N° 139-MINSA.',
+        anulacionId: anulacion.id,
+      };
+    });
   }
 
-  async crearConsulta(dto: CrearConsultaDto): Promise<{ success: boolean; id: string; mensaje: string }> {
-    const medicoId = dto.medicoId || '30000000-0000-7000-8000-000000000004';
-    const _creadorId = dto.creadoPor || '10000000-0000-7000-8000-000000000001';
-
-    const insertResult = await this.dataSource.query(
-      `INSERT INTO hce.entrada (paciente_id, medico_id, motivo_consulta, enfermedad_actual, examen_fisico)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING id`,
-      [
-        dto.pacienteId,
-        medicoId,
-        dto.motivoConsulta,
-        dto.enfermedadActual,
-        dto.examenFisico || 'Sin particularidades en examen físico.',
-      ],
-    );
-
-    const entradaId = insertResult[0]?.id;
-
-    if (dto.diagnosticoCie10) {
-      try {
-        await this.dataSource.query(
-          `INSERT INTO hce.diagnostico (entrada_id, cie10_codigo, tipo)
-           VALUES ($1, $2, 'principal')
-           ON CONFLICT DO NOTHING`,
-          [entradaId, dto.diagnosticoCie10],
-        );
-      } catch (err) {
-        console.warn('Error insertando diagnóstico:', err);
-      }
+  async crearConsulta(
+    dto: CrearConsultaDto,
+    usuarioId: string,
+  ): Promise<{ success: boolean; id: string; mensaje: string }> {
+    const diagnosticoCie10 = (dto.diagnosticoCie10 || '').trim();
+    if (!diagnosticoCie10) {
+      throw new BadRequestException('El diagnóstico CIE-10 es obligatorio');
     }
+
+    const cie10 = await this.dataSource.query(
+      `SELECT codigo FROM hce.cie10 WHERE codigo = $1 LIMIT 1`,
+      [diagnosticoCie10],
+    );
+    if (cie10.length === 0) {
+      throw new BadRequestException('El diagnóstico CIE-10 no existe');
+    }
+
+    const medicoId = dto.medicoId || '30000000-0000-7000-8000-000000000004';
+
+    const prescripcion = dto.prescripcion?.trim();
+    const entradaId = await this.dataSource.transaction(async (manager) => {
+      const insertResult = await manager.query(
+        `INSERT INTO hce.entrada (paciente_id, medico_id, motivo_consulta, enfermedad_actual, examen_fisico)
+         VALUES ($1, $2, $3, $4, $5)
+         RETURNING id`,
+        [
+          dto.pacienteId,
+          medicoId,
+          dto.motivoConsulta,
+          dto.enfermedadActual,
+          dto.examenFisico || 'Sin particularidades en examen físico.',
+        ],
+      );
+      const id = insertResult[0]?.id;
+
+      await manager.query(
+        `INSERT INTO hce.diagnostico (entrada_id, cie10_codigo, tipo)
+         VALUES ($1, $2, 'principal')
+         ON CONFLICT DO NOTHING`,
+        [id, diagnosticoCie10],
+      );
+
+      if (prescripcion) {
+        await manager.query(
+          `INSERT INTO hce.indicacion (entrada_id, descripcion)
+           VALUES ($1, $2)`,
+          [id, prescripcion],
+        );
+      }
+
+      await this.auditoria.registrar({
+        usuarioId,
+        accion: 'ESCRITURA',
+        recurso: 'hce.entrada',
+        recursoId: id,
+        pacienteId: dto.pacienteId,
+        detalle: prescripcion ? { prescripcion } : {},
+      }, manager);
+
+      return id;
+    });
 
     return {
       success: true,
@@ -631,4 +681,3 @@ export class HistoriaService {
     };
   }
 }
-

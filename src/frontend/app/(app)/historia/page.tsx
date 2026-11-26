@@ -451,7 +451,7 @@ function HistoriaContent() {
 
   // Manejar nueva consulta médica
   const handleGuardarNuevaConsulta = async () => {
-    if (!nuevoMotivo.trim()) return;
+    if (!nuevoMotivo.trim() || !nuevoCie10.trim()) return;
     setGuardandoConsulta(true);
 
     const nuevaEntrada: EntradaClinica = {
@@ -484,6 +484,8 @@ function HistoriaContent() {
               ? "Hipertensión esencial (primaria)"
               : nuevoCie10 === "K29.7"
               ? "Gastritis, no especificada"
+              : nuevoCie10 === "E78.5"
+              ? "Hiperlipidemia, no especificada"
               : "Consulta médica general",
           tipo: "Definitivo",
         },
@@ -504,7 +506,7 @@ function HistoriaContent() {
     };
 
     try {
-      await apiFetch("/historia/consulta", {
+      const res = await apiFetch("/historia/consulta", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -512,27 +514,34 @@ function HistoriaContent() {
           motivoConsulta: nuevoMotivo,
           enfermedadActual: nuevaAnamnesis || nuevoMotivo,
           examenFisico: `PA ${nuevaPa}; FC 76 lpm.`,
-          diagnosticoCie10: nuevoCie10,
+          diagnosticoCie10: nuevoCie10.trim(),
+          prescripcion: nuevaReceta.trim() || undefined,
         }),
       });
+      if (!res.ok) {
+        throw new Error(`Error HTTP ${res.status}`);
+      }
+
+      setHistoria((prev) => ({
+        ...prev,
+        entradas: [nuevaEntrada, ...prev.entradas],
+      }));
+      setModalConsultaOpen(false);
+      setNuevoMotivo("");
+      setNuevaAnamnesis("");
+      setNuevaReceta("");
+      mostrarNotificacion(
+        "Consulta Guardada con Éxito",
+        "La atención médica ha sido firmada e incorporada a la Historia Clínica Electrónica."
+      );
     } catch {
-      // offline fallback
+      mostrarNotificacion(
+        "No se pudo guardar la consulta",
+        "Revise los datos e intente nuevamente."
+      );
+    } finally {
+      setGuardandoConsulta(false);
     }
-
-    setHistoria((prev) => ({
-      ...prev,
-      entradas: [nuevaEntrada, ...prev.entradas],
-    }));
-
-    setGuardandoConsulta(false);
-    setModalConsultaOpen(false);
-    setNuevoMotivo("");
-    setNuevaAnamnesis("");
-    setNuevaReceta("");
-    mostrarNotificacion(
-      "Consulta Guardada con Éxito",
-      "La atención médica ha sido firmada e incorporada a la Historia Clínica Electrónica."
-    );
   };
 
   if (loading || !user) {
@@ -1771,7 +1780,7 @@ function HistoriaContent() {
                 >
                   <option value="I10">I10 · Hipertensión esencial (primaria)</option>
                   <option value="K29.7">K29.7 · Gastritis, no especificada</option>
-                  <option value="E78.0">E78.0 · Hipercolesterolemia pura</option>
+                  <option value="E78.5">E78.5 · Hiperlipidemia, no especificada</option>
                   <option value="J02.9">J02.9 · Faringitis aguda</option>
                 </select>
               </div>
@@ -1795,7 +1804,7 @@ function HistoriaContent() {
                 Cancelar
               </button>
               <button
-                disabled={!nuevoMotivo.trim() || guardandoConsulta}
+                disabled={!nuevoMotivo.trim() || !nuevoCie10.trim() || guardandoConsulta}
                 onClick={handleGuardarNuevaConsulta}
                 className="px-6 py-2 bg-primary hover:bg-primary-container text-on-primary rounded-lg font-label-md text-label-md shadow-md disabled:opacity-40"
               >

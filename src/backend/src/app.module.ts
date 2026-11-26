@@ -6,6 +6,7 @@ import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { HealthController } from './health/health.controller.js';
+import { AuditoriaModule } from './auditoria/auditoria.module.js';
 import { SeguridadModule } from './seguridad/seguridad.module.js';
 import { AgendaModule } from './agenda/agenda.module.js';
 import { LaboratorioModule } from './laboratorio/laboratorio.module.js';
@@ -32,6 +33,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       }),
     }),
     TerminusModule,
+    AuditoriaModule,
     SeguridadModule,
     AgendaModule,
     LaboratorioModule,

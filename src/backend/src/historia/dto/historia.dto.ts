@@ -1,7 +1,6 @@
 export class AnularEntradaDto {
   entradaId!: string;
   motivo!: string;
-  anuladoPor?: string;
 }
 
 export class CrearConsultaDto {
@@ -10,8 +9,6 @@ export class CrearConsultaDto {
   motivoConsulta!: string;
   enfermedadActual!: string;
   examenFisico?: string;
-  diagnosticoCie10?: string;
+  diagnosticoCie10!: string;
   prescripcion?: string;
-  creadoPor?: string;
 }
-

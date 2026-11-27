@@ -35,6 +35,7 @@ entregables/
 | 6 | [`semana-6/semana-6.md`](semana-6/semana-6.md) | Diseño de datos y prototipo UX/UI | Diseño de componentes, modelo de BD (31 tablas, 3FN, DBML), scripts SQL con datos ficticios, prototipo y matriz de trazabilidad |
 | 6 | [`semana-6/pantallas-UX/`](semana-6/pantallas-UX) | Prototipo de pantallas | Cinco pantallas HTML navegables (ver abajo) |
 | 7 | [`semana-7/semana-7.md`](semana-7/semana-7.md) | Planificación ágil (Scrum) | Roles y acuerdos, estimación con planning poker, Definición de Hecho, Sprint Backlog 1, plan de release y tablero Kanban |
+| 13 | [`semana-13/semana-13.md`](semana-13/semana-13.md) | Sprint 2 mitad: integración y métricas | Burndown, HU-07 (Python), conflicto SC-02, cobertura, tiempo de ciclo e informe |
 
 ### Pantallas del prototipo (`semana-6/pantallas-UX/`)
 

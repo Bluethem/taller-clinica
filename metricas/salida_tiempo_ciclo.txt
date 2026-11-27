@@ -1,0 +1,8 @@
+PR    Historia  Dias
+#12   HU-03      2.3
+#13   HU-04      2.2
+#14   HU-05      3.3
+#15   SC-02      2.2
+
+Pull requests fusionados: 4
+Tiempo de ciclo: mediana 2.3 dias | maximo 3.3 dias

@@ -63,3 +63,19 @@ jobs:
 
       - name: Ejecutar pruebas con cobertura
         run: pnpm --dir src/backend test:cov
+
+  practica-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias de la práctica (Semana 13)
+        run: pip install -r requirements-practica.txt
+
+      - name: Pruebas y cobertura del módulo de integración HU-07
+        run: |
+          python -m pytest --cov=app --cov-branch --cov-fail-under=90 -q

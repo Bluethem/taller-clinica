@@ -1,0 +1,11 @@
+Dia         Real  Ideal
+2026-11-19    26   23.4
+2026-11-20    26   20.8
+2026-11-23    13   18.2
+2026-11-24     8   15.6
+2026-11-25     5   13.0
+2026-11-26     5   10.4
+
+Dia 6 de 10. Comprometido: 26 pts | Hecho: 21 pts | Restante: 5 pts
+Diferencia con el ideal: -5.4 pts -> adelantado
+Ritmo: 3.50 pts/dia | Proyeccion al cierre: 35.0 pts de 26

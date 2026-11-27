@@ -1,0 +1,6 @@
+historia,titulo,puntos,estado,fecha_fin
+HU-03,Historia clínica unificada (control por rol),8,hecha,2026-11-21
+HU-04,Resultado digital de laboratorio,5,hecha,2026-11-22
+HU-05,Comprobante según convenio,5,hecha,2026-11-24
+SC-02,Cancelar cita con antelación mínima,3,hecha,2026-11-25
+HU-07,Recordatorio de cita 24 h antes,5,en_curso,

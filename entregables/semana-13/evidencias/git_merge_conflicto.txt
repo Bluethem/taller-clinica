@@ -1,0 +1,9 @@
+$ git fetch origin
+$ git merge origin/main
+
+Auto-merging app/citas.py
+CONFLICT (content): Merge conflict in app/citas.py
+Automatic merge failed; fix conflicts and then commit the result.
+
+$ git diff --name-only --diff-filter=U
+app/citas.py

@@ -1,0 +1,15 @@
+app/recordatorios.py
+    F 21:0 citas_a_recordar - A (5)
+    F 33:0 enviar_recordatorios - A (3)
+    F 12:0 _minutos_hasta - A (1)
+    F 16:0 _en_ventana_recordatorio - A (1)
+app/citas.py
+    F 24:0 puede_cancelar - A (2)
+    C 17:0 Cita - A (1)
+app/notificaciones.py
+    C 4:0 NotificadorSimulado - A (3)
+    M 7:4 NotificadorSimulado.__init__ - A (2)
+    M 11:4 NotificadorSimulado.enviar - A (2)
+
+9 blocks (classes, functions, methods) analyzed.
+Average complexity: A (2.2222222222222223)

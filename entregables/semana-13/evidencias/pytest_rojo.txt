@@ -1,0 +1,8 @@
+$ python3 -m pytest -q
+
+==================================== ERRORS ====================================
+___________________ ERROR collecting tests/test_recordatorios.py ___________________
+ImportError while importing test module '.../tests/test_recordatorios.py'.
+    from app.recordatorios import citas_a_recordar, enviar_recordatorios
+E   ModuleNotFoundError: No module named 'app.recordatorios'
+========================= 1 error in 0.08s =========================

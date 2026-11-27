@@ -9,3 +9,10 @@ coverage
 *.log
 docs/superpowers
 .worktrees
+
+# Python práctica Semana 13
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
